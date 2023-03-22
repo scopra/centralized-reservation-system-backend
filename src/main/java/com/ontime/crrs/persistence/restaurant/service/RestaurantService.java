@@ -1,0 +1,49 @@
+package com.ontime.crrs.persistence.restaurant.service;
+
+import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
+import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class RestaurantService {
+
+    private final RestaurantRepository repository;
+
+    public RestaurantEntity updateRestaurant(RestaurantEntity restaurantEntity) {
+        return repository.save(restaurantEntity);
+    }
+
+    public Optional<RestaurantEntity> findRestaurantById(Integer id) {
+        return repository.findById(id);
+    }
+
+    public Integer findRestaurantIdByName(String name) {
+        return repository.findRestaurantIdByName(name);
+    }
+
+    public Optional<RestaurantEntity> findRestaurantByName(String name) {
+        return repository.findRestaurantByName(name);
+    }
+
+    public List<RestaurantEntity> findAllRestaurants() {
+        return repository.findAll();
+    }
+
+    public boolean checkIfRestaurantExists(Integer id) {
+        return repository.existsById(id);
+    }
+
+    public void deleteRestaurantById(Integer id) {
+        repository.deleteById(id);
+    }
+
+    public void deleteAllRestaurants() {
+        repository.deleteAll();
+    }
+
+}

@@ -1,17 +1,16 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @ToString
-@NoArgsConstructor
-@Table(name = "restaurants")
+@EqualsAndHashCode
+@RequiredArgsConstructor
+@Table(name = "restaurant")
 public class RestaurantEntity {
 
     @Id
