@@ -1,20 +1,18 @@
 package com.ontime.crrs.persistence.restaurant.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.RepresentationModel;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@Builder
 @Component
 @EqualsAndHashCode
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Restaurant implements Serializable {
 
     @Serial

@@ -12,7 +12,6 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
@@ -25,37 +24,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
-    private final RestaurantModelAssembler restaurantModelAssembler;
+    private final RestaurantModelAssembler modelAssembler;
     private final RestaurantHelper restaurantHelper;
 
-    /*
-        GET /restaurants - Returns a list of all restaurants in the database.
-        GET /restaurants/{id} - Returns a specific restaurant by its ID.
-        POST /restaurants - Creates a new restaurant in the database.
-        PUT /restaurants/{id} - Updates a specific restaurant by its ID.
-        DELETE /restaurants/{id} - Deletes a specific restaurant by its ID.
-     */
-
+    //RADI
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
-        List<EntityModel<Restaurant>> restaurants =
+        var restaurants =
                 restaurantHelper.mapListOfEntitiesToListOfModels(restaurantService.findAllRestaurants()).stream()
-                        .map(restaurantModelAssembler::toModel)
+                        .map(modelAssembler::toModel)
                         .collect(Collectors.toList());
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class).getRestaurants()).withSelfRel());
     }
 
-    @GetMapping("/{id}")
+    //RADI
+    @GetMapping("/id/{id}")
     public EntityModel<Restaurant> getRestaurantById(@PathVariable Integer id) {
         var restaurantEntity = restaurantService.findRestaurantById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
         var restaurantModel = restaurantHelper.mapRestaurantEntityToModel(restaurantEntity);
 
-        return restaurantModelAssembler.toModel(restaurantModel);
+        return modelAssembler.toModel(restaurantModel);
     }
 
+    //RADI
     @GetMapping("/{name}")
     public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
         var restaurantEntity = restaurantService.findRestaurantByName(name)
@@ -63,47 +57,79 @@ public class RestaurantController {
 
         var restaurantModel = restaurantHelper.mapRestaurantEntityToModel(restaurantEntity);
 
-        return restaurantModelAssembler.toModel(restaurantModel);
+        return modelAssembler.toModel(restaurantModel);
     }
 
+    //RADI: custom update with fields, PATCH mapping?
     @PutMapping("/{name}")
     public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant newRestaurant, @PathVariable String name) {
         var updatedRestaurant = restaurantService.findRestaurantByName(name)
                 .map(restaurant -> {
                     copyProperties(newRestaurant, restaurant);
-
                     return restaurantService.updateRestaurant(restaurant);
                 })
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        EntityModel<Restaurant> entityModel = restaurantModelAssembler.toModel(newRestaurant);
+        var restaurantModel = restaurantHelper.mapRestaurantEntityToModel(updatedRestaurant);
+
+        EntityModel<Restaurant> entityModel = modelAssembler.toModel(restaurantModel);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
+    //RADI
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
         var restaurantEntity = restaurantHelper.mapRestaurantModelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 
-        EntityModel<Restaurant> entityModel = restaurantModelAssembler.toModel(restaurant);
+        var entityModel = modelAssembler.toModel(restaurant);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
+    //RADI
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRestaurant(@PathVariable Integer id) {
+        if (!restaurantService.checkIfRestaurantExists(id)) {
+            throw new RestaurantNotFoundException(id);
+        }
 
         restaurantService.deleteRestaurantById(id);
 
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    //RADI
+    @DeleteMapping
+    public ResponseEntity<?> deleteAllRestaurants() {
+        restaurantService.deleteAllRestaurants();
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    //TESTING
+    @PostMapping("/test")
+    public Restaurant addRestaurantTest(@RequestBody Restaurant restaurant) {
+        var restaurantEntity = restaurantHelper.mapRestaurantModelToEntity(restaurant);
+
+        restaurantService.updateRestaurant(restaurantEntity);
+
+        return restaurant;
+    }
+
+    @GetMapping("/test/{id}")
+    public Boolean checkIfExists(@PathVariable Integer id) {
+        return restaurantService.checkIfRestaurantExists(id);
     }
 
 }

@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Builder
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
@@ -48,8 +47,8 @@ public class RestaurantEntity {
     private int capacity;
 
     /*
-    TODO:
-    - add relationship to Location, Special Offer & Image
+        TODO:
+            - add relationship to Location, Special Offer & Image
      */
 
     public RestaurantEntity(String name, String description, String phoneNumber, int capacity) {

@@ -5,7 +5,6 @@ import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -20,18 +19,18 @@ public class RestaurantModelAssembler implements RepresentationModelAssembler<Re
     private final RestaurantService restaurantService;
 
     @Override
-    public EntityModel<Restaurant> toModel(Restaurant entity) {
-        var restaurantModel = EntityModel.of(entity);
+    public EntityModel<Restaurant> toModel(Restaurant restaurant) {
 
-        restaurantModel.add(linkTo(methodOn(RestaurantController.class)
-                .getRestaurantById(restaurantService.findRestaurantIdByName(entity.getName())))
-                .withSelfRel());
+        /* Ne radi al bi trebalo da se vidi ID u self ref linku, sto je nemoguce kod nas jer ne zelimo da exposamo ID
+            return EntityModel.of(restaurant,
+                    linkTo(methodOn(RestaurantController.class).getRestaurantById(entityId)).withSelfRel(),
+                    linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
 
-        restaurantModel.add(linkTo(methodOn(RestaurantController.class)
-                .getRestaurants())
-                .withRel(IanaLinkRelations.COLLECTION));
+         */
 
-        return restaurantModel;
+        return EntityModel.of(restaurant,
+                linkTo(methodOn(RestaurantController.class).getRestaurantByName(restaurant.getName())).withSelfRel(),
+                linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
     }
 
 }

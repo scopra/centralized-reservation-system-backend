@@ -15,4 +15,5 @@ public class RestaurantNotFoundAdvice {
     String restaurantNotFoundHandler(RestaurantNotFoundException e) {
         return e.getMessage();
     }
+
 }
