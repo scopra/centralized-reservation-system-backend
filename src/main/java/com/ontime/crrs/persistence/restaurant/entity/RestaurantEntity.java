@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
-@Setter
 @Entity
+@Builder
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "restaurant")
 public class RestaurantEntity {
@@ -58,4 +59,19 @@ public class RestaurantEntity {
         this.capacity = capacity;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 }
