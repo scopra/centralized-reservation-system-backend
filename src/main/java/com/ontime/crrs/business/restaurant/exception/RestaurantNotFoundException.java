@@ -1,4 +1,4 @@
-package com.ontime.crrs.persistence.restaurant.exception;
+package com.ontime.crrs.business.restaurant.exception;
 
 public class RestaurantNotFoundException extends RuntimeException {
 

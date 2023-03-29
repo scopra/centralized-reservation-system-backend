@@ -1,7 +1,7 @@
-package com.ontime.crrs.persistence.restaurant.helper;
+package com.ontime.crrs.business.restaurant.mapper;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-import com.ontime.crrs.persistence.restaurant.model.Restaurant;
+import com.ontime.crrs.business.restaurant.model.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Component
 @RequiredArgsConstructor
-public class RestaurantHelper {
+public class RestaurantMapper {
 
     public RestaurantEntity mapRestaurantModelToEntity(Restaurant restaurantModel) {
         var restaurantEntity = new RestaurantEntity();

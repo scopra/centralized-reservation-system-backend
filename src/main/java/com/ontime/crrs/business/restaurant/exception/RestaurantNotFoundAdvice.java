@@ -1,4 +1,4 @@
-package com.ontime.crrs.persistence.restaurant.exception;
+package com.ontime.crrs.business.restaurant.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

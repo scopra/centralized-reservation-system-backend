@@ -1,6 +1,5 @@
-package com.ontime.crrs.persistence.restaurant.model;
+package com.ontime.crrs.business.restaurant.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
