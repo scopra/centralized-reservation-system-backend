@@ -12,6 +12,7 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
@@ -40,7 +41,7 @@ public class RestaurantController {
 
     //RADI
     @GetMapping("/id/{id}")
-    public EntityModel<Restaurant> getRestaurantById(@PathVariable Integer id) {
+    public EntityModel<Restaurant> getRestaurantById(@PathVariable UUID id) {
         var restaurantEntity = restaurantService.findRestaurantById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
@@ -95,7 +96,7 @@ public class RestaurantController {
 
     //RADI
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRestaurant(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteRestaurant(@PathVariable UUID id) {
         if (!restaurantService.checkIfRestaurantExists(id)) {
             throw new RestaurantNotFoundException(id);
         }
@@ -128,7 +129,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/test/{id}")
-    public Boolean checkIfExists(@PathVariable Integer id) {
+    public Boolean checkIfExists(@PathVariable UUID id) {
         return restaurantService.checkIfRestaurantExists(id);
     }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +19,11 @@ public class RestaurantService {
         return repository.save(restaurantEntity);
     }
 
-    public Optional<RestaurantEntity> findRestaurantById(Integer id) {
+    public Optional<RestaurantEntity> findRestaurantById(UUID id) {
         return repository.findById(id);
     }
 
-    public Integer findRestaurantIdByName(String name) {
+    public UUID findRestaurantIdByName(String name) {
         return repository.findRestaurantIdByName(name);
     }
 
@@ -34,11 +35,11 @@ public class RestaurantService {
         return repository.findAll();
     }
 
-    public boolean checkIfRestaurantExists(Integer id) {
+    public boolean checkIfRestaurantExists(UUID id) {
         return repository.existsById(id);
     }
 
-    public void deleteRestaurantById(Integer id) {
+    public void deleteRestaurantById(UUID id) {
         repository.deleteById(id);
     }
 

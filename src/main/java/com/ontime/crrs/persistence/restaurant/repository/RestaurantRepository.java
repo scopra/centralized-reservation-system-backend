@@ -7,12 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Integer> {
+public interface RestaurantRepository extends JpaRepository<RestaurantEntity, UUID> {
 
     @Query("SELECT r.id FROM RestaurantEntity r WHERE r.name = :name")
-    Integer findRestaurantIdByName(@Param("name") String name);
+    UUID findRestaurantIdByName(@Param("name") String name);
 
     Optional<RestaurantEntity> findRestaurantByName(String name);
 }

@@ -9,6 +9,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 import static com.ontime.crrs.helper.RestaurantTestHelper.buildDefaultEntityWithName;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +20,7 @@ public class RestaurantRepositorySteps {
     private RestaurantRepository repository;
     private String restaurantName;
     private RestaurantEntity foundEntity;
-    private Integer foundID;
+    private UUID foundID;
 
     @BeforeEach
     void setUp() {

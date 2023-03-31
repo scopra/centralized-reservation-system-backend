@@ -3,6 +3,8 @@ package com.ontime.crrs.persistence.restaurant.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Entity
 @Builder
@@ -14,16 +16,13 @@ import lombok.*;
 public class RestaurantEntity {
 
     @Id
-    @SequenceGenerator(
-            name = "restaurant_id_sequence",
-            sequenceName = "restaurant_id_sequence",
-            allocationSize = 1
+    @GeneratedValue
+    @Column(
+            name = "restaurant_id",
+            updatable = false,
+            columnDefinition = "uuid"
     )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "restaurant_id_sequence"
-    )
-    private Integer id;
+    private UUID id;
 
     @Column(
             name = "name",
