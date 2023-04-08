@@ -9,9 +9,9 @@ import java.util.UUID;
 @Entity
 @Builder
 @ToString
+@NoArgsConstructor
 @EqualsAndHashCode
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "restaurant")
 public class RestaurantEntity {
 
@@ -27,8 +27,8 @@ public class RestaurantEntity {
     @Column(
             name = "name",
             nullable = false,
-            length = 20
-    )
+            unique = true,
+            length = 20)
     private String name;
 
     @Column(name = "description")
@@ -50,13 +50,6 @@ public class RestaurantEntity {
         TODO:
             - add relationship to Location, Special Offer & Image
      */
-
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity) {
-        this.name = name;
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.capacity = capacity;
-    }
 
     public void setName(String name) {
         this.name = name;

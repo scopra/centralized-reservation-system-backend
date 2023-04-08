@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RestaurantService {
+public class  RestaurantService {
 
     private final RestaurantRepository repository;
 

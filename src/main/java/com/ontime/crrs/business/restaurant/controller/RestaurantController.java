@@ -39,15 +39,15 @@ public class RestaurantController {
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class).getRestaurants()).withSelfRel());
     }
 
-    //RADI
-    @GetMapping("/id/{id}")
-    public EntityModel<Restaurant> getRestaurantById(@PathVariable UUID id) {
+    //RADI, ADMIN metoda
+    @GetMapping("/admin/id/{id}")
+    public EntityModel<Restaurant> getRestaurantByIdAdmin(@PathVariable UUID id) {
         var restaurantEntity = restaurantService.findRestaurantById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
         var restaurantModel = restaurantMapper.mapRestaurantEntityToModel(restaurantEntity);
 
-        return modelAssembler.toModel(restaurantModel);
+        return modelAssembler.toAdminModel(restaurantModel, restaurantEntity.getId());
     }
 
     //RADI
@@ -118,6 +118,18 @@ public class RestaurantController {
                 .build();
     }
 
+    //RADI, admin method
+    @GetMapping("/admin/name/{name}")
+    public UUID findRestaurantIDByName(@PathVariable String name) {
+        var id = restaurantService.findRestaurantIdByName(name);
+
+        if (!restaurantService.checkIfRestaurantExists(id)) {
+            throw new RestaurantNotFoundException(id);
+        }
+
+        return id;
+    }
+
     //TESTING
     @PostMapping("/test")
     public Restaurant addRestaurantTest(@RequestBody Restaurant restaurant) {
@@ -128,9 +140,19 @@ public class RestaurantController {
         return restaurant;
     }
 
+    //RADI
     @GetMapping("/test/{id}")
     public Boolean checkIfExists(@PathVariable UUID id) {
         return restaurantService.checkIfRestaurantExists(id);
+    }
+
+
+    //RADI
+    @GetMapping("/test/name/{name}")
+    public UUID findRestIDByName(@PathVariable String name) {
+        var id = restaurantService.findRestaurantIdByName(name);
+
+        return id;
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -21,15 +23,15 @@ public class RestaurantModelAssembler implements RepresentationModelAssembler<Re
     @Override
     public EntityModel<Restaurant> toModel(Restaurant restaurant) {
 
-        /* Ne radi al bi trebalo da se vidi ID u self ref linku, sto je nemoguce kod nas jer ne zelimo da exposamo ID
-            return EntityModel.of(restaurant,
-                    linkTo(methodOn(RestaurantController.class).getRestaurantById(entityId)).withSelfRel(),
-                    linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
-
-         */
-
         return EntityModel.of(restaurant,
                 linkTo(methodOn(RestaurantController.class).getRestaurantByName(restaurant.getName())).withSelfRel(),
+                linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
+    }
+
+    public EntityModel<Restaurant> toAdminModel(Restaurant restaurant, UUID id) {
+
+        return EntityModel.of(restaurant,
+                linkTo(methodOn(RestaurantController.class).getRestaurantByIdAdmin(id)).withSelfRel(),
                 linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
     }
 
