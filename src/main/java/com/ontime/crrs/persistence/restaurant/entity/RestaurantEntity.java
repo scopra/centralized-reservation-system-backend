@@ -1,5 +1,6 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
+import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,6 +51,16 @@ public class RestaurantEntity {
         TODO:
             - add relationship to Location, Special Offer & Image
      */
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            optional = false
+    )
+    @JoinColumn(
+            name = "location_id",
+            nullable = false,
+            referencedColumnName = "location_id"
+    )
+    private LocationEntity location;
 
     public void setName(String name) {
         this.name = name;
