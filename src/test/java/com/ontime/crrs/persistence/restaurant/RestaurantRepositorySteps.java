@@ -22,10 +22,6 @@ public class RestaurantRepositorySteps {
     private RestaurantEntity foundEntity;
     private UUID foundID;
 
-    @BeforeEach
-    void setUp() {
-    }
-
     @AfterEach
     void tearDown() {
         if (foundEntity != null) {
@@ -41,7 +37,7 @@ public class RestaurantRepositorySteps {
 
     @Given("there is no restaurant with name {string} in the database")
     public void givenRestaurantDoesNotExistWithName(String name) {
-
+        assertNull(foundEntity);
     }
 
     @When("I search for a restaurant by name using {string}")
@@ -52,6 +48,7 @@ public class RestaurantRepositorySteps {
     @When("I search for a restaurant ID by name using {string}")
     public void whenSearchForRestaurantIdByName(String name) {
         foundID = repository.findRestaurantIdByName(name);
+        foundEntity = repository.findRestaurantByName(name).orElse(null);
     }
 
     @Then("the method should return the restaurant entity for the given name")
@@ -61,18 +58,19 @@ public class RestaurantRepositorySteps {
     }
 
     @Then("the method should return null")
-    public void thenShouldReturnEmptyOptional() {
+    public void thenShouldReturnNull() {
         assertNull(foundEntity);
     }
 
     @Then("the method should return null ID")
-    public void thenShouldReturnNull() {
+    public void thenShouldReturnNullID() {
         assertNull(foundID);
     }
 
     @Then("the method should return the ID of the restaurant for the given name")
     public void thenShouldReturnCorrectIdForGivenName() {
         assertNotNull(foundID);
+        assertNull(foundEntity);
         assertEquals(foundID, foundEntity.getId());
     }
 
