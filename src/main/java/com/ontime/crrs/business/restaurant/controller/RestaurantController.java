@@ -39,7 +39,7 @@ public class RestaurantController {
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class).getRestaurants()).withSelfRel());
     }
 
-    //RADI, ADMIN metoda
+    //RADI, ADMIN method
     @GetMapping("/admin/id/{id}")
     public EntityModel<Restaurant> getRestaurantByIdAdmin(@PathVariable UUID id) {
         var restaurantEntity = restaurantService.findRestaurantById(id)
@@ -108,7 +108,7 @@ public class RestaurantController {
                 .build();
     }
 
-    //RADI
+    //RADI, ADMIN method
     @DeleteMapping
     public ResponseEntity<?> deleteAllRestaurants() {
         restaurantService.deleteAllRestaurants();
@@ -140,14 +140,12 @@ public class RestaurantController {
         return restaurant;
     }
 
-    //RADI
-    @GetMapping("/test/{id}")
+    @GetMapping("/test/id/{id}")
     public Boolean checkIfExists(@PathVariable UUID id) {
         return restaurantService.checkIfRestaurantExists(id);
     }
 
 
-    //RADI
     @GetMapping("/test/name/{name}")
     public UUID findRestIDByName(@PathVariable String name) {
         var id = restaurantService.findRestaurantIdByName(name);
