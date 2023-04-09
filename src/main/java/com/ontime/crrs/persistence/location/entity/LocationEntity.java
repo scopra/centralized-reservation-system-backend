@@ -57,4 +57,5 @@ public class LocationEntity {
         this.municipality = municipality;
     }
 
+    public void setCity(String city) { this.city = city; }
 }
