@@ -1,50 +1,32 @@
 package com.ontime.crrs.persistence.restaurant.service;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class  RestaurantService {
+public interface RestaurantService {
 
-    private final RestaurantRepository repository;
+    RestaurantEntity updateRestaurant(RestaurantEntity restaurant);
 
-    public RestaurantEntity updateRestaurant(RestaurantEntity restaurantEntity) {
-        return repository.save(restaurantEntity);
-    }
+    Optional<RestaurantEntity> findRestaurantById(UUID id);
 
-    public Optional<RestaurantEntity> findRestaurantById(UUID id) {
-        return repository.findById(id);
-    }
+    UUID findRestaurantIdByName(String name);
 
-    public UUID findRestaurantIdByName(String name) {
-        return repository.findRestaurantIdByName(name);
-    }
+    Optional<RestaurantEntity> findRestaurantByName(String name);
 
-    public Optional<RestaurantEntity> findRestaurantByName(String name) {
-        return repository.findRestaurantByName(name);
-    }
+    List<RestaurantEntity> findAllRestaurants();
 
-    public List<RestaurantEntity> findAllRestaurants() {
-        return repository.findAll();
-    }
+    List<RestaurantEntity> findAllRestaurantsInMunicipality(String municipality);
 
-    public boolean checkIfRestaurantExists(UUID id) {
-        return repository.existsById(id);
-    }
+    List<RestaurantEntity> findAllRestaurantsInCity(String city);
 
-    public void deleteRestaurantById(UUID id) {
-        repository.deleteById(id);
-    }
+    Optional<RestaurantEntity> findRestaurantByAddress(String address);
 
-    public void deleteAllRestaurants() {
-        repository.deleteAll();
-    }
+    boolean checkIfRestaurantExists(UUID id);
 
+    void deleteRestaurantById(UUID id);
+
+    void deleteAllRestaurants();
 }
