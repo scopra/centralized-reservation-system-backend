@@ -1,9 +1,10 @@
 package com.ontime.crrs.business.restaurant.controller;
 
+import com.ontime.crrs.business.mapper.EntityModelMapper;
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
-import com.ontime.crrs.business.restaurant.mapper.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
+import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -26,13 +27,13 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
-    private final RestaurantMapper restaurantMapper;
+    private final EntityModelMapper<RestaurantEntity, Restaurant> mapper;
 
     //RADI
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
         var restaurants =
-                restaurantMapper.mapListOfEntitiesToListOfModels(restaurantService.findAllRestaurants()).stream()
+                mapper.mapListOfEntitiesToListOfModels(restaurantService.findAllRestaurants()).stream()
                         .map(modelAssembler::toModel)
                         .collect(Collectors.toList());
 
@@ -45,7 +46,7 @@ public class RestaurantController {
         var restaurantEntity = restaurantService.findRestaurantById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
-        var restaurantModel = restaurantMapper.mapRestaurantEntityToModel(restaurantEntity);
+        var restaurantModel = mapper.mapRestaurantEntityToModel(restaurantEntity);
 
         return modelAssembler.toAdminModel(restaurantModel, restaurantEntity.getId());
     }
@@ -56,7 +57,7 @@ public class RestaurantController {
         var restaurantEntity = restaurantService.findRestaurantByName(name)
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        var restaurantModel = restaurantMapper.mapRestaurantEntityToModel(restaurantEntity);
+        var restaurantModel = mapper.mapRestaurantEntityToModel(restaurantEntity);
 
         return modelAssembler.toModel(restaurantModel);
     }
@@ -71,7 +72,7 @@ public class RestaurantController {
                 })
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        var restaurantModel = restaurantMapper.mapRestaurantEntityToModel(updatedRestaurant);
+        var restaurantModel = mapper.mapRestaurantEntityToModel(updatedRestaurant);
 
         EntityModel<Restaurant> entityModel = modelAssembler.toModel(restaurantModel);
 
@@ -83,7 +84,7 @@ public class RestaurantController {
     //RADI
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = restaurantMapper.mapRestaurantModelToEntity(restaurant);
+        var restaurantEntity = mapper.mapRestaurantModelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 
@@ -133,7 +134,7 @@ public class RestaurantController {
     //TESTING
     @PostMapping("/test")
     public Restaurant addRestaurantTest(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = restaurantMapper.mapRestaurantModelToEntity(restaurant);
+        var restaurantEntity = mapper.mapRestaurantModelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 

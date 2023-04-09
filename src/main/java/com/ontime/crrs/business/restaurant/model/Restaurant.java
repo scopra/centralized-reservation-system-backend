@@ -1,5 +1,6 @@
 package com.ontime.crrs.business.restaurant.model;
 
+import com.ontime.crrs.business.location.model.Location;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,6 @@ public class Restaurant implements Serializable {
     private String description;
     private String phoneNumber;
     private int capacity;
+    private Location location;
 
 }

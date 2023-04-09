@@ -1,16 +1,15 @@
-package com.ontime.crrs.business.restaurant.mapper;
+package com.ontime.crrs.business.mapper.restaurant;
 
+import com.ontime.crrs.business.mapper.EntityModelMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
-@Component
-public class RestaurantMapper {
+public class RestaurantMapper implements EntityModelMapper<RestaurantEntity, Restaurant> {
 
     public RestaurantEntity mapRestaurantModelToEntity(Restaurant restaurantModel) {
         var restaurantEntity = new RestaurantEntity();
