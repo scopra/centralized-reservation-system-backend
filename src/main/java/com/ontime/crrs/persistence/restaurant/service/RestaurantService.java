@@ -1,11 +1,13 @@
 package com.ontime.crrs.persistence.restaurant.service;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public interface RestaurantService {
 
     RestaurantEntity updateRestaurant(RestaurantEntity restaurant);
@@ -18,11 +20,11 @@ public interface RestaurantService {
 
     List<RestaurantEntity> findAllRestaurants();
 
-    List<RestaurantEntity> findAllRestaurantsInMunicipality(String municipality);
+    //List<RestaurantEntity> findAllRestaurantsInMunicipality(String municipality);
 
-    List<RestaurantEntity> findAllRestaurantsInCity(String city);
+    //List<RestaurantEntity> findAllRestaurantsInCity(String city);
 
-    Optional<RestaurantEntity> findRestaurantByAddress(String address);
+    //Optional<RestaurantEntity> findRestaurantByAddress(String address);
 
     boolean checkIfRestaurantExists(UUID id);
 

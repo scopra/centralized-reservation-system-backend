@@ -1,6 +1,6 @@
 package com.ontime.crrs.business.restaurant.controller;
 
-import com.ontime.crrs.business.mapper.EntityModelMapper;
+import com.ontime.crrs.business.mapper.MappingProcessor;
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
@@ -27,7 +27,7 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
-    private final EntityModelMapper<RestaurantEntity, Restaurant> mapper;
+    private final MappingProcessor<RestaurantEntity, Restaurant> mapper;
 
     //RADI
     @GetMapping
@@ -46,7 +46,7 @@ public class RestaurantController {
         var restaurantEntity = restaurantService.findRestaurantById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
-        var restaurantModel = mapper.mapRestaurantEntityToModel(restaurantEntity);
+        var restaurantModel = mapper.mapEntityToModel(restaurantEntity);
 
         return modelAssembler.toAdminModel(restaurantModel, restaurantEntity.getId());
     }
@@ -57,7 +57,7 @@ public class RestaurantController {
         var restaurantEntity = restaurantService.findRestaurantByName(name)
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        var restaurantModel = mapper.mapRestaurantEntityToModel(restaurantEntity);
+        var restaurantModel = mapper.mapEntityToModel(restaurantEntity);
 
         return modelAssembler.toModel(restaurantModel);
     }
@@ -72,7 +72,7 @@ public class RestaurantController {
                 })
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        var restaurantModel = mapper.mapRestaurantEntityToModel(updatedRestaurant);
+        var restaurantModel = mapper.mapEntityToModel(updatedRestaurant);
 
         EntityModel<Restaurant> entityModel = modelAssembler.toModel(restaurantModel);
 
@@ -84,7 +84,7 @@ public class RestaurantController {
     //RADI
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = mapper.mapRestaurantModelToEntity(restaurant);
+        var restaurantEntity = mapper.mapModelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 
@@ -134,7 +134,7 @@ public class RestaurantController {
     //TESTING
     @PostMapping("/test")
     public Restaurant addRestaurantTest(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = mapper.mapRestaurantModelToEntity(restaurant);
+        var restaurantEntity = mapper.mapModelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 

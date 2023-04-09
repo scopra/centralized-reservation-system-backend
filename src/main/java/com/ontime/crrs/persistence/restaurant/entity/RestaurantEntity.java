@@ -52,13 +52,12 @@ public class RestaurantEntity {
             - add relationship to Location, Special Offer & Image
      */
     @OneToOne(
-            cascade = CascadeType.ALL,
-            optional = false
+            cascade = CascadeType.ALL
+            //targetEntity = LocationEntity.class
     )
     @JoinColumn(
-            name = "location_id",
-            nullable = false,
-            referencedColumnName = "location_id"
+            name = "location_id"
+            //referencedColumnName = "id"
     )
     private LocationEntity location;
 
@@ -76,5 +75,17 @@ public class RestaurantEntity {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public void setLocation(LocationEntity location) {
+        this.location = location;
+    }
+
+    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
+        this.name = name;
+        this.description = description;
+        this.phoneNumber = phoneNumber;
+        this.capacity = capacity;
+        this.location = location;
     }
 }

@@ -1,8 +1,6 @@
 package com.ontime.crrs.business.location.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
@@ -10,8 +8,10 @@ import java.io.Serializable;
 
 @Data
 @Component
+@Builder
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class Location implements Serializable {
 
     @Serial

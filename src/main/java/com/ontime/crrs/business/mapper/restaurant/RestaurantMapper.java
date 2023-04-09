@@ -1,42 +1,38 @@
 package com.ontime.crrs.business.mapper.restaurant;
 
-import com.ontime.crrs.business.mapper.EntityModelMapper;
+import com.ontime.crrs.business.mapper.MappingProcessor;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
-public class RestaurantMapper implements EntityModelMapper<RestaurantEntity, Restaurant> {
+@Component
+public class RestaurantMapper extends MappingProcessor<RestaurantEntity, Restaurant> {
 
-    public RestaurantEntity mapRestaurantModelToEntity(Restaurant restaurantModel) {
-        var restaurantEntity = new RestaurantEntity();
+    @Override
+    public RestaurantEntity mapModelToEntity(Restaurant restaurantModel) {
+        var restaurantEntity = createEntityInstance();
 
-        copyProperties(restaurantModel, restaurantEntity);
+        copyProperties(restaurantModel, restaurantEntity, "id");
+
+        if (restaurantModel.getLocation() != null) {
+            var locationEntity = new LocationEntity();
+            copyProperties(restaurantModel.getLocation(), locationEntity);
+            restaurantEntity.setLocation(locationEntity);
+        }
 
         return restaurantEntity;
     }
 
-    public Restaurant mapRestaurantEntityToModel(RestaurantEntity restaurantEntity) {
-        var restaurantModel = new Restaurant();
-
-        copyProperties(restaurantEntity, restaurantModel, "id");
-
-        return restaurantModel;
+    @Override
+    protected RestaurantEntity createEntityInstance() {
+        return new RestaurantEntity();
     }
 
-    public List<Restaurant> mapListOfEntitiesToListOfModels(List<RestaurantEntity> restaurantEntityList) {
-        return restaurantEntityList.stream()
-                .map(this::mapRestaurantEntityToModel)
-                .collect(Collectors.toList());
+    @Override
+    protected Restaurant createModelInstance() {
+        return new Restaurant();
     }
-
-    public List<RestaurantEntity> mapListOfModelsToListOfEntities(List<Restaurant> restaurantModelList) {
-        return restaurantModelList.stream()
-                .map(this::mapRestaurantModelToEntity)
-                .collect(Collectors.toList());
-    }
-
 }

@@ -19,14 +19,12 @@ public class LocationEntity {
     @GeneratedValue
     @Column(
             name = "location_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id; //NOTE TO SELF: refresh DB schema
 
     @Column(
             name = "address",
-            nullable = false,
             unique = true,
             length = 20
     )
@@ -34,14 +32,12 @@ public class LocationEntity {
 
     @Column(
             name = "municipality",
-            nullable = false,
             length = 20
     )
     private String municipality;
 
     @Column(
             name = "city",
-            nullable = false,
             length = 20
     )
     private String city;
@@ -58,4 +54,10 @@ public class LocationEntity {
     }
 
     public void setCity(String city) { this.city = city; }
+
+    public LocationEntity(String address, String municipality, String city) {
+        this.address = address;
+        this.municipality = municipality;
+        this.city = city;
+    }
 }
