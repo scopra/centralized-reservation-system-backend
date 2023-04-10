@@ -1,11 +1,9 @@
 package com.ontime.crrs.business.restaurant.controller;
 
-import com.ontime.crrs.business.mapper.MappingProcessor;
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMap;
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -28,27 +26,27 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
-    private final MappingProcessor<RestaurantEntity, Restaurant> mapper;
-    private final RestaurantMap mapperv2;
+    private final RestaurantMap mapper;
 
-    //RADI
+    //RADI + novi mapper
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
         var restaurants =
-                mapper.mapListOfEntitiesToListOfModels(restaurantService.findAllRestaurants()).stream()
+                mapper.entitiesToModels(restaurantService.findAllRestaurants()).stream()
                         .map(modelAssembler::toModel)
                         .collect(Collectors.toList());
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class).getRestaurants()).withSelfRel());
     }
 
-    //RADI, ADMIN method
+    //NE RADI, ADMIN method
     @GetMapping("/admin/id/{id}")
     public EntityModel<Restaurant> getRestaurantByIdAdmin(@PathVariable UUID id) {
         var restaurantEntity = restaurantService.findRestaurantById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
 
-        var restaurantModel = mapper.mapEntityToModel(restaurantEntity);
+        //var restaurantModel = mapper.mapEntityToModel(restaurantEntity);
+        var restaurantModel = mapper.entityToModel(restaurantEntity);
 
         return modelAssembler.toAdminModel(restaurantModel, restaurantEntity.getId());
     }
@@ -59,7 +57,7 @@ public class RestaurantController {
         var restaurantEntity = restaurantService.findRestaurantByName(name)
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        var restaurantModel = mapper.mapEntityToModel(restaurantEntity);
+        var restaurantModel = mapper.entityToModel(restaurantEntity);
 
         return modelAssembler.toModel(restaurantModel);
     }
@@ -68,13 +66,14 @@ public class RestaurantController {
     @PutMapping("/{name}")
     public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant newRestaurant, @PathVariable String name) {
         var updatedRestaurant = restaurantService.findRestaurantByName(name)
-                .map(restaurant -> {
-                    copyProperties(newRestaurant, restaurant);
-                    return restaurantService.updateRestaurant(restaurant);
+                .map(restaurantEntity -> {
+                    copyProperties(newRestaurant, restaurantEntity);
+                    copyProperties(newRestaurant.getLocation(), restaurantEntity.getLocation());
+                    return restaurantService.updateRestaurant(restaurantEntity);
                 })
                 .orElseThrow(() -> new RestaurantNotFoundException(name));
 
-        var restaurantModel = mapper.mapEntityToModel(updatedRestaurant);
+        var restaurantModel = mapper.entityToModel(updatedRestaurant);
 
         EntityModel<Restaurant> entityModel = modelAssembler.toModel(restaurantModel);
 
@@ -83,10 +82,11 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    //RADI + location
+    //RADI
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = mapper.mapModelToEntity(restaurant);
+        //var restaurantEntity = mapper.mapModelToEntity(restaurant);
+        var restaurantEntity = mapper.modelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 
@@ -121,7 +121,7 @@ public class RestaurantController {
                 .build();
     }
 
-    //RADI, admin method
+    //RADI, admin method!!!
     @GetMapping("/admin/name/{name}")
     public UUID findRestaurantIDByName(@PathVariable String name) {
         var id = restaurantService.findRestaurantIdByName(name);
@@ -136,7 +136,7 @@ public class RestaurantController {
     //TESTING
     @PostMapping("/test")
     public Restaurant addRestaurantTest(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = mapper.mapModelToEntity(restaurant);
+        var restaurantEntity = mapper.modelToEntity(restaurant);
 
         restaurantService.updateRestaurant(restaurantEntity);
 
@@ -158,8 +158,8 @@ public class RestaurantController {
 
 
     @GetMapping("/test/mapper")
-    public Restaurant addNew(@RequestBody Restaurant model){
-        var entity = mapperv2.modelToEntity(model);
+    public Restaurant addNew(@RequestBody Restaurant model) {
+        var entity = mapper.modelToEntity(model);
 
         restaurantService.updateRestaurant(entity);
 
