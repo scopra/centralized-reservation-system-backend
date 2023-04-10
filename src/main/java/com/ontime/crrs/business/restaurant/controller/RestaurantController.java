@@ -1,6 +1,7 @@
 package com.ontime.crrs.business.restaurant.controller;
 
 import com.ontime.crrs.business.mapper.MappingProcessor;
+import com.ontime.crrs.business.mapper.restaurant.RestaurantMap;
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
@@ -28,6 +29,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
     private final MappingProcessor<RestaurantEntity, Restaurant> mapper;
+    private final RestaurantMap mapperv2;
 
     //RADI
     @GetMapping
@@ -81,7 +83,7 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    //RADI
+    //RADI + location
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
         var restaurantEntity = mapper.mapModelToEntity(restaurant);
@@ -153,5 +155,16 @@ public class RestaurantController {
 
         return id;
     }
+
+
+    @GetMapping("/test/mapper")
+    public Restaurant addNew(@RequestBody Restaurant model){
+        var entity = mapperv2.modelToEntity(model);
+
+        restaurantService.updateRestaurant(entity);
+
+        return model;
+    }
+
 
 }

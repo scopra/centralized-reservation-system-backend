@@ -7,8 +7,8 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@Component
 @Builder
+@Component
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
