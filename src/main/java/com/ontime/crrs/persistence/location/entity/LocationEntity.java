@@ -53,7 +53,9 @@ public class LocationEntity {
         this.municipality = municipality;
     }
 
-    public void setCity(String city) { this.city = city; }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public LocationEntity(String address, String municipality, String city) {
         this.address = address;

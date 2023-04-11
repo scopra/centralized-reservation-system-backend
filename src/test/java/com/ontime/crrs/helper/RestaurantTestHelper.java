@@ -1,5 +1,6 @@
 package com.ontime.crrs.helper;
 
+import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,53 @@ public class RestaurantTestHelper {
                 .phoneNumber("033/123-456")
                 .capacity(25)
                 .description("Default entity description.")
+                .location(buildDefaultLocation())
                 .build();
     }
+
+    public static RestaurantEntity buildDefaultEntityWithAddress(String address) {
+        return RestaurantEntity.builder()
+                .name("McDonalds")
+                .phoneNumber("033/123-456")
+                .capacity(25)
+                .description("Default entity description.")
+                .location(buildDefaultLocation("Marsala Tita 36"))
+                .build();
+    }
+
+    private static LocationEntity buildDefaultLocation() {
+        return LocationEntity.builder()
+                .address("Marsala Tita 36")
+                .municipality("Centar")
+                .city("Sarajevo")
+                .build();
+    }
+
+    private static LocationEntity buildDefaultLocation(String address) {
+        return LocationEntity.builder()
+                .address(address)
+                .municipality("Centar")
+                .city("Sarajevo")
+                .build();
+    }
+
+    private static LocationEntity buildDefaultLocation(String address, String municipality, String city) {
+        return LocationEntity.builder()
+                .address(address)
+                .municipality(municipality)
+                .city(city)
+                .build();
+    }
+
+    public static RestaurantEntity buildCustomRestaurantEntity(String name, String address, String municipality, String city) {
+        return RestaurantEntity.builder()
+                .name(name)
+                .description("Default description.")
+                .capacity(25)
+                .phoneNumber("033/123-456")
+                .location(buildDefaultLocation(address, municipality, city))
+                .build();
+    }
+
+
 }

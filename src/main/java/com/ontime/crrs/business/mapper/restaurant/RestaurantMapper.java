@@ -1,6 +1,6 @@
 package com.ontime.crrs.business.mapper.restaurant;
 
-import com.ontime.crrs.business.mapper.location.LocationMap;
+import com.ontime.crrs.business.mapper.location.LocationMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import org.mapstruct.Mapper;
@@ -9,10 +9,10 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = LocationMap.class, componentModel = "spring")
-public interface RestaurantMap {
+@Mapper(uses = LocationMapper.class, componentModel = "spring")
+public interface RestaurantMapper {
 
-    RestaurantMap INSTANCE = Mappers.getMapper(RestaurantMap.class);
+    RestaurantMapper INSTANCE = Mappers.getMapper(RestaurantMapper.class);
 
     Restaurant entityToModel(RestaurantEntity entity);
 

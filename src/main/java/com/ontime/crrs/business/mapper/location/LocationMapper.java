@@ -9,9 +9,9 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface LocationMap {
+public interface LocationMapper {
 
-    LocationMap INSTANCE = Mappers.getMapper(LocationMap.class);
+    LocationMapper INSTANCE = Mappers.getMapper(LocationMapper.class);
 
     Location entityToModel(LocationEntity entity);
 

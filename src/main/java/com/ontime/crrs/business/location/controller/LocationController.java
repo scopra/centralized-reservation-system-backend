@@ -1,7 +1,7 @@
 package com.ontime.crrs.business.location.controller;
 
 import com.ontime.crrs.business.location.model.Location;
-import com.ontime.crrs.business.mapper.location.LocationMap;
+import com.ontime.crrs.business.mapper.location.LocationMapper;
 import com.ontime.crrs.persistence.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationController {
 
     private final LocationService locationService;
-    private final LocationMap mapper;
+    private final LocationMapper mapper;
 
 
     //RADI

@@ -1,6 +1,6 @@
 package com.ontime.crrs.business.restaurant.controller;
 
-import com.ontime.crrs.business.mapper.restaurant.RestaurantMap;
+import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
@@ -26,7 +26,7 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
-    private final RestaurantMap mapper;
+    private final RestaurantMapper mapper;
 
     //RADI + novi mapper
     @GetMapping
@@ -37,6 +37,17 @@ public class RestaurantController {
                         .collect(Collectors.toList());
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class).getRestaurants()).withSelfRel());
+    }
+
+    //RADI
+    @GetMapping("/{name}")
+    public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
+        var restaurantEntity = restaurantService.findRestaurantByName(name)
+                .orElseThrow(() -> new RestaurantNotFoundException(name));
+
+        var restaurantModel = mapper.entityToModel(restaurantEntity);
+
+        return modelAssembler.toModel(restaurantModel);
     }
 
     //NE RADI, ADMIN method
@@ -51,15 +62,16 @@ public class RestaurantController {
         return modelAssembler.toAdminModel(restaurantModel, restaurantEntity.getId());
     }
 
-    //RADI
-    @GetMapping("/{name}")
-    public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
-        var restaurantEntity = restaurantService.findRestaurantByName(name)
-                .orElseThrow(() -> new RestaurantNotFoundException(name));
+    //RADI, admin method!!!
+    @GetMapping("/admin/name/{name}")
+    public UUID findRestaurantIDByName(@PathVariable String name) {
+        var id = restaurantService.findRestaurantIdByName(name);
 
-        var restaurantModel = mapper.entityToModel(restaurantEntity);
+        if (id == null) {
+            throw new RestaurantNotFoundException(id);
+        }
 
-        return modelAssembler.toModel(restaurantModel);
+        return id;
     }
 
     //RADI: custom update with fields, PATCH mapping?
@@ -98,7 +110,7 @@ public class RestaurantController {
     }
 
     //RADI
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<?> deleteRestaurant(@PathVariable UUID id) {
         if (!restaurantService.checkIfRestaurantExists(id)) {
             throw new RestaurantNotFoundException(id);
@@ -112,25 +124,13 @@ public class RestaurantController {
     }
 
     //RADI, ADMIN method
-    @DeleteMapping
+    @DeleteMapping("/admin")
     public ResponseEntity<?> deleteAllRestaurants() {
         restaurantService.deleteAllRestaurants();
 
         return ResponseEntity
                 .noContent()
                 .build();
-    }
-
-    //RADI, admin method!!!
-    @GetMapping("/admin/name/{name}")
-    public UUID findRestaurantIDByName(@PathVariable String name) {
-        var id = restaurantService.findRestaurantIdByName(name);
-
-        if (!restaurantService.checkIfRestaurantExists(id)) {
-            throw new RestaurantNotFoundException(id);
-        }
-
-        return id;
     }
 
     //TESTING
