@@ -22,10 +22,7 @@ public class RestaurantRepositorySteps {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    LocationRepository locationRepository;
-
-    private String restaurantName;
-    private String restaurantAddress;
+    private LocationRepository locationRepository;
 
     private RestaurantEntity foundEntity;
     private UUID foundID;
@@ -34,27 +31,34 @@ public class RestaurantRepositorySteps {
 
     @AfterEach
     void tearDown() {
-        if (foundEntity != null) {
+        /*if (foundEntity != null) {
             restaurantRepository.delete(foundEntity);
-        }
+        }*/
+        restaurantRepository.deleteAll();
         locationRepository.deleteAll();
     }
 
     @Given("there is a restaurant with name {string} in the database")
     public void givenRestaurantExists(String name) {
         restaurantRepository.save(buildDefaultEntityWithName(name));
-        restaurantName = name;
+
+        //assertThat(restaurantRepository.findRestaurantByName(name).isPresent());
+        assert restaurantRepository.findRestaurantByName(name).isPresent();
     }
 
     @Given("there is no restaurant with name {string} in the database")
     public void givenRestaurantDoesNotExistWithName(String name) {
-        assertNull(foundEntity);
+        //assertThat(restaurantRepository.findRestaurantByName(name).isEmpty());
+
+        assert restaurantRepository.findRestaurantByName(name).isEmpty();
     }
 
     @Given("there is a restaurant with the address {string} in the database")
     public void givenRestaurantWithAddressExists(String address) {
-        var savedEntity = restaurantRepository.save(buildDefaultEntityWithAddress(address));
-        restaurantAddress = savedEntity.getLocation().getAddress();
+        restaurantRepository.save(buildDefaultEntityWithAddress(address));
+
+        //assertThat(restaurantRepository.findRestaurantByLocation_Address(address).isPresent());
+        assert restaurantRepository.findRestaurantByLocation_Address(address).isPresent();
     }
 
     @Given("there is more than one restaurant with the municipality {string} in the database")
@@ -63,7 +67,14 @@ public class RestaurantRepositorySteps {
                 municipality, "Sarajevo"));
         restaurantRepository.save(buildCustomRestaurantEntity("Name 2", "Mis Irbina 1",
                 municipality, "Sarajevo"));
+    }
 
+    @Given("there is more than one restaurant with the city {string} in the database")
+    public void givenMultipleRestaurantsFromTheSameCity(String city) {
+        restaurantRepository.save(buildCustomRestaurantEntity("Name 1", "Vrazova 1", "Centar",
+                city));
+        restaurantRepository.save(buildCustomRestaurantEntity("Name 2", "Malta 11", "Novo Sarajevo",
+                city));
     }
 
     @When("I search for a restaurant by name using {string}")
@@ -90,11 +101,16 @@ public class RestaurantRepositorySteps {
         foundEntities = restaurantRepository.findRestaurantsByLocation_Municipality(municipality);
     }
 
-    @Then("the method should return the restaurant entity for the given name")
-    public void thenShouldReturnRestaurantEntity() {
+    @When("I search for restaurants by city {string}")
+    public void whenSearchForRestaurantsByCity(String city) {
+        foundEntities = restaurantRepository.findRestaurantsByLocation_City(city);
+    }
+
+    @Then("the method should return the restaurant entity for {string}")
+    public void thenShouldReturnRestaurantEntity(String name) {
         assertNotNull(foundEntity);
         assertNotNull(foundEntity.getLocation());
-        assertEquals(restaurantName, foundEntity.getName());
+        assertEquals(name, foundEntity.getName());
     }
 
     @Then("the method should return null")
@@ -110,7 +126,7 @@ public class RestaurantRepositorySteps {
     @Then("the method should return the ID of the restaurant for the given name")
     public void thenShouldReturnCorrectIdForGivenName() {
         assertNotNull(foundID);
-        assertNull(foundEntity);
+        assertNotNull(foundEntity);
         assertNotNull(foundEntity.getLocation());
         assertEquals(foundID, foundEntity.getId());
     }
@@ -123,7 +139,7 @@ public class RestaurantRepositorySteps {
         assertEquals(foundAddress, foundEntity.getLocation().getAddress());
     }
 
-    @Then("the method should return a list of {int} restaurants with correct municipality")
+    @Then("the method should return a list of {int} restaurants")
     public void thenShouldReturnListOfRestaurants(int expectedSize) {
         assertEquals(expectedSize, foundEntities.size());
     }

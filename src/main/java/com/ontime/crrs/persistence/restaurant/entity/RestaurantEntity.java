@@ -49,8 +49,9 @@ public class RestaurantEntity {
 
     /*
         TODO:
-            - add relationship to Location, Special Offer & Image
+            - add relationship to Special Offer & Image
      */
+
     @OneToOne(
             cascade = CascadeType.ALL
             //targetEntity = LocationEntity.class

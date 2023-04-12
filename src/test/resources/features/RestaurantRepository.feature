@@ -5,7 +5,7 @@ Feature: Restaurant Repository
   Scenario: Find an existing restaurant by name
     Given there is a restaurant with name "McDonalds" in the database
     When I search for a restaurant by name using "McDonalds"
-    Then the method should return the restaurant entity for the given name
+    Then the method should return the restaurant entity for "McDonalds"
 
     #RADI:
   Scenario: Restaurant not found by name
@@ -13,7 +13,7 @@ Feature: Restaurant Repository
     When I search for a restaurant by name using "McDonalds"
     Then the method should return null
 
-    #NE RADI ???
+    #RADI
   Scenario: Find a restaurant ID by name
     Given there is a restaurant with name "McDonalds" in the database
     When I search for a restaurant ID by name using "McDonalds"
@@ -41,10 +41,22 @@ Feature: Restaurant Repository
   Scenario: Search for restaurants by  municipality
     Given there is more than one restaurant with the municipality "Centar" in the database
     When I search for restaurants by municipality "Centar"
-    Then the method should return a list of 2 restaurants with correct municipality
+    Then the method should return a list of 2 restaurants
 
     #RADI:
   Scenario: Search for restaurants by incorrect municipality
     Given there is more than one restaurant with the municipality "Centar" in the database
     When I search for restaurants by municipality "centar"
+    Then the method should return an empty list
+
+    #RADI
+  Scenario: Search for restaurants by city
+    Given there is more than one restaurant with the city "Sarajevo" in the database
+    When I search for restaurants by city "Sarajevo"
+    Then the method should return a list of 2 restaurants
+
+    #RADI
+  Scenario: Search for restaurants by city not in database
+    Given there is more than one restaurant with the city "Sarajevo" in the database
+    When I search for restaurants by city "Zenica"
     Then the method should return an empty list
