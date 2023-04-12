@@ -20,11 +20,11 @@ public interface RestaurantService {
 
     List<RestaurantEntity> findAllRestaurants();
 
-    //List<RestaurantEntity> findAllRestaurantsInMunicipality(String municipality);
+    List<RestaurantEntity> findAllRestaurantsInMunicipality(String municipality);
 
-    //List<RestaurantEntity> findAllRestaurantsInCity(String city);
+    List<RestaurantEntity> findAllRestaurantsInCity(String city);
 
-    //Optional<RestaurantEntity> findRestaurantByAddress(String address);
+    Optional<RestaurantEntity> findRestaurantByAddress(String address);
 
     boolean checkIfRestaurantExists(UUID id);
 

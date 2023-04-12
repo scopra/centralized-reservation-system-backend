@@ -18,8 +18,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class RestaurantModelAssembler implements RepresentationModelAssembler<Restaurant, EntityModel<Restaurant>> {
 
-    private final RestaurantService restaurantService;
-
     @Override
     public EntityModel<Restaurant> toModel(Restaurant restaurant) {
 

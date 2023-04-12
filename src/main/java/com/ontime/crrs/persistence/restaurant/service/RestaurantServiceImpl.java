@@ -34,18 +34,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<RestaurantEntity> findAllRestaurants() {
         return repository.findAll();
     }
-/*
+
     public List<RestaurantEntity> findAllRestaurantsInMunicipality(String municipality) {
-        return repository.findRestaurantsByMunicipality(municipality);
+        return repository.findRestaurantsByLocation_Municipality(municipality);
     }
 
     public List<RestaurantEntity> findAllRestaurantsInCity(String city) {
-        return repository.findRestaurantsByCity(city);
+        return repository.findRestaurantsByLocation_City(city);
     }
 
     public Optional<RestaurantEntity> findRestaurantByAddress(String address) {
-        return repository.findRestaurantByAddress(address);
-    }*/
+        return repository.findRestaurantByLocation_Address(address);
+    }
 
     public boolean checkIfRestaurantExists(UUID id) {
         return repository.existsById(id);
