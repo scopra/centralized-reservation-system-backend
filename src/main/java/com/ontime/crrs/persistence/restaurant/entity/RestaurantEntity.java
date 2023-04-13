@@ -3,17 +3,18 @@ package com.ontime.crrs.persistence.restaurant.entity;
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Entity
 @Builder
-@ToString
 @NoArgsConstructor
-@EqualsAndHashCode
 @AllArgsConstructor
 @Table(name = "restaurant")
+@ToString(exclude = "location")
 public class RestaurantEntity {
 
     @Id
@@ -29,7 +30,8 @@ public class RestaurantEntity {
             name = "name",
             nullable = false,
             unique = true,
-            length = 20)
+            length = 20
+    )
     private String name;
 
     @Column(name = "description")
@@ -52,14 +54,8 @@ public class RestaurantEntity {
             - add relationship to Special Offer & Image
      */
 
-    @OneToOne(
-            cascade = CascadeType.ALL
-            //targetEntity = LocationEntity.class
-    )
-    @JoinColumn(
-            name = "location_id"
-            //referencedColumnName = "id"
-    )
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
     private LocationEntity location;
 
     public void setName(String name) {
@@ -88,5 +84,18 @@ public class RestaurantEntity {
         this.phoneNumber = phoneNumber;
         this.capacity = capacity;
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        RestaurantEntity that = (RestaurantEntity) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

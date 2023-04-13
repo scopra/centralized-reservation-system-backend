@@ -1,21 +1,24 @@
-package com.ontime.crrs.persistence.restaurant;
+package com.ontime.crrs.cucumberglue.steps;
 
 import com.ontime.crrs.persistence.location.repository.LocationRepository;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.AfterEach;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.ontime.crrs.helper.RestaurantTestHelper.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 public class RestaurantRepositorySteps {
 
     @Autowired
@@ -29,27 +32,32 @@ public class RestaurantRepositorySteps {
     private String foundAddress;
     private List<RestaurantEntity> foundEntities;
 
-    @AfterEach
-    void tearDown() {
-        /*if (foundEntity != null) {
-            restaurantRepository.delete(foundEntity);
-        }*/
+
+    @Before("@restaurant-repository")
+    public void beforeCallingRRepository() {
+        log.info("*********** Restaurant Repository Scenario Call ***********");
+    }
+
+    @After("@restaurant-repository")
+    public void tearDown() {
+        log.info("------------- TEST CONTEXT TEAR DOWN -------------");
         restaurantRepository.deleteAll();
         locationRepository.deleteAll();
+        foundEntity = null;
+        foundEntities = null;
+        foundAddress = null;
+        foundID = null;
     }
 
     @Given("there is a restaurant with name {string} in the database")
     public void givenRestaurantExists(String name) {
         restaurantRepository.save(buildDefaultEntityWithName(name));
 
-        //assertThat(restaurantRepository.findRestaurantByName(name).isPresent());
         assert restaurantRepository.findRestaurantByName(name).isPresent();
     }
 
     @Given("there is no restaurant with name {string} in the database")
     public void givenRestaurantDoesNotExistWithName(String name) {
-        //assertThat(restaurantRepository.findRestaurantByName(name).isEmpty());
-
         assert restaurantRepository.findRestaurantByName(name).isEmpty();
     }
 
@@ -57,7 +65,6 @@ public class RestaurantRepositorySteps {
     public void givenRestaurantWithAddressExists(String address) {
         restaurantRepository.save(buildDefaultEntityWithAddress(address));
 
-        //assertThat(restaurantRepository.findRestaurantByLocation_Address(address).isPresent());
         assert restaurantRepository.findRestaurantByLocation_Address(address).isPresent();
     }
 

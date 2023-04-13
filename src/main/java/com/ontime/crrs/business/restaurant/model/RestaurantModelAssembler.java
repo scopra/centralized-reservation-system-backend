@@ -1,7 +1,6 @@
 package com.ontime.crrs.business.restaurant.model;
 
 import com.ontime.crrs.business.restaurant.controller.RestaurantController;
-import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;

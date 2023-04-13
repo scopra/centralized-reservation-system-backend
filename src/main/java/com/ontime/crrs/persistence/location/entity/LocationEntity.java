@@ -3,25 +3,27 @@ package com.ontime.crrs.persistence.location.entity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Entity
 @Builder
-@ToString
 @NoArgsConstructor
-@EqualsAndHashCode
 @AllArgsConstructor
 @Table(name = "location")
+@ToString(exclude = "restaurant")
 public class LocationEntity {
+
     @Id
     @GeneratedValue
     @Column(
             name = "location_id",
             columnDefinition = "uuid"
     )
-    private UUID id; //NOTE TO SELF: refresh DB schema
+    private UUID id;
 
     @Column(
             name = "address",
@@ -61,5 +63,18 @@ public class LocationEntity {
         this.address = address;
         this.municipality = municipality;
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        LocationEntity that = (LocationEntity) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
