@@ -10,5 +10,5 @@ import org.junit.runner.RunWith;
         glue = {"com.ontime.crrs.cucumberglue"},
         plugin = {"pretty", "html:build/reports/tests/cucumber/cucumber-report.html"}
 )
-public class CucumberTestRunner {
+public class CucumberIntegrationTest {
 }

@@ -19,7 +19,7 @@
 
 	<properties>
 		<java.version>19</java.version>
-		<cucumber.version>7.11.1</cucumber.version>
+		<cucumber.version>7.5.0</cucumber.version>
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 		<assertj.version>3.24.2</assertj.version>
 		<junit.vintage.version>5.9.2</junit.vintage.version>
@@ -168,7 +168,7 @@
 				<configuration>
 					<testSourceDirectory>src/test/java</testSourceDirectory>
 					<excludes>
-						<exclude>**/CucumberTestRunner.java</exclude>
+						<exclude>**/CucumberIntegrationTest.java</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -183,7 +183,7 @@
 								<exclude>none</exclude>
 							</excludes>
 							<includes>
-								<include>**/CucumberTestRunner.java</include>
+								<include>**/CucumberIntegrationTest.java</include>
 							</includes>
 						</configuration>
 					</execution>
