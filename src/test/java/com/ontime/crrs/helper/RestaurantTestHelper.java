@@ -7,6 +7,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestaurantTestHelper {
 
+    public static final String RESTAURANT_NAME = "Melody";
+    public static final String RESTAURANT_ADDRESS = "Safeta Hadzica 8";
+    public static final String RESTAURANT_MUNICIPALITY = "Novo Sarajevo";
+    public static final String RESTAURANT_CITY = "Zenica";
+    public static final RestaurantEntity UPDATED_RESTAURANT = buildCustomRestaurantEntity(RESTAURANT_NAME, RESTAURANT_ADDRESS,
+            RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
+    public static final RestaurantEntity RESTAURANT_1 = buildCustomRestaurantEntity("First", "Address 1",
+            RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
+    public static final RestaurantEntity RESTAURANT_2 = buildCustomRestaurantEntity("Second", "Address 2",
+            RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
+    public static final RestaurantEntity EXISTING_RESTAURANT = preBuildRestaurantEntity();
+
     public static RestaurantEntity buildDefaultEntityWithName(String name) {
         return RestaurantEntity.builder()
                 .name(name)
@@ -51,7 +63,8 @@ public class RestaurantTestHelper {
                 .build();
     }
 
-    public static RestaurantEntity buildCustomRestaurantEntity(String name, String address, String municipality, String city) {
+    public static RestaurantEntity buildCustomRestaurantEntity(String name, String address, String municipality,
+                                                               String city) {
         return RestaurantEntity.builder()
                 .name(name)
                 .description("Default description.")
@@ -61,5 +74,14 @@ public class RestaurantTestHelper {
                 .build();
     }
 
+    public static RestaurantEntity preBuildRestaurantEntity() {
+        return RestaurantEntity.builder()
+                .name("Real")
+                .phoneNumber("123-456-789")
+                .capacity(27)
+                .description("Old Description")
+                .location(buildDefaultLocation())
+                .build();
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.ontime.crrs.cucumberglue.steps;
 
-import com.ontime.crrs.persistence.location.repository.LocationRepository;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
 import io.cucumber.java.After;
@@ -23,9 +22,6 @@ public class RestaurantRepositorySteps {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    @Autowired
-    private LocationRepository locationRepository;
-
     private RestaurantEntity foundEntity;
     private UUID foundID;
     private String foundAddress;
@@ -42,7 +38,6 @@ public class RestaurantRepositorySteps {
         log.info("*********** Test Context Tear Down ***********");
 
         restaurantRepository.deleteAll();
-        locationRepository.deleteAll();
 
         foundEntity = null;
         foundEntities = null;
