@@ -4,11 +4,11 @@ import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class RestaurantProcessor {
 
