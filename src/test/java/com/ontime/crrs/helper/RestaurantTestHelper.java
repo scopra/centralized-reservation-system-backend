@@ -11,6 +11,10 @@ public class RestaurantTestHelper {
     public static final String RESTAURANT_ADDRESS = "Safeta Hadzica 8";
     public static final String RESTAURANT_MUNICIPALITY = "Novo Sarajevo";
     public static final String RESTAURANT_CITY = "Zenica";
+    public static final String NAME_1 = "Name 1";
+    public static final String NAME_2 = "Name 2";
+    public static final String ADDRESS_1 = "Address 1";
+    public static final String ADDRESS_2 = "Address 2";
     public static final RestaurantEntity UPDATED_RESTAURANT = buildCustomRestaurantEntity(RESTAURANT_NAME, RESTAURANT_ADDRESS,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     public static final RestaurantEntity RESTAURANT_1 = buildCustomRestaurantEntity("First", "Address 1",

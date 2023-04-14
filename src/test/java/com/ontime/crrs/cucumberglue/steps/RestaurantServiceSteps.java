@@ -23,9 +23,9 @@ public class RestaurantServiceSteps {
 
     private final RestaurantEntity updatedRestaurant = buildCustomRestaurantEntity(RESTAURANT_NAME, RESTAURANT_ADDRESS,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
-    private final RestaurantEntity restaurant1 = buildCustomRestaurantEntity("First", "Address 1",
+    private final RestaurantEntity restaurant1 = buildCustomRestaurantEntity(NAME_1, ADDRESS_1,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
-    private final RestaurantEntity restaurant2 = buildCustomRestaurantEntity("Second", "Address 2",
+    private final RestaurantEntity restaurant2 = buildCustomRestaurantEntity(NAME_2, ADDRESS_2,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     private final RestaurantEntity existingRestaurant = preBuildRestaurantEntity();
 
@@ -42,7 +42,7 @@ public class RestaurantServiceSteps {
 
     @Before("@restaurant-service")
     public void setUp() {
-        log.info("*********** Test Context Set Up ***********");
+        log.info("*********** Restaurant Service Test Context Set Up ***********");
 
         addedRestaurants = new ArrayList<RestaurantEntity>();
         savedRestaurants = new ArrayList<RestaurantEntity>();
@@ -50,7 +50,7 @@ public class RestaurantServiceSteps {
 
     @After("@restaurant-service")
     public void tearDown() {
-        log.info("*********** Test Context Tear Down ***********");
+        log.info("*********** Restaurant Service Test Context Tear Down ***********");
 
         repository.deleteAll();
         foundID = null;
@@ -141,4 +141,5 @@ public class RestaurantServiceSteps {
 
         assertThat(foundEntity).isEqualTo(existingRestaurant);
     }
+
 }

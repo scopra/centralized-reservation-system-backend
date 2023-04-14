@@ -23,4 +23,5 @@ public interface RestaurantRepository extends JpaRepository<RestaurantEntity, UU
     List<RestaurantEntity> findRestaurantsByLocation_Municipality(String municipality);
 
     List<RestaurantEntity> findRestaurantsByLocation_City(String city);
+
 }

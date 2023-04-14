@@ -28,7 +28,7 @@ public class LocationEntity {
     @Column(
             name = "address",
             unique = true,
-            length = 20
+            length = 35
     )
     private String address;
 
@@ -77,4 +77,5 @@ public class LocationEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

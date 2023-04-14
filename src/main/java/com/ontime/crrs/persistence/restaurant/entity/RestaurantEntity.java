@@ -98,4 +98,5 @@ public class RestaurantEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

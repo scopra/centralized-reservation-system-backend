@@ -1,12 +1,12 @@
 package com.ontime.crrs.persistence.restaurant.service;
 
+import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,16 +19,24 @@ public class RestaurantServiceImpl implements RestaurantService {
         return repository.save(restaurant);
     }
 
-    public Optional<RestaurantEntity> findRestaurantById(UUID id) {
-        return repository.findById(id);
+    public RestaurantEntity findRestaurantById(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
     public UUID findRestaurantIdByName(String name) {
-        return repository.findRestaurantIdByName(name);
+        var id = repository.findRestaurantIdByName(name);
+
+        if (id == null) {
+            throw new RestaurantNotFoundException("Could not find restaurant with name " + name);
+        }
+
+        return id;
     }
 
-    public Optional<RestaurantEntity> findRestaurantByName(String name) {
-        return repository.findRestaurantByName(name);
+    public RestaurantEntity findRestaurantByName(String name) {
+        return repository.findRestaurantByName(name)
+                .orElseThrow(() -> new RestaurantNotFoundException("Could not find restaurant with name " +
+                        name));
     }
 
     public List<RestaurantEntity> findAllRestaurants() {
@@ -43,15 +51,25 @@ public class RestaurantServiceImpl implements RestaurantService {
         return repository.findRestaurantsByLocation_City(city);
     }
 
-    public Optional<RestaurantEntity> findRestaurantByAddress(String address) {
-        return repository.findRestaurantByLocation_Address(address);
+    public RestaurantEntity findRestaurantByAddress(String address) {
+        return repository.findRestaurantByLocation_Address(address)
+                .orElseThrow(() -> new RestaurantNotFoundException("Could not find restaurant with address " +
+                        address));
     }
 
-    public boolean checkIfRestaurantExists(UUID id) {
-        return repository.existsById(id);
+    public boolean checkIfRestaurantExistsById(UUID id) {
+        var found = repository.existsById(id);
+
+        if (!found) {
+            throw new RestaurantNotFoundException(id);
+        }
+
+        return true;
     }
 
     public void deleteRestaurantById(UUID id) {
+        checkIfRestaurantExistsById(id);
+
         repository.deleteById(id);
     }
 

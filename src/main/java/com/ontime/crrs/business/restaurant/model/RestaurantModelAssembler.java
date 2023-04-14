@@ -28,7 +28,7 @@ public class RestaurantModelAssembler implements RepresentationModelAssembler<Re
     public EntityModel<Restaurant> toAdminModel(Restaurant restaurant, UUID id) {
 
         return EntityModel.of(restaurant,
-                linkTo(methodOn(RestaurantController.class).getRestaurantByIdAdmin(id)).withSelfRel(),
+                linkTo(methodOn(RestaurantController.class).getRestaurantById(id)).withSelfRel(),
                 linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
     }
 

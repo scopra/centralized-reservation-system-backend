@@ -18,4 +18,5 @@ public interface LocationService {
     void deleteLocationById(UUID id);
 
     void deleteAllLocations();
+
 }

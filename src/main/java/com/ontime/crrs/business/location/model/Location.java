@@ -20,4 +20,5 @@ public class Location implements Serializable {
     private String address;
     private String municipality;
     private String city;
+
 }
