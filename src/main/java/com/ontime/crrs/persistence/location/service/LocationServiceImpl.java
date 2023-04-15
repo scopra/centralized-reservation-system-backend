@@ -5,7 +5,7 @@ import com.ontime.crrs.persistence.location.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -14,8 +14,9 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository repository;
 
-    public Optional<LocationEntity> findLocationById(UUID id) {
-        return repository.findById(id);
+    public LocationEntity findLocationById(UUID id) throws NoSuchElementException {
+        return repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Location with ID: " + id + " not found."));
     }
 
     public LocationEntity updateLocation(LocationEntity location) {
