@@ -1,5 +1,4 @@
 package com.ontime.crrs.persistence.table.service;
-import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.business.table.exception.TableNotFoundException;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.table.repository.TableRepository;
@@ -41,4 +40,6 @@ public TableEntity updateTable(TableEntity table){
     public void deleteAllTables() {
         repository.deleteAll();
     }
+
+    public List<TableEntity> findAllTables(){ return repository.findAll();}
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "table")
+@Table(name = "restaurantTable")
 public class TableEntity {
     @Id
     @GeneratedValue
@@ -41,6 +41,14 @@ public class TableEntity {
 
     // Generate getters and setters for all the fields
 
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setOccupancyStatus(boolean occupancyStatus) {
+        this.occupancyStatus = occupancyStatus;
+    }
 
     public TableEntity(int capacity, boolean occupancyStatus) {
         this.capacity = capacity;
