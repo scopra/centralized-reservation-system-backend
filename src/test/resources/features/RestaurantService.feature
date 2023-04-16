@@ -67,6 +67,10 @@ Feature: Restaurant Service
     Then the method should return true
 
   Scenario: Delete restaurant by ID
+    When the restaurant does not exist in the database
+    Then an exception is thrown when I delete by ID
+
+  Scenario: Delete restaurant by ID when it doesn't exist
     Given the restaurant already exists in the database
     When I delete restaurant with ID from database
     Then the restaurant is deleted by name "Real"

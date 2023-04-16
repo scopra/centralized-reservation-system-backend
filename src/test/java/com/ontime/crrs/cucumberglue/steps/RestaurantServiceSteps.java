@@ -147,18 +147,18 @@ public class RestaurantServiceSteps {
         savedRestaurants = service.findAllRestaurantsInCity(city);
     }
 
-    @When("I check if that restaurant exists in the database")
-    public void whenCheckIfRestaurantExists() {
-        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
-
-        exists = service.checkIfRestaurantExistsById(savedEntityID);
-    }
-
     @When("I delete restaurant with ID from database")
     public void whenDeleteRestaurantFromDatabase() {
         var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
 
         service.deleteRestaurantById(savedEntityID);
+    }
+
+    @When("I check if that restaurant exists in the database")
+    public void whenCheckIfRestaurantExists() {
+        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
+
+        exists = service.checkIfRestaurantExistsById(savedEntityID);
     }
 
     @When("I delete all restaurants")
@@ -213,6 +213,13 @@ public class RestaurantServiceSteps {
         assertThat(foundEntity).isNotNull();
 
         assertThat(foundEntity.getName()).isEqualTo(name);
+    }
+
+    @Then("an exception is thrown when I delete by ID")
+    public void thenThrowsExceptionWhenDeleteById() {
+        assertThrows(RestaurantNotFoundException.class, () -> {
+            service.deleteRestaurantById(UUID.randomUUID());
+        });
     }
 
     @Then("the method should return true")
