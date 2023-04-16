@@ -12,9 +12,12 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<ReservationEntity, UUID> {
 
     List<ReservationEntity> findByReservationId(UUID reservationId);
+
     List<ReservationEntity> findByDate(LocalDate date);
 
     List<ReservationEntity> findByRestaurantId(UUID restaurantId);
 
     List<ReservationEntity> findByUserId(UUID userId);
+
+
 }

@@ -21,15 +21,14 @@ public interface ReservationService {
 
     List<ReservationEntity> findReservationsByDate(LocalDate date);
 
-    List<ReservationEntity> findReservationsByRestaurantId(UUID restaurantId);
 
     List<ReservationEntity> findReservationsByUserId(UUID userId);
 
     boolean checkIfReservationExistsById(UUID id);
 
-    void deleteReservationById(UUID id);
+    void cancelReservationById(UUID id);
 
-    void deleteAllReservations();
+    void cancelAllReservations();
 
 
 }

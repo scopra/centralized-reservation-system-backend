@@ -3,7 +3,6 @@ package com.ontime.crrs.persistence.reservation.entity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +25,7 @@ public class ReservationEntity {
             updatable = false,
             columnDefinition ="uuid"
     )
-    private UUID id;
+    private UUID reservationId;
 
     @Column(
             name ="date",
@@ -53,13 +52,13 @@ public class ReservationEntity {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    private RestaurantEntity restaurantId;
+    private RestaurantEntity restaurant;
 
     @Column(
-            name = "user_Id",
+            name = "user_id",
             nullable= false
     )
-    private UUID user_Id;
+    private UUID userId;
 
     public void setDate(LocalDate date) {
         this.date = date;
@@ -77,40 +76,47 @@ public class ReservationEntity {
         this.numberOfGuests = numberOfGuests;
     }
 
-    public void setRestaurant_id(RestaurantEntity restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setUserId(UUID userId) { this.userId = userId;
     }
 
-    public void setUser_Id(UUID user_Id) {
-        this.user_Id = user_Id;
+    public ReservationEntity(LocalDate date,LocalTime time,String description,int numberOfGuests,UUID userId){
+        this.date = date;
+        this.time=time;
+        this.description = description;
+        this.numberOfGuests = numberOfGuests;
+        this.userId = userId;
+
     }
-
-
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ReservationEntity that = (ReservationEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        if (!(o instanceof ReservationEntity that)) return false;
+        return getNumberOfGuests() == that.getNumberOfGuests() &&
+                Objects.equals(getReservationId(), that.getReservationId()) &&
+                Objects.equals(getDate(), that.getDate()) &&
+                Objects.equals(getTime(), that.getTime()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getRestaurant(), that.getRestaurant()) &&
+                Objects.equals(getUserId(), that.getUserId());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(getReservationId(), getDate(), getTime(), getNumberOfGuests(), getDescription(), getRestaurant(), getUserId());
     }
 
     @Override
     public String toString() {
         return "ReservationEntity{" +
-                "id=" + id +
+                "id=" + reservationId +
                 ", date=" + date +
                 ", time=" + time +
                 ", numberOfGuests=" + numberOfGuests +
                 ", description='" + description + '\'' +
-                ", restaurant_id=" + restaurantId +
-                ", user_Id=" + user_Id +
+                ", restaurant_id=" + restaurant +
+                ", user_Id=" + userId +
                 '}';
     }
 }
