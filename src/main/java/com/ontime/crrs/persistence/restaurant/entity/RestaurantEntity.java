@@ -60,7 +60,7 @@ public class RestaurantEntity {
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<TableEntity> tables;
 
     public void setName(String name) {

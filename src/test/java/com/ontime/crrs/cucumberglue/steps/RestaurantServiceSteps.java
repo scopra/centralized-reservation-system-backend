@@ -103,7 +103,7 @@ public class RestaurantServiceSteps {
     }
 
     @Then("the restaurant information is updated successfully")
-    public void thenRestaurantUpdated() {
+    public void  thenRestaurantUpdated() {
         assertThat(repository.findRestaurantByName(RESTAURANT_NAME)).isPresent();
 
         assertThat(repository.findRestaurantByName(RESTAURANT_NAME).get()).isEqualTo(updatedRestaurant);

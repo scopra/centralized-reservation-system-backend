@@ -10,6 +10,7 @@ import java.util.UUID;
 @Service
 public interface TableService {
 
+    TableEntity updateTable(TableEntity table);
     TableEntity findTableById(UUID id);
 
     boolean checkIfRestaurantExistsById(UUID id);

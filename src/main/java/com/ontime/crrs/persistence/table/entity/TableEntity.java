@@ -50,6 +50,10 @@ public class TableEntity {
         this.occupancyStatus = occupancyStatus;
     }
 
+    public void setRestaurant(RestaurantEntity restaurant) {
+        this.restaurant = restaurant;
+    }
+
     public TableEntity(int capacity, boolean occupancyStatus) {
         this.capacity = capacity;
         this.occupancyStatus = occupancyStatus;
