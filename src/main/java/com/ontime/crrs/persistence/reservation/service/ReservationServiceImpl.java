@@ -25,8 +25,8 @@ public class ReservationServiceImpl implements ReservationService{
         return repository.save(reservation);
     }
 
-    public ReservationEntity findReservationById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new ReservationNotFoundException(id));
+    public ReservationEntity findReservationById(UUID reservationId) {
+        return repository.findById(reservationId).orElseThrow(() -> new ReservationNotFoundException(reservationId));
     }
 
     public List<ReservationEntity> findAllReservations() {

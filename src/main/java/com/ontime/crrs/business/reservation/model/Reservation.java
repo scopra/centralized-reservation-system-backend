@@ -24,6 +24,7 @@ public class Reservation implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private UUID reservationId;
     private LocalDate date;
     private LocalTime time;
     private int numberOfGuests;

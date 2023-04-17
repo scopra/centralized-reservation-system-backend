@@ -15,12 +15,11 @@ public interface ReservationService {
 
     ReservationEntity updateReservation(ReservationEntity reservation);
 
-    ReservationEntity findReservationById(UUID id);
+    ReservationEntity findReservationById(UUID reservationId);
 
     List<ReservationEntity> findAllReservations();
 
     List<ReservationEntity> findReservationsByDate(LocalDate date);
-
 
     List<ReservationEntity> findReservationsByUserId(UUID userId);
 
