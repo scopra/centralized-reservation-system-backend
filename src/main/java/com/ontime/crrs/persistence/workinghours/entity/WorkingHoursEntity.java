@@ -14,8 +14,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "restaurant")
 @Table(name = "working_hours")
+@ToString(exclude = "restaurant")
 public class WorkingHoursEntity {
 
     @Id

@@ -1,6 +1,7 @@
 package com.ontime.crrs.persistence.workinghours.service;
 
 import com.ontime.crrs.business.workinghours.exception.WorkingHoursNotFoundException;
+import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import com.ontime.crrs.persistence.workinghours.repository.WorkingHoursRepository;
@@ -8,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+
+import static org.springframework.beans.BeanUtils.copyProperties;
+
 
 @Service
 @RequiredArgsConstructor
@@ -17,24 +21,27 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     private final RestaurantService restaurantService;
 
     @Override
-    public WorkingHoursEntity updateWorkingHours(String restaurantName, WorkingHoursEntity workingHoursEntity) {
+    public WorkingHoursEntity updateWorkingHours(String restaurantName, WorkingHoursEntity newWorkingHours) {
         var restaurantEntity = restaurantService.findRestaurantByName(restaurantName);
         var existingWorkingHours = workingHoursRepository.findWorkingHoursByRestaurant_Name(restaurantName);
 
-        if (existingWorkingHours.isEmpty()) {
-            workingHoursEntity.setRestaurant(restaurantEntity);
-            restaurantEntity.setWorkingHours(workingHoursEntity);
+        return existingWorkingHours.map(oldWorkingHours -> updateWhenExistent(oldWorkingHours, newWorkingHours))
+                .orElseGet(() -> updateWhenNonExistent(newWorkingHours, restaurantEntity));
+    }
 
-            return workingHoursRepository.save(workingHoursEntity);
-        }
+    private WorkingHoursEntity updateWhenNonExistent(WorkingHoursEntity newWorkingHours, RestaurantEntity restaurant) {
+        newWorkingHours.setRestaurant(restaurant);
+        restaurant.setWorkingHours(newWorkingHours);
 
+        return workingHoursRepository.save(newWorkingHours);
+    }
 
-        var existingWorkingHoursId = restaurantEntity.getWorkingHours().getId();
-        var newWH = workingHoursRepository.findById(existingWorkingHoursId).get();
-        newWH.setOpenTime(workingHoursEntity.getOpenTime());
-        newWH.setCloseTime(workingHoursEntity.getCloseTime());
+    private WorkingHoursEntity updateWhenExistent(WorkingHoursEntity existingEntity, WorkingHoursEntity newEntity) {
 
-        return workingHoursRepository.save(newWH);
+        existingEntity.setOpenTime(newEntity.getOpenTime());
+        existingEntity.setCloseTime(newEntity.getCloseTime());
+
+        return workingHoursRepository.save(existingEntity);
     }
 
     @Override
@@ -46,7 +53,8 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     @Override
     public WorkingHoursEntity findWorkingHoursByRestaurant(String restaurantName) {
         return workingHoursRepository.findWorkingHoursByRestaurant_Name(restaurantName)
-                .orElseThrow(() -> new WorkingHoursNotFoundException("Working hours not found for " + restaurantName));
+                .orElseThrow(() -> new WorkingHoursNotFoundException("Working hours not found for restaurant name "
+                        + restaurantName));
     }
 
     @Override
