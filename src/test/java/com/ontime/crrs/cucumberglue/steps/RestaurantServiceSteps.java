@@ -1,5 +1,6 @@
 package com.ontime.crrs.cucumberglue.steps;
 
+import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static com.ontime.crrs.helper.RestaurantTestHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 public class RestaurantServiceSteps {
@@ -28,6 +30,7 @@ public class RestaurantServiceSteps {
     private final RestaurantEntity restaurant2 = buildCustomRestaurantEntity(NAME_2, ADDRESS_2,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     private final RestaurantEntity existingRestaurant = preBuildRestaurantEntity();
+    private boolean exists = false;
 
     @Autowired
     private RestaurantService service;
@@ -80,6 +83,33 @@ public class RestaurantServiceSteps {
         assertThat(repository.count()).isEqualTo(0);
     }
 
+    @Given("a restaurant with name {string} exists in the database")
+    public void givenRestaurantWithNameExists(String name) {
+        var entity = repository.save(existingRestaurant);
+
+        assertThat(entity).isNotNull();
+    }
+
+    @Given("more than one restaurant in municipality {string} exists in the database")
+    public void givenRestaurantsWithCustomMunicipalityExist(String municipality) {
+        addedRestaurants.add(repository.save(restaurant1));
+        addedRestaurants.add(repository.save(restaurant2));
+
+        assertThat(repository.count()).isGreaterThan(1);
+        assertThat(addedRestaurants.get(0).getLocation().getMunicipality()).isEqualTo(municipality);
+        assertThat(addedRestaurants.get(1).getLocation().getMunicipality()).isEqualTo(municipality);
+    }
+
+    @Given("more than one restaurant in city {string} exists in the database")
+    public void givenRestaurantsWithCustomCityExist(String city) {
+        addedRestaurants.add(repository.save(restaurant1));
+        addedRestaurants.add(repository.save(restaurant2));
+
+        assertThat(repository.count()).isGreaterThan(1);
+        assertThat(addedRestaurants.get(0).getLocation().getCity()).isEqualTo(city);
+        assertThat(addedRestaurants.get(1).getLocation().getCity()).isEqualTo(city);
+    }
+
     @When("I update the restaurant")
     public void whenRestaurantIsUpdated() {
         service.updateRestaurant(updatedRestaurant);
@@ -100,6 +130,40 @@ public class RestaurantServiceSteps {
         var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
 
         foundEntity = service.findRestaurantById(savedEntityID);
+    }
+
+    @When("I search for restaurant by name {string}")
+    public void whenSearchForRestaurantWithName(String name) {
+        foundEntity = service.findRestaurantByName(name);
+    }
+
+    @When("I search for restaurants in municipality {string}")
+    public void whenSearchForRestaurantsInMunicipality(String municipality) {
+        savedRestaurants = service.findAllRestaurantsInMunicipality(municipality);
+    }
+
+    @When("I search for restaurants in city {string}")
+    public void whenSearchForRestaurantsInCity(String city) {
+        savedRestaurants = service.findAllRestaurantsInCity(city);
+    }
+
+    @When("I delete restaurant with ID from database")
+    public void whenDeleteRestaurantFromDatabase() {
+        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
+
+        service.deleteRestaurantById(savedEntityID);
+    }
+
+    @When("I check if that restaurant exists in the database")
+    public void whenCheckIfRestaurantExists() {
+        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
+
+        exists = service.checkIfRestaurantExistsById(savedEntityID);
+    }
+
+    @When("I delete all restaurants")
+    public void whenDeleteAllRestaurantsFromDatabase() {
+        service.deleteAllRestaurants();
     }
 
     @Then("the restaurant information is updated successfully")
@@ -130,9 +194,11 @@ public class RestaurantServiceSteps {
         assertThat(existingRestaurant.getId()).isEqualTo(repository.findById(foundID).get().getId());
     }
 
-    @Then("the findRestaurantIdByName method should return null")
-    public void thenFindRestaurantIdByNameReturnsNull() {
-        assertThat(foundID).isNull();
+    @Then("an exception is thrown when I search for ID by name {string}")
+    public void thenFindRestaurantIdByNameReturnsNull(String name) {
+        assertThrows(RestaurantNotFoundException.class, () -> {
+            service.findRestaurantIdByName(name);
+        });
     }
 
     @Then("the restaurant entity is returned")
@@ -140,6 +206,37 @@ public class RestaurantServiceSteps {
         assertThat(foundEntity).isNotNull();
 
         assertThat(foundEntity).isEqualTo(existingRestaurant);
+    }
+
+    @Then("the restaurant with name {string} is found")
+    public void thenCorrectRestaurantIsFound(String name) {
+        assertThat(foundEntity).isNotNull();
+
+        assertThat(foundEntity.getName()).isEqualTo(name);
+    }
+
+    @Then("an exception is thrown when I delete by ID")
+    public void thenThrowsExceptionWhenDeleteById() {
+        assertThrows(RestaurantNotFoundException.class, () -> {
+            service.deleteRestaurantById(UUID.randomUUID());
+        });
+    }
+
+    @Then("the method should return true")
+    public void thenReturnsTrue() {
+        assertThat(exists).isTrue();
+    }
+
+    @Then("the restaurant is deleted by name {string}")
+    public void thenIsDeleted(String name) {
+        assertThrows(RestaurantNotFoundException.class, () -> {
+            service.findRestaurantByName(name);
+        });
+    }
+
+    @Then("all restaurants are deleted")
+    public void thenDatabaseEmpty() {
+        assertThat(repository.count()).isEqualTo(0);
     }
 
 }

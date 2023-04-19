@@ -20,7 +20,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public RestaurantEntity findRestaurantById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
+        return repository.findById(id)
+                .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
     public UUID findRestaurantIdByName(String name) {
