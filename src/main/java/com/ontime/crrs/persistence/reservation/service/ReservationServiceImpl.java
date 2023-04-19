@@ -4,8 +4,10 @@ package com.ontime.crrs.persistence.reservation.service;
 import com.ontime.crrs.business.reservation.exeption.ReservationNotFoundException;
 import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.repository.ReservationRepository;
+import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,20 +15,26 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
-public class ReservationServiceImpl implements ReservationService{
+public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository repository;
+    private final RestaurantService restaurantService;
 
-    public ReservationEntity createReservation(ReservationEntity reservation){
+    public ReservationEntity createReservation(ReservationEntity reservation) {
+        var restaurantEntity =
+                restaurantService.findRestaurantByName(reservation.getRestaurant().getName());
+        log.info("Creating restaurant entity....");
+        reservation.setRestaurant(restaurantEntity);
+
         return repository.save(reservation);
     }
 
     public ReservationEntity updateReservation(ReservationEntity reservation) {
         return repository.save(reservation);
     }
-
 
 
     public ReservationEntity findReservationById(UUID reservationId) {

@@ -15,7 +15,6 @@ public interface ReservationService {
 
     ReservationEntity updateReservation(ReservationEntity reservation);
 
-
     ReservationEntity findReservationById(UUID reservationId);
 
     List<ReservationEntity> findAllReservations();

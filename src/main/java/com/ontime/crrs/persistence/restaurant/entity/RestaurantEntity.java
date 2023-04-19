@@ -1,12 +1,10 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
-import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -59,9 +57,6 @@ public class RestaurantEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
-
-    @OneToMany(mappedBy = "restaurant")
-    private List<ReservationEntity> reservations;
 
     public void setName(String name) {
         this.name = name;

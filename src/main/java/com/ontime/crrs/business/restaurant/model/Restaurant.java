@@ -1,11 +1,14 @@
 package com.ontime.crrs.business.restaurant.model;
 
 import com.ontime.crrs.business.location.model.Location;
+import com.ontime.crrs.business.reservation.model.Reservation;
+import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder

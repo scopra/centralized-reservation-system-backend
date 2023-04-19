@@ -1,4 +1,5 @@
 package com.ontime.crrs.business.mapper.reservation;
+import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import org.mapstruct.factory.Mappers;
 
 
@@ -9,7 +10,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper ( componentModel = "spring")
+@Mapper (uses= RestaurantMapper.class, componentModel = "spring")
 public interface ReservationMapper {
 
     ReservationMapper INSTANCE = Mappers.getMapper(ReservationMapper.class);

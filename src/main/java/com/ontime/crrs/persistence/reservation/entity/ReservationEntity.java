@@ -8,7 +8,6 @@ import org.hibernate.Hibernate;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
-
 import java.util.UUID;
 
 @Getter
@@ -17,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"restaurant"})
-@Table(name ="reservation")
+@Table(name = "reservation")
 public class ReservationEntity {
 
     @Id
@@ -25,30 +24,30 @@ public class ReservationEntity {
     @Column(
             name = "reservation_id",
             updatable = false,
-            columnDefinition ="uuid"
+            columnDefinition = "uuid"
     )
     private UUID reservationId;
 
     @Column(
-            name ="date",
-            nullable=false
+            name = "date",
+            nullable = false
     )
     private LocalDate date;
 
     @Column(
-            name ="time",
-            nullable=false
+            name = "time",
+            nullable = false
     )
     private LocalTime time;
 
     @Column(
-            name="number_of_guests",
-            nullable=false
+            name = "number_of_guests",
+            nullable = false
     )
     private int numberOfGuests;
     @Column(
-            name ="description",
-            nullable= false
+            name = "description",
+            nullable = false
     )
     private String description;
 
@@ -58,7 +57,7 @@ public class ReservationEntity {
 
     @Column(
             name = "user_id",
-            nullable= false
+            nullable = false
     )
     private UUID userId;
 
@@ -78,12 +77,17 @@ public class ReservationEntity {
         this.numberOfGuests = numberOfGuests;
     }
 
-    public void setUserId(UUID userId) { this.userId = userId;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
-    public ReservationEntity(LocalDate date,LocalTime time,String description,int numberOfGuests,RestaurantEntity restaurant,UUID userId){
+    public void setRestaurant(RestaurantEntity restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public ReservationEntity(LocalDate date, LocalTime time, String description, int numberOfGuests, RestaurantEntity restaurant, UUID userId) {
         this.date = date;
-        this.time=time;
+        this.time = time;
         this.description = description;
         this.numberOfGuests = numberOfGuests;
         this.restaurant = restaurant;
@@ -91,16 +95,13 @@ public class ReservationEntity {
 
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         ReservationEntity that = (ReservationEntity) o;
-        return getReservationId() != null && Objects.equals(getReservationId(),that.getReservationId());
+        return getReservationId() != null && Objects.equals(getReservationId(), that.getReservationId());
     }
-
-
 
     @Override
     public int hashCode() {
