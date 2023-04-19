@@ -17,6 +17,7 @@ public interface RestaurantMapper {
     Restaurant entityToModel(RestaurantEntity entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "workingHours", ignore = true)
     RestaurantEntity modelToEntity(Restaurant model);
 
     List<Restaurant> entitiesToModels(List<RestaurantEntity> entities);

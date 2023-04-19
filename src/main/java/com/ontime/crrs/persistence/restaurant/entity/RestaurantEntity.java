@@ -1,12 +1,16 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 import java.util.UUID;
+
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.REMOVE;
 
 @Getter
 @Entity
@@ -54,9 +58,15 @@ public class RestaurantEntity {
             - add relationship to Special Offer & Image
      */
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = ALL)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
+
+    @OneToOne(
+            mappedBy = "restaurant",
+            cascade = REMOVE
+    )
+    private WorkingHoursEntity workingHours;
 
     public void setName(String name) {
         this.name = name;
@@ -76,6 +86,10 @@ public class RestaurantEntity {
 
     public void setLocation(LocationEntity location) {
         this.location = location;
+    }
+
+    public void setWorkingHours(WorkingHoursEntity workingHours) {
+        this.workingHours = workingHours;
     }
 
     public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
