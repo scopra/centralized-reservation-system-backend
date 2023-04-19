@@ -8,8 +8,8 @@ public class ReservationNotFoundException extends RuntimeException {
         super(message);
     }
 
-    public ReservationNotFoundException(UUID id) {
-        super("Could not find reservation with ID: " + id);
+    public ReservationNotFoundException(UUID reservationId) {
+        super("Could not find reservation with ID: " + reservationId);
     }
 
 }
