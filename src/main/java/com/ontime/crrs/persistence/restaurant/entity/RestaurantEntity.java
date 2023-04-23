@@ -8,6 +8,8 @@ import org.hibernate.Hibernate;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.ALL;
+
 @Getter
 @Entity
 @Builder
@@ -37,18 +39,22 @@ public class RestaurantEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "phone_number",
+    @Column(
+            name = "phone_number",
             nullable = false,
             length = 15
     )
     private String phoneNumber;
+
+    @Column(name = "image")
+    private String image;
 
     /*
         TODO:
             - add relationship to Rule
      */
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = ALL)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
