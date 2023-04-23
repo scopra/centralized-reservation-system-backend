@@ -12,8 +12,4 @@ public interface WorkingHoursService {
 
     WorkingHoursEntity findWorkingHoursById(UUID id);
 
-    WorkingHoursEntity findWorkingHoursByRestaurant(String restaurantName);
-
-    WorkingHoursEntity findWorkingHoursByRestaurantId(UUID id);
-
 }

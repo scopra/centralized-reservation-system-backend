@@ -22,7 +22,6 @@ public class WorkingHoursEntity {
     @GeneratedValue
     @Column(
             name = "working_hours_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id;
@@ -37,8 +36,7 @@ public class WorkingHoursEntity {
     )
     private Time closeTime;
 
-    @OneToOne()
-    @JoinColumn(name = "restaurant_id")
+    @OneToOne(mappedBy = "workingHours")
     private RestaurantEntity restaurant;
 
     public void setOpenTime(Time openTime) {
@@ -49,14 +47,9 @@ public class WorkingHoursEntity {
         this.closeTime = closeTime;
     }
 
-    public void setRestaurant(RestaurantEntity restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public WorkingHoursEntity(Time openTime, Time closeTime, RestaurantEntity restaurant) {
+    public WorkingHoursEntity(Time openTime, Time closeTime) {
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.restaurant = restaurant;
     }
 
     @Override

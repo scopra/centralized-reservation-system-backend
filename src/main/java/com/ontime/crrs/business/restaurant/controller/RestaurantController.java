@@ -4,6 +4,7 @@ import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
 import com.ontime.crrs.business.restaurant.processor.RestaurantProcessor;
+import com.ontime.crrs.business.workinghours.processor.WorkingHoursProcessor;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -12,6 +13,7 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -26,6 +28,7 @@ public class RestaurantController {
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
     private final RestaurantProcessor restaurantProcessor;
+    private final WorkingHoursProcessor workingHoursProcessor;
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
@@ -136,6 +139,11 @@ public class RestaurantController {
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    @GetMapping("/test/{name}")
+    public boolean isDuringWorkingHours(@PathVariable String name) {
+        return workingHoursProcessor.isDuringWorkingHours(name, LocalTime.now());
     }
 
 }

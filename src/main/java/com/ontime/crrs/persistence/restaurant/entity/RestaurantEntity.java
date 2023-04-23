@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.ALL;
-import static jakarta.persistence.CascadeType.REMOVE;
 
 @Getter
 @Entity
@@ -55,17 +54,15 @@ public class RestaurantEntity {
 
     /*
         TODO:
-            - add relationship to Special Offer & Image
+            - add relationship to Rule
      */
 
     @OneToOne(cascade = ALL)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
-    @OneToOne(
-            mappedBy = "restaurant",
-            cascade = REMOVE
-    )
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "working_hours_id")
     private WorkingHoursEntity workingHours;
 
     public void setName(String name) {
@@ -92,12 +89,14 @@ public class RestaurantEntity {
         this.workingHours = workingHours;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
+    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location,
+                            WorkingHoursEntity workingHours) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.capacity = capacity;
         this.location = location;
+        this.workingHours = workingHours;
     }
 
     @Override

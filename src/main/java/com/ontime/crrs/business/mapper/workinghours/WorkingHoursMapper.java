@@ -1,6 +1,5 @@
 package com.ontime.crrs.business.mapper.workinghours;
 
-import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import org.mapstruct.Mapper;
@@ -9,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = RestaurantMapper.class, componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface WorkingHoursMapper {
 
     WorkingHoursMapper INSTANCE = Mappers.getMapper(WorkingHoursMapper.class);
