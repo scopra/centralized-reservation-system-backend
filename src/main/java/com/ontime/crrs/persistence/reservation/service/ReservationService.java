@@ -29,5 +29,4 @@ public interface ReservationService {
 
     void cancelAllReservations();
 
-
 }

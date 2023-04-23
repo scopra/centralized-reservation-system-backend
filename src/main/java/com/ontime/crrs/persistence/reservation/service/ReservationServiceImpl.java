@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationEntity createReservation(ReservationEntity reservation) {
         var restaurantEntity =
                 restaurantService.findRestaurantByName(reservation.getRestaurant().getName());
-        log.info("Creating restaurant entity....");
+
         reservation.setRestaurant(restaurantEntity);
 
         return repository.save(reservation);
@@ -35,7 +35,6 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationEntity updateReservation(ReservationEntity reservation) {
         return repository.save(reservation);
     }
-
 
     public ReservationEntity findReservationById(UUID reservationId) {
         return repository.findById(reservationId).orElseThrow(() -> new ReservationNotFoundException(reservationId));
@@ -66,6 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     public void cancelReservationById(UUID reservationId) {
         checkIfReservationExistsById(reservationId);
+
         repository.deleteById(reservationId);
     }
 
