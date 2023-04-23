@@ -22,7 +22,6 @@ public class Restaurant implements Serializable {
     private String name;
     private String description;
     private String phoneNumber;
-    private int capacity;
     private Location location;
     private WorkingHours workingHours;
 
