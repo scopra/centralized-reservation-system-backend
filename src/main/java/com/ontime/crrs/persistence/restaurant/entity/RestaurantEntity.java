@@ -40,11 +40,15 @@ public class RestaurantEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "phone_number",
+    @Column(
+            name = "phone_number",
             nullable = false,
             length = 15
     )
     private String phoneNumber;
+
+    @Column(name = "image")
+    private String image;
 
     /*
         TODO:
@@ -79,11 +83,12 @@ public class RestaurantEntity {
         this.workingHours = workingHours;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, LocationEntity location,
+    public RestaurantEntity(String name, String description, String phoneNumber, String image, LocationEntity location,
                             WorkingHoursEntity workingHours) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
+        this.image = image;
         this.location = location;
         this.workingHours = workingHours;
     }
