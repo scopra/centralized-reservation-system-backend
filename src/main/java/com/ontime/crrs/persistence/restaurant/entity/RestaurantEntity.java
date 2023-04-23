@@ -43,15 +43,9 @@ public class RestaurantEntity {
     )
     private String phoneNumber;
 
-    @Column(
-            name = "capacity",
-            nullable = false
-    )
-    private int capacity;
-
     /*
         TODO:
-            - add relationship to Special Offer & Image
+            - add relationship to Rule
      */
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -70,19 +64,14 @@ public class RestaurantEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public void setLocation(LocationEntity location) {
         this.location = location;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
+    public RestaurantEntity(String name, String description, String phoneNumber, LocationEntity location) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
-        this.capacity = capacity;
         this.location = location;
     }
 
