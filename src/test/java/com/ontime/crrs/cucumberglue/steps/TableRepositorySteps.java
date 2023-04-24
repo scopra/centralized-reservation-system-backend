@@ -43,8 +43,5 @@ public class TableRepositorySteps {
         foundAddress = null;
         foundID = null;
     }
-    @Then("the method should return a list of {int} tables")
-    public void thenShouldReturnListOfTables(int expectedSize) {
-        assertThat(expectedSize).isEqualTo(foundEntities.size());
-    }
+
 }

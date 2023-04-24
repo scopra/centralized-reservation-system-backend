@@ -126,7 +126,7 @@ public class RestaurantController {
             restaurantTable.setCapacity(4);
             restaurantTable.setOccupancyStatus(false);
             restaurantTable.setRestaurant(restaurantSaved);
-            tableService.updateTable(restaurantTable);
+            tableService.addTable(restaurantTable);
         }
 
         return ResponseEntity

@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.UUID;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -31,11 +33,27 @@ public class TableController {
     public ResponseEntity<?> addTable(@RequestBody Table table,  UriComponentsBuilder uriBuilder) {
         var tableEntity = mapper.modelToEntity(table);
 
-        var createdTable =  tableService.updateTable(tableEntity);
+        var createdTable =  tableService.addTable(tableEntity);
         var location = uriBuilder.path("/tables/{id}").buildAndExpand(createdTable.getId()).toUri();
 
         return ResponseEntity.created(location).build();
     }
 
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<?> deleteTable(@PathVariable UUID id) {
+        tableService.deleteTableById(id);
 
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    @DeleteMapping("/admin")
+    public ResponseEntity<?> deleteAllTables() {
+        tableService.deleteAllTables();
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }

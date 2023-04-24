@@ -1,4 +1,5 @@
 package com.ontime.crrs.persistence.table.service;
+
 import com.ontime.crrs.business.table.exception.TableNotFoundException;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.table.repository.TableRepository;
@@ -10,18 +11,18 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class TableServiceImpl implements TableService{
-private final TableRepository repository;
+public class TableServiceImpl implements TableService {
+    private final TableRepository repository;
 
-public TableEntity updateTable(TableEntity table){
-    return repository.save(table);
-}
-
-    public TableEntity findTableById(UUID id){
-    return repository.findById(id).orElseThrow(() -> new TableNotFoundException(id));
+    public TableEntity addTable(TableEntity table) {
+        return repository.save(table);
     }
 
-    public boolean checkIfRestaurantExistsById(UUID id) {
+    public TableEntity findTableById(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new TableNotFoundException(id));
+    }
+
+    public boolean checkIfTableExistsById(UUID id) {
         var found = repository.existsById(id);
 
         if (!found) {
@@ -32,7 +33,7 @@ public TableEntity updateTable(TableEntity table){
     }
 
     public void deleteTableById(UUID id) {
-        checkIfRestaurantExistsById(id);
+        checkIfTableExistsById(id);
 
         repository.deleteById(id);
     }
@@ -41,5 +42,7 @@ public TableEntity updateTable(TableEntity table){
         repository.deleteAll();
     }
 
-    public List<TableEntity> findAllTables(){ return repository.findAll();}
+    public List<TableEntity> findAllTables() {
+        return repository.findAll();
+    }
 }

@@ -39,8 +39,6 @@ public class TableEntity {
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
 
-    // Generate getters and setters for all the fields
-
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
@@ -74,14 +72,4 @@ public class TableEntity {
         return Objects.hash(getId(), getCapacity(), isOccupancyStatus(), getRestaurant());
     }
 
-    // Override toString method to print the object in a readable format
-    @Override
-    public String toString() {
-        return "TableEntity{" +
-                "id=" + id +
-                ", capacity=" + capacity +
-                ", occupancyStatus=" + occupancyStatus +
-                ", restaurant=" + restaurant +
-                '}';
-    }
 }
