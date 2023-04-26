@@ -1,5 +1,6 @@
 package com.ontime.crrs.persistence.user.entity;
 
+import com.ontime.crrs.persistence.token.entity.TokenEntity;
 import com.ontime.crrs.persistence.user.util.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,6 +52,9 @@ public class UserEntity implements UserDetails {
     @Enumerated(STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<TokenEntity> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
