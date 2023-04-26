@@ -16,6 +16,8 @@ public interface LocationMapper {
     Location entityToModel(LocationEntity entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "restaurant", ignore = true)
+
     LocationEntity modelToEntity(Location model);
 
     List<Location> entitiesToModels(List<LocationEntity> entities);

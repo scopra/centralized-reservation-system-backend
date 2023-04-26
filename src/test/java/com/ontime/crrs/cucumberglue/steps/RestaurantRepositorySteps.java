@@ -35,7 +35,9 @@ public class RestaurantRepositorySteps {
 
     @After("@restaurant-repository")
     public void tearDown() {
-        log.info("*********** Test Context Tear Down ***********");
+
+        log.info("*********** Restaurant Repository Test Context Tear Down ***********");
+
 
         restaurantRepository.deleteAll();
 

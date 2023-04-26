@@ -5,10 +5,12 @@ import com.ontime.crrs.persistence.table.entity.TableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Objects;
+import java.util.UUID;
+import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
 @Entity
@@ -39,7 +41,9 @@ public class RestaurantEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "phone_number",
+    @Column(
+            name = "phone_number",
+
             nullable = false,
             length = 15
     )
@@ -51,17 +55,21 @@ public class RestaurantEntity {
     )
     private int capacity;
 
-    /*
-        TODO:
-            - add relationship to Special Offer & Image
-     */
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "location_id")
-    private LocationEntity location;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<TableEntity> tables;
+
+    @Column(name = "image")
+    private String image;
+
+    /*
+        TODO:
+            - add relationship to Rule
+     */
+
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "location_id")
+    private LocationEntity location;
 
     public void setName(String name) {
         this.name = name;
@@ -74,6 +82,7 @@ public class RestaurantEntity {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;

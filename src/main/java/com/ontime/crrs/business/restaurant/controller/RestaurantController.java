@@ -8,6 +8,7 @@ import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.table.service.TableService;
+import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -29,8 +30,8 @@ public class RestaurantController {
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
     private final RestaurantProcessor restaurantProcessor;
-
     private final TableService tableService;
+
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
@@ -116,9 +117,8 @@ public class RestaurantController {
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
         var restaurantEntity = mapper.modelToEntity(restaurant);
 
-        var restaurantSaved = restaurantService.updateRestaurant(restaurantEntity);
 
-        var entityModel = modelAssembler.toModel(restaurant);
+        var restaurantSaved = restaurantService.updateRestaurant(restaurantEntity);
 
         //Creating tables depending on restaurant capacity
         for (int i = 0; i < restaurant.getCapacity()/4; i++) {
@@ -128,6 +128,12 @@ public class RestaurantController {
             restaurantTable.setRestaurant(restaurantSaved);
             tableService.addTable(restaurantTable);
         }
+
+
+        restaurantService.updateRestaurant(restaurantEntity);
+
+        var entityModel = modelAssembler.toModel(restaurant);
+
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
