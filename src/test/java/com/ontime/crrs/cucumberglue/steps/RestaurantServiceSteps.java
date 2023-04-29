@@ -1,5 +1,6 @@
 package com.ontime.crrs.cucumberglue.steps;
 
+
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
@@ -18,7 +19,9 @@ import java.util.UUID;
 
 import static com.ontime.crrs.helper.RestaurantTestHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 @Slf4j
 public class RestaurantServiceSteps {
@@ -30,7 +33,9 @@ public class RestaurantServiceSteps {
     private final RestaurantEntity restaurant2 = buildCustomRestaurantEntity(NAME_2, ADDRESS_2,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     private final RestaurantEntity existingRestaurant = preBuildRestaurantEntity();
+
     private boolean exists = false;
+
 
     @Autowired
     private RestaurantService service;
@@ -82,6 +87,7 @@ public class RestaurantServiceSteps {
     public void givenDatabaseEmpty() {
         assertThat(repository.count()).isEqualTo(0);
     }
+
 
     @Given("a restaurant with name {string} exists in the database")
     public void givenRestaurantWithNameExists(String name) {
@@ -194,6 +200,7 @@ public class RestaurantServiceSteps {
         assertThat(existingRestaurant.getId()).isEqualTo(repository.findById(foundID).get().getId());
     }
 
+
     @Then("an exception is thrown when I search for ID by name {string}")
     public void thenFindRestaurantIdByNameReturnsNull(String name) {
         assertThrows(RestaurantNotFoundException.class, () -> {
@@ -207,6 +214,7 @@ public class RestaurantServiceSteps {
 
         assertThat(foundEntity).isEqualTo(existingRestaurant);
     }
+
 
     @Then("the restaurant with name {string} is found")
     public void thenCorrectRestaurantIsFound(String name) {
@@ -240,3 +248,4 @@ public class RestaurantServiceSteps {
     }
 
 }
+

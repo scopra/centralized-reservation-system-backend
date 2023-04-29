@@ -27,6 +27,7 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name(name)
                 .phoneNumber("033/123-456")
+                .capacity(25)
                 .description("Default entity description.")
                 .location(buildDefaultLocation())
                 .build();
@@ -36,6 +37,7 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name("McDonalds")
                 .phoneNumber("033/123-456")
+                .capacity(25)
                 .description("Default entity description.")
                 .location(buildDefaultLocation("Marsala Tita 36"))
                 .build();
@@ -70,6 +72,7 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name(name)
                 .description("Default description.")
+                .capacity(25)
                 .phoneNumber("033/123-456")
                 .location(buildDefaultLocation(address, municipality, city))
                 .build();
@@ -79,6 +82,7 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name("Real")
                 .phoneNumber("123-456-789")
+                .capacity(27)
                 .description("Old Description")
                 .location(buildDefaultLocation())
                 .build();
