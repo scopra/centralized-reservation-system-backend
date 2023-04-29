@@ -56,10 +56,6 @@ public class RestaurantEntity {
     )
     private int capacity;
 
-
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<TableEntity> tables;
-
     @Column(name = "image")
     private String image;
 
@@ -75,6 +71,12 @@ public class RestaurantEntity {
     @OneToOne(cascade = ALL)
     @JoinColumn(name = "working_hours_id")
     private WorkingHoursEntity workingHours;
+
+    @OneToMany(
+            mappedBy= "restaurant",
+            cascade = ALL
+    )
+    private List<TableEntity> tables;
 
     public void setName(String name) {
         this.name = name;
@@ -96,14 +98,16 @@ public class RestaurantEntity {
         this.workingHours = workingHours;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, String image, LocationEntity location,
-                            WorkingHoursEntity workingHours) {
+    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, String image,
+                            LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
+        this.capacity = capacity;
         this.image = image;
         this.location = location;
         this.workingHours = workingHours;
+        this.tables = tables;
     }
 
     @Override

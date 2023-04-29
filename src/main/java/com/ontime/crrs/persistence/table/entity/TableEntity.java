@@ -1,18 +1,27 @@
 package com.ontime.crrs.persistence.table.entity;
-import com.ontime.crrs.persistence.location.entity.LocationEntity;
+
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
+import com.ontime.crrs.persistence.tableoccupancy.entity.TableOccupancyEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "restaurantTable")
+@Table(name = "_table")
 public class TableEntity {
+
     @Id
     @GeneratedValue
     @Column(
@@ -28,48 +37,39 @@ public class TableEntity {
     )
     private int capacity;
 
-    @Column(
-            name="occupancy_status",
-            nullable = false
+    @OneToMany(
+            mappedBy = "table",
+            cascade = ALL
     )
-    private boolean occupancyStatus;
-
+    private List<TableOccupancyEntity> occupancies;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
 
-
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    public void setOccupancyStatus(boolean occupancyStatus) {
-        this.occupancyStatus = occupancyStatus;
     }
 
     public void setRestaurant(RestaurantEntity restaurant) {
         this.restaurant = restaurant;
     }
 
-    public TableEntity(int capacity, boolean occupancyStatus) {
-        this.capacity = capacity;
-        this.occupancyStatus = occupancyStatus;
+    public void setOccupancies(List<TableOccupancyEntity> occupancies) {
+        this.occupancies = occupancies;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TableEntity that)) return false;
-        return getCapacity() == that.getCapacity() &&
-                isOccupancyStatus() == that.isOccupancyStatus() &&
-                Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getRestaurant(), that.getRestaurant());
+        if (o == null || getClass() != o.getClass()) return false;
+        TableEntity that = (TableEntity) o;
+        return capacity == that.capacity && Objects.equals(id, that.id) && Objects.equals(occupancies, that.occupancies) && Objects.equals(restaurant, that.restaurant);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCapacity(), isOccupancyStatus(), getRestaurant());
+        return Objects.hash(id, capacity, occupancies, restaurant);
     }
 
 }
