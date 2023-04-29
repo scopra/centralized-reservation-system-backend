@@ -12,6 +12,6 @@ public interface TableRepository extends JpaRepository<TableEntity, UUID> {
 
     List<TableEntity> findTablesByRestaurant_Name(String restaurantName);
 
-    List<TableEntity> findTablesByCapacity(int capacity);
+    List<UUID> findTableIdsByCapacityAndRestaurant_Name(int capacity, String restaurantName);
 
 }

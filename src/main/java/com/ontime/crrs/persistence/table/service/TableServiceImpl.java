@@ -51,8 +51,9 @@ public class TableServiceImpl implements TableService {
         return repository.findTablesByRestaurant_Name(restaurantName);
     }
 
-    public List<TableEntity> findTablesForCapacity(int capacity) {
-        return repository.findTablesByCapacity(capacity);
+    @Override
+    public List<UUID> findTablesByCapacityAndRestaurant(int capacity, String name) {
+        return repository.findTableIdsByCapacityAndRestaurant_Name(capacity, name);
     }
 
 }
