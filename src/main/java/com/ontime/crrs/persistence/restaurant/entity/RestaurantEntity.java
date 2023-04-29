@@ -1,11 +1,13 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -46,6 +48,17 @@ public class RestaurantEntity {
             length = 15
     )
     private String phoneNumber;
+
+    //TODO: delete
+    @Column(
+            name = "capacity",
+            nullable = false
+    )
+    private int capacity;
+
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<TableEntity> tables;
 
     @Column(name = "image")
     private String image;

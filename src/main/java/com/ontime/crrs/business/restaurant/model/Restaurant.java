@@ -25,5 +25,7 @@ public class Restaurant implements Serializable {
     private String image;
     private Location location;
     private WorkingHours workingHours;
+    //obrisat ce se
+    private int capacity;
 
 }
