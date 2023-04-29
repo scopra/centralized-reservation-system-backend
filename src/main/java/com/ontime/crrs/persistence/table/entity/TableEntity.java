@@ -64,7 +64,8 @@ public class TableEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TableEntity that = (TableEntity) o;
-        return capacity == that.capacity && Objects.equals(id, that.id) && Objects.equals(occupancies, that.occupancies) && Objects.equals(restaurant, that.restaurant);
+        return capacity == that.capacity && Objects.equals(id, that.id) && Objects.equals(occupancies, that.occupancies)
+                && Objects.equals(restaurant, that.restaurant);
     }
 
     @Override
