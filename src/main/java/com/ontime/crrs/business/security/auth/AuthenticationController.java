@@ -1,12 +1,10 @@
 package com.ontime.crrs.business.security.auth;
 
+import com.ontime.crrs.business.security.jwt.JwtService;
 import com.ontime.crrs.business.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.ontime.crrs.persistence.user.util.Role.*;
 
@@ -16,6 +14,7 @@ import static com.ontime.crrs.persistence.user.util.Role.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final JwtService jwtService;
 
     @PostMapping("/register/customer")
     public ResponseEntity<AuthenticationResponse> registerCustomer(@RequestBody User user) {
@@ -40,6 +39,13 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authRequest) {
         return ResponseEntity.ok(authenticationService.authenticate(authRequest));
+    }
+
+    @GetMapping("/{token}")
+    public ResponseEntity<?> getUserByJWT(@PathVariable String token) {
+        //var jwt = jwtService.extractUsername(token);
+
+        return ResponseEntity.ok(jwtService.extractUsername(token));
     }
 
 }
