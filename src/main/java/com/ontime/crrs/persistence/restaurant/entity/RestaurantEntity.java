@@ -1,15 +1,16 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.Objects;
-import java.util.UUID;
+
 import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
@@ -55,12 +56,20 @@ public class RestaurantEntity {
     )
     private int capacity;
 
-
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<TableEntity> tables;
-
     @Column(name = "image")
     private String image;
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL
+    )
+    private List<TableEntity> tables;
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL
+    )
+    private List<MenuItemEntity> menuItems;
 
     /*
         TODO:

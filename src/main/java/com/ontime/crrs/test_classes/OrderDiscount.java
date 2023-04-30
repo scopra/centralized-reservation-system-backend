@@ -8,4 +8,5 @@ import lombok.Setter;
 public class OrderDiscount {
 
     private Integer discount = 0;
+
 }
