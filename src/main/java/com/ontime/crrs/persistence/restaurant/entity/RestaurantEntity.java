@@ -1,12 +1,17 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
+import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
 @Entity
@@ -37,26 +42,41 @@ public class RestaurantEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "phone_number",
+    @Column(
+            name = "phone_number",
             nullable = false,
             length = 15
     )
     private String phoneNumber;
 
+    //TODO: delete
     @Column(
             name = "capacity",
             nullable = false
     )
     private int capacity;
 
+    @Column(name = "image")
+    private String image;
+
     /*
         TODO:
-            - add relationship to Special Offer & Image
+            - add relationship to Rule
      */
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = ALL)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
+
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "working_hours_id")
+    private WorkingHoursEntity workingHours;
+
+    @OneToMany(
+            mappedBy= "restaurant",
+            cascade = ALL
+    )
+    private List<TableEntity> tables;
 
     public void setName(String name) {
         this.name = name;
@@ -70,20 +90,24 @@ public class RestaurantEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public void setLocation(LocationEntity location) {
         this.location = location;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
+    public void setWorkingHours(WorkingHoursEntity workingHours) {
+        this.workingHours = workingHours;
+    }
+
+    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, String image,
+                            LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.capacity = capacity;
+        this.image = image;
         this.location = location;
+        this.workingHours = workingHours;
+        this.tables = tables;
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.ontime.crrs.business.restaurant.model;
 
 import com.ontime.crrs.business.location.model.Location;
-import com.ontime.crrs.business.reservation.model.Reservation;
-import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
+import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Builder
@@ -24,7 +22,10 @@ public class Restaurant implements Serializable {
     private String name;
     private String description;
     private String phoneNumber;
-    private int capacity;
+    private String image;
     private Location location;
+    private WorkingHours workingHours;
+    //obrisat ce se
+    private int capacity;
 
 }

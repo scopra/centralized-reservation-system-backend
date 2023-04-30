@@ -30,7 +30,9 @@ public class RestaurantServiceSteps {
     private final RestaurantEntity restaurant2 = buildCustomRestaurantEntity(NAME_2, ADDRESS_2,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     private final RestaurantEntity existingRestaurant = preBuildRestaurantEntity();
+
     private boolean exists = false;
+
 
     @Autowired
     private RestaurantService service;

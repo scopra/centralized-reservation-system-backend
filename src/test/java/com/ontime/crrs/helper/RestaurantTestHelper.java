@@ -2,7 +2,12 @@ package com.ontime.crrs.helper;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
+import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
+import lombok.experimental.Helper;
 import org.springframework.stereotype.Component;
+
+import java.sql.Time;
+import java.time.LocalTime;
 
 @Component
 public class RestaurantTestHelper {
@@ -15,6 +20,8 @@ public class RestaurantTestHelper {
     public static final String NAME_2 = "Name 2";
     public static final String ADDRESS_1 = "Address 1";
     public static final String ADDRESS_2 = "Address 2";
+    public static final LocalTime OPEN_TIME = LocalTime.of(8, 0, 0);
+    public static final LocalTime CLOSE_TIME = LocalTime.of(16, 0, 0);
     public static final RestaurantEntity UPDATED_RESTAURANT = buildCustomRestaurantEntity(RESTAURANT_NAME, RESTAURANT_ADDRESS,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     public static final RestaurantEntity RESTAURANT_1 = buildCustomRestaurantEntity("First", "Address 1",
@@ -27,9 +34,9 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name(name)
                 .phoneNumber("033/123-456")
-                .capacity(25)
                 .description("Default entity description.")
                 .location(buildDefaultLocation())
+                .workingHours(buildDefaultWorkingHours())
                 .build();
     }
 
@@ -37,9 +44,9 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name("McDonalds")
                 .phoneNumber("033/123-456")
-                .capacity(25)
                 .description("Default entity description.")
                 .location(buildDefaultLocation("Marsala Tita 36"))
+                .workingHours(buildDefaultWorkingHours())
                 .build();
     }
 
@@ -72,9 +79,9 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name(name)
                 .description("Default description.")
-                .capacity(25)
                 .phoneNumber("033/123-456")
                 .location(buildDefaultLocation(address, municipality, city))
+                .workingHours(buildDefaultWorkingHours())
                 .build();
     }
 
@@ -82,10 +89,16 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name("Real")
                 .phoneNumber("123-456-789")
-                .capacity(27)
                 .description("Old Description")
                 .location(buildDefaultLocation())
+                .workingHours(buildDefaultWorkingHours())
                 .build();
     }
 
+    public static WorkingHoursEntity buildDefaultWorkingHours() {
+        return WorkingHoursEntity.builder()
+                .openTime(Time.valueOf(OPEN_TIME))
+                .closeTime(Time.valueOf(CLOSE_TIME))
+                .build();
+    }
 }

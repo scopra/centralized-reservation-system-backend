@@ -19,6 +19,7 @@ public class RestaurantProcessor {
 
         copyProperties(restaurantModel, updatedRestaurantEntity);
         copyProperties(restaurantModel.getLocation(), updatedRestaurantEntity.getLocation());
+        copyProperties(restaurantModel.getWorkingHours(), updatedRestaurantEntity.getWorkingHours());
 
         restaurantService.updateRestaurant(updatedRestaurantEntity);
 
