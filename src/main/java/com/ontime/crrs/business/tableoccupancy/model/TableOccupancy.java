@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
@@ -19,8 +20,9 @@ public class TableOccupancy implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private LocalTime from;
-    private LocalTime to;
+    private LocalDate reservationDate;
+    private LocalTime reservedFrom;
+    private LocalTime reservedTo;
     private Table table;
 
 }

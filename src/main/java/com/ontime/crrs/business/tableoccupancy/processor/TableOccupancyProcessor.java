@@ -10,7 +10,7 @@ public class TableOccupancyProcessor {
 
     public boolean tableOccupiedForTime(LocalTime time, TableOccupancy tableOccupancy) {
 
-        return time.isAfter(tableOccupancy.getFrom()) && time.isBefore(tableOccupancy.getTo());
+        return time.isAfter(tableOccupancy.getReservedFrom()) && time.isBefore(tableOccupancy.getReservedTo());
     }
 
 }

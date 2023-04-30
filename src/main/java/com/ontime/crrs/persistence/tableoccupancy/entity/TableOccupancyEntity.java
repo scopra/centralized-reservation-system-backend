@@ -28,22 +28,22 @@ public class TableOccupancyEntity {
     private UUID id;
 
     @Column(
-            name = "date",
+            name = "reservation_date",
             nullable = false
     )
-    private LocalDate date;
+    private LocalDate reservationDate;
 
     @Column(
-            name = "from",
+            name = "reserved_from",
             nullable = false
     )
-    private LocalTime from;
+    private LocalTime reservedFrom;
 
     @Column(
-            name = "to",
+            name = "reserved_to",
             nullable = false
     )
-    private LocalTime to;
+    private LocalTime reservedTo;
 
     @ManyToOne
     @JoinColumn(name = "table_id")
@@ -54,7 +54,11 @@ public class TableOccupancyEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TableOccupancyEntity that = (TableOccupancyEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(date, that.date) && Objects.equals(from, that.from) && Objects.equals(to, that.to) && Objects.equals(table, that.table);
+        return Objects.equals(id, that.id) &&
+                Objects.equals(reservationDate, that.reservationDate) &&
+                Objects.equals(reservedFrom, that.reservedFrom) &&
+                Objects.equals(reservedTo, that.reservedTo) &&
+                Objects.equals(table, that.table);
     }
 
     @Override

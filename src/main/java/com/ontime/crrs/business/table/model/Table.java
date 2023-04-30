@@ -24,6 +24,5 @@ public class Table implements Serializable {
     private UUID id;
     private int capacity;
     private Restaurant restaurant;
-    private List<TableOccupancy> tableOccupancies;
 
 }
