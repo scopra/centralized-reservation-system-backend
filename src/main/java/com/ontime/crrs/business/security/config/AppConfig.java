@@ -17,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AppConfig {
 
-    //TODO: move this to SecurityConfig ?
-
     private final UserRepository userRepository;
 
     @Bean
@@ -45,4 +43,5 @@ public class AppConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
 }
