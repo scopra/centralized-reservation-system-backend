@@ -11,4 +11,5 @@ public class OrderRequest {
     private Integer age;
     private Integer amount;
     private CustomerType customerType;
+
 }
