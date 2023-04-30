@@ -15,4 +15,6 @@ public interface MenuItemService {
 
     List<MenuItemEntity> getMenuItemsByCategory(Category category);
 
+    MenuItemEntity getMenuItemByName(String name);
+
 }

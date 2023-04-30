@@ -4,11 +4,9 @@ import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
 import com.ontime.crrs.business.restaurant.processor.RestaurantProcessor;
-import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.table.service.TableService;
-import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -116,7 +114,6 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
         var restaurantEntity = mapper.modelToEntity(restaurant);
-
 
         var restaurantSaved = restaurantService.updateRestaurant(restaurantEntity);
 

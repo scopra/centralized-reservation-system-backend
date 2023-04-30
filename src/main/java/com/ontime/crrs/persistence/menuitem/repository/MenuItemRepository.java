@@ -5,6 +5,7 @@ import com.ontime.crrs.persistence.menuitem.util.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MenuItemRepository extends JpaRepository<MenuItemEntity, UUID> {
@@ -12,5 +13,7 @@ public interface MenuItemRepository extends JpaRepository<MenuItemEntity, UUID> 
     List<MenuItemEntity> findMenuItemByRestaurant_Name(String restaurantName);
 
     List<MenuItemEntity> findMenuItemsByCategory(Category category);
+
+    Optional<MenuItemEntity> findMenuItemByNameAndRestaurant_Name(String name, String restaurantName);
 
 }

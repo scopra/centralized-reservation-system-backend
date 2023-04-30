@@ -3,6 +3,7 @@ package com.ontime.crrs.persistence.menuitem.service;
 import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
 import com.ontime.crrs.persistence.menuitem.repository.MenuItemRepository;
 import com.ontime.crrs.persistence.menuitem.util.Category;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,12 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     public List<MenuItemEntity> getMenuItemsByCategory(Category category) {
         return repository.findMenuItemsByCategory(category);
+    }
+
+    public MenuItemEntity getMenuItemByName(String name, String restaurantName) {
+        return repository.findMenuItemByNameAndRestaurant_Name(name, restaurantName)
+                .orElseThrow(() -> new EntityNotFoundException("Menu item with name " +
+                        name + " not found."));
     }
 
 }
