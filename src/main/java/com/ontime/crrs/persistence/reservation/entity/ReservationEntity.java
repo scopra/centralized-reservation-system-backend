@@ -60,6 +60,8 @@ public class ReservationEntity {
             nullable = false
     )
     private UUID userId;
+    //add foregin key to table, reservation is owning side join column here,
+    //
 
     public void setDate(LocalDate date) {
         this.date = date;
