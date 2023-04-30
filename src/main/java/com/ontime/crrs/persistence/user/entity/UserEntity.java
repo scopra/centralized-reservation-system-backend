@@ -3,7 +3,10 @@ package com.ontime.crrs.persistence.user.entity;
 import com.ontime.crrs.persistence.token.entity.TokenEntity;
 import com.ontime.crrs.persistence.user.util.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +46,7 @@ public class UserEntity implements UserDetails {
             unique = true
     )
     private String email;
+
     @Column(
             name = "password",
             nullable = false
