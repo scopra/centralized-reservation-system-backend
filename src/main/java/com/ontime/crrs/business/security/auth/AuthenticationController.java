@@ -2,6 +2,7 @@ package com.ontime.crrs.business.security.auth;
 
 import com.ontime.crrs.business.security.jwt.JwtService;
 import com.ontime.crrs.business.user.model.User;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +42,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(authRequest));
     }
 
-    @GetMapping("/{token}")
-    public ResponseEntity<?> getUserByJWT(@PathVariable String token) {
-        //var jwt = jwtService.extractUsername(token);
+    @GetMapping
+    public ResponseEntity<String> getUserByJWT(HttpServletRequest request) {
+        var authHeader = request.getHeader("Authorization");
+        var authHeaderParts = authHeader.split(" ");
+        var token = authHeaderParts[1];
 
         return ResponseEntity.ok(jwtService.extractUsername(token));
     }
