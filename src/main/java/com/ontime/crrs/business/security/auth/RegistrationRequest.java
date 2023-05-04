@@ -1,6 +1,5 @@
-package com.ontime.crrs.business.user.model;
+package com.ontime.crrs.business.security.auth;
 
-import com.ontime.crrs.persistence.user.util.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable{
+public class RegistrationRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -21,6 +20,7 @@ public class User implements Serializable{
     private String name;
     private String surname;
     private String email;
-    private Role role;
+    private String password;
+    private String confirmPassword;
 
 }

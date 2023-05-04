@@ -5,6 +5,7 @@ import com.ontime.crrs.business.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import static com.ontime.crrs.persistence.user.util.Role.*;
@@ -16,24 +17,25 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping("/register/customer")
-    public ResponseEntity<AuthenticationResponse> registerCustomer(@RequestBody User user) {
+    public ResponseEntity<AuthenticationResponse> registerCustomer(@RequestBody RegistrationRequest user) {
         return ResponseEntity.ok(authenticationService.register(user, CUSTOMER));
     }
 
     @PostMapping("/register/owner")
-    public ResponseEntity<AuthenticationResponse> registerOwner(@RequestBody User user) {
+    public ResponseEntity<AuthenticationResponse> registerOwner(@RequestBody RegistrationRequest user) {
         return ResponseEntity.ok(authenticationService.register(user, OWNER));
     }
 
     @PostMapping("/register/staff")
-    public ResponseEntity<AuthenticationResponse> registerStaff(@RequestBody User user) {
+    public ResponseEntity<AuthenticationResponse> registerStaff(@RequestBody RegistrationRequest user) {
         return ResponseEntity.ok(authenticationService.register(user, STAFF));
     }
 
     @PostMapping("/register/admin")
-    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody User user) {
+    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody RegistrationRequest user) {
         return ResponseEntity.ok(authenticationService.register(user, ADMIN));
     }
 
@@ -43,12 +45,8 @@ public class AuthenticationController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getUserByJWT(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        var authHeaderParts = authHeader.split(" ");
-        var token = authHeaderParts[1];
-
-        return ResponseEntity.ok(jwtService.extractUsername(token));
+    public ResponseEntity<User> getUserByJWT(HttpServletRequest request) {
+        return ResponseEntity.ok(authenticationService.getUserByToken(request));
     }
 
 }
