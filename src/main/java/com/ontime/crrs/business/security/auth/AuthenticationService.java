@@ -51,6 +51,8 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authRequest) {
+        validateCredentials(authRequest);
+
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authRequest.getEmail(),
@@ -65,6 +67,12 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private void validateCredentials(AuthenticationRequest request) {
+        if (!request.getPassword().equals(service.loadUserByEmail(request.getEmail()).getPassword())) {
+            throw new PasswordMismatchException("Invalid credentials. Please try again.");
+        }
     }
 
     public User getUserByToken(HttpServletRequest request) {
