@@ -1,11 +1,9 @@
 package com.ontime.crrs.business.security.auth;
 
-import com.ontime.crrs.business.security.jwt.JwtService;
 import com.ontime.crrs.business.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import static com.ontime.crrs.persistence.user.util.Role.*;
@@ -16,8 +14,6 @@ import static com.ontime.crrs.persistence.user.util.Role.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-    private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
 
     @PostMapping("/register/customer")
     public ResponseEntity<AuthenticationResponse> registerCustomer(@RequestBody RegistrationRequest user) {

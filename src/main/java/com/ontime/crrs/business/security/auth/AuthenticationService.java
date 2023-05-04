@@ -27,7 +27,6 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegistrationRequest user, Role role) {
         validatePasswordMatch(user.getPassword(), user.getConfirmPassword());
 
-        //mapper
         var userEntity = UserEntity.builder()
                 .name(user.getName())
                 .surname(user.getSurname())
