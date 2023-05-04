@@ -35,7 +35,7 @@ public class TableController {
     }
 
     //RADI
-    @GetMapping("/owner/restaurant/{restaurantName}")
+    @GetMapping("/owner/{restaurantName}")
     public CollectionModel<Table> getAllTablesForRestaurant(@PathVariable String restaurantName) {
         var tables = mapper.entitiesToModels(tableService.findTablesByRestaurant(restaurantName));
 
@@ -44,7 +44,7 @@ public class TableController {
     }
 
     //RADI
-    @PostMapping("/owner/add/{restaurantName}")
+    @PostMapping("/owner/{restaurantName}")
     public EntityModel<Table> addTableForRestaurant(@PathVariable String restaurantName, @RequestBody Table table) {
         var tableEntity = mapper.modelToEntity(table);
         tableEntity.setRestaurant(restaurantService.findRestaurantByName(restaurantName));
