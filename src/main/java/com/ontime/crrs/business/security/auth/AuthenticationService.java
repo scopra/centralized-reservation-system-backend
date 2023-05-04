@@ -70,7 +70,8 @@ public class AuthenticationService {
     }
 
     private void validateCredentials(AuthenticationRequest request) {
-        if (!request.getPassword().equals(service.loadUserByEmail(request.getEmail()).getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(),
+                service.loadUserByEmail(request.getEmail()).getPassword())) {
             throw new PasswordMismatchException("Invalid credentials. Please try again.");
         }
     }
