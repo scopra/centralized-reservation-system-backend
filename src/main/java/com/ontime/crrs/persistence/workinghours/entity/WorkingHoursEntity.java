@@ -64,4 +64,5 @@ public class WorkingHoursEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

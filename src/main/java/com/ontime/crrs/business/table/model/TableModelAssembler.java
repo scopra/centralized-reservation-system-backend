@@ -14,12 +14,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @NonNullApi
 @RequiredArgsConstructor
 public class TableModelAssembler implements RepresentationModelAssembler<Table, EntityModel<Table>> {
+
     @Override
     public EntityModel<Table> toModel(Table table) {
-
         return EntityModel.of(table,
                 linkTo(methodOn(TableController.class).getTableById(table.getId())).withSelfRel(),
                 linkTo(methodOn(TableController.class).getAllTablesForRestaurant(table.getRestaurant().getName())).withRel("restaurants"));
 
     }
+
 }

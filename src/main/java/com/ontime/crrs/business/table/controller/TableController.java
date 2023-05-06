@@ -6,7 +6,7 @@ import com.ontime.crrs.business.reservation.model.Reservation;
 import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.business.table.model.TableModelAssembler;
 import com.ontime.crrs.business.tableoccupancy.model.TableOccupancy;
-import com.ontime.crrs.business.tableoccupancy.processor.TableOccupancyProcessor;
+import com.ontime.crrs.business.tableoccupancy.processor.TableOccupancyProcessorImpl;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.table.service.TableService;
 import com.ontime.crrs.persistence.tableoccupancy.service.TableOccupancyService;
@@ -16,7 +16,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -33,7 +32,7 @@ public class TableController {
     private final TableOccupancyMapper tableOccupancyMapper;
     private final TableMapper mapper;
     private final TableModelAssembler modelAssembler;
-    private final TableOccupancyProcessor processor;
+    private final TableOccupancyProcessorImpl processor;
 
     //RADI
     @GetMapping("/owner/id/{id}")
@@ -83,13 +82,7 @@ public class TableController {
                 .build();
     }
 
-    //TEST
-    @GetMapping("/test")
-    public void testMethod() {
-
-    }
-
-    //TEST
+    //TESTS
     @PostMapping("/test/occupancy/{name}")
     public ResponseEntity<?> testAddingOccupancy(@PathVariable String name, @RequestBody TableOccupancy tableOccupancy) {
         var table = tableService.findTableById(UUID.fromString("79fd0c81-a1bb-4d3e-b72a-3b7f27f3d4d3"));
@@ -103,28 +96,9 @@ public class TableController {
         return ResponseEntity.ok(tableOccupancyMapper.entityToModel(entityToSave));
     }
 
-    @GetMapping("/test/occupancy/{name}")
-    public ResponseEntity<?> findTablesForCapacityTest(@PathVariable String name) {
-        var list = processor.findTablesForCapacity(name, 8);
-        return ResponseEntity.ok(tableOccupancyMapper.entitiesToModels(processor.findOccupanciesForDate(list,
-                LocalDate.of(2023, 5, 14))));
-    }
-
     @GetMapping("/test/reserve/{restaurantName}")
     public ResponseEntity<Table> reserveTable(@PathVariable String restaurantName, @RequestBody Reservation reservation) {
         return ResponseEntity.ok(processor.assignTable(restaurantName, reservation));
     }
-
-//
-//    @GetMapping("/test/1/occupancy/{name}")
-//    public void tesssssst(@PathVariable String name) {
-//        var list = processor.findTablesForCapacity(name, 5);
-//
-//        var map = processor.mapTablesToOccupancies(list, LocalDate.of(2023, 10, 1));
-//        System.out.println("\n----------\n" + map + "\n----------\n");
-//
-//        var x = processor.getTablesWithNoReservations(map);
-//        System.out.println("\n----------\n" + x + "\n----------\n");
-//    }
 
 }

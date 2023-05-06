@@ -3,7 +3,7 @@ package com.ontime.crrs.business.restaurant.controller;
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.business.restaurant.processor.RestaurantProcessor;
+import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -25,7 +25,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
-    private final RestaurantProcessor restaurantProcessor;
+    private final RestaurantHelper restaurantHelper;
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
@@ -96,7 +96,7 @@ public class RestaurantController {
 
     @PutMapping("/{name}")
     public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant newRestaurant, @PathVariable String name) {
-        var updatedRestaurant = restaurantProcessor.transferProperties(newRestaurant, name);
+        var updatedRestaurant = restaurantHelper.transferProperties(newRestaurant, name);
 
         var restaurantModel = mapper.entityToModel(updatedRestaurant);
 
