@@ -9,7 +9,7 @@ import java.util.UUID;
 @Service
 public interface TableOccupancyService {
 
-    void occupyTable(TableOccupancyEntity tableOccupancy);
+    TableOccupancyEntity occupyTable(TableOccupancyEntity tableOccupancy);
 
     public void freeUpTable(TableOccupancyEntity tableOccupancy);
 

@@ -23,6 +23,6 @@ public interface TableService {
 
     List<TableEntity> findTablesByRestaurant(String restaurantName);
 
-    List<UUID> findTablesByCapacityAndRestaurant(int capacity, String name);
+    List<UUID> findTableIdsByCapacityAndRestaurant(int capacity, String name);
 
 }

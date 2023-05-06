@@ -6,4 +6,8 @@ public class TableUnavailableException extends RuntimeException {
         super("Could not find available table for restaurant " + restaurant + " with capacity " + capacity + ".");
     }
 
+    public TableUnavailableException(String message) {
+        super(message);
+    }
+
 }

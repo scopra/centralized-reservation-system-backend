@@ -15,8 +15,8 @@ public class TableOccupancyServiceImpl implements TableOccupancyService {
 
     private final TableOccupancyRepository occupancyRepository;
 
-    public void occupyTable(TableOccupancyEntity tableOccupancy) {
-        occupancyRepository.save(tableOccupancy);
+    public TableOccupancyEntity occupyTable(TableOccupancyEntity tableOccupancy) {
+        return occupancyRepository.save(tableOccupancy);
     }
 
     public void freeUpTable(TableOccupancyEntity tableOccupancy) {
