@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class WorkingHoursProcessorImpl implements WorkingHoursProcessor{
+public class WorkingHoursProcessorImpl implements WorkingHoursProcessor {
 
     public boolean isDuringWorkingHours(Restaurant restaurant, Reservation reservation) {
         var openTime = restaurant.getWorkingHours().getOpenTime();

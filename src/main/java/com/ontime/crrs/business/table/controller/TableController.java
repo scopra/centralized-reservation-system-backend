@@ -5,7 +5,6 @@ import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.persistence.table.service.TableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,10 +29,10 @@ public class TableController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addTable(@RequestBody Table table,  UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> addTable(@RequestBody Table table, UriComponentsBuilder uriBuilder) {
         var tableEntity = mapper.modelToEntity(table);
 
-        var createdTable =  tableService.addTable(tableEntity);
+        var createdTable = tableService.addTable(tableEntity);
         var location = uriBuilder.path("/tables/{id}").buildAndExpand(createdTable.getId()).toUri();
 
         return ResponseEntity.created(location).build();
