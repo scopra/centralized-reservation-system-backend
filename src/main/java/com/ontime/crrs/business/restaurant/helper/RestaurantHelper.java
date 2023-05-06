@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.restaurant.processor;
+package com.ontime.crrs.business.restaurant.helper;
 
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
@@ -10,7 +10,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Service
 @RequiredArgsConstructor
-public class RestaurantProcessor {
+public class RestaurantHelper {
 
     private final RestaurantService restaurantService;
 

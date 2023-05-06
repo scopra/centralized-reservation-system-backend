@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Time;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -18,7 +18,7 @@ public class WorkingHours implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Time openTime;
-    private Time closeTime;
+    private LocalTime openTime;
+    private LocalTime closeTime;
 
 }

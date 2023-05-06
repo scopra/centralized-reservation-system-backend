@@ -49,13 +49,6 @@ public class RestaurantEntity {
     )
     private String phoneNumber;
 
-    //TODO: delete
-    @Column(
-            name = "capacity",
-            nullable = false
-    )
-    private int capacity;
-
     @Column(name = "image")
     private String image;
 
@@ -98,12 +91,11 @@ public class RestaurantEntity {
         this.workingHours = workingHours;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, String image,
+    public RestaurantEntity(String name, String description, String phoneNumber, String image,
                             LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
-        this.capacity = capacity;
         this.image = image;
         this.location = location;
         this.workingHours = workingHours;
