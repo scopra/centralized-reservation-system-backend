@@ -27,10 +27,10 @@ public class MenuItemServiceImpl implements MenuItemService {
         return repository.findMenuItemsByCategory(category);
     }
 
-    public MenuItemEntity getMenuItemByName(String name, String restaurantName) {
-        return repository.findMenuItemByNameAndRestaurant_Name(name, restaurantName)
+    public MenuItemEntity getMenuItemByNameAndRestaurant(String itemName, String restaurantName) {
+        return repository.findMenuItemByNameAndRestaurant_Name(itemName, restaurantName)
                 .orElseThrow(() -> new EntityNotFoundException("Menu item with name " +
-                        name + " not found."));
+                        itemName + " not found."));
     }
 
 }

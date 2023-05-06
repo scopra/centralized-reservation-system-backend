@@ -4,7 +4,6 @@ import com.ontime.crrs.business.mapper.menuitem.MenuItemMapper;
 import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.business.menuitem.model.MenuItemModelAssembler;
 import com.ontime.crrs.persistence.menuitem.service.MenuItemService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class MenuItemController {
     public EntityModel<MenuItem> getMenuItemByRestaurant(@PathVariable String name) {
         var model = mapper.entityToModel(menuItemService.getMenuItemByName(name));
 
-
+        return null;
     }
 
 
