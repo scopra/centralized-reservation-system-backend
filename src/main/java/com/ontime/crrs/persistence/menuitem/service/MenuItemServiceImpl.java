@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +21,31 @@ public class MenuItemServiceImpl implements MenuItemService {
     }
 
     public List<MenuItemEntity> getMenuItemsForRestaurant(String name) {
-        return repository.findMenuItemByRestaurant_Name(name);
+        return repository.findMenuItemsByRestaurant_Name(name);
     }
 
-    public List<MenuItemEntity> getMenuItemsByCategory(Category category) {
-        return repository.findMenuItemsByCategory(category);
+    public List<MenuItemEntity> getMenuItemsByCategoryAndRestaurantName(Category category, String restaurantName) {
+        return repository.findMenuItemsByCategoryAndRestaurant_Name(category, restaurantName);
     }
 
-    public MenuItemEntity getMenuItemByNameAndRestaurant(String itemName, String restaurantName) {
-        return repository.findMenuItemByNameAndRestaurant_Name(itemName, restaurantName)
+    public MenuItemEntity getMenuItemByNameAndRestaurant(String menuItemName, String restaurantName) {
+        return repository.findMenuItemByNameAndRestaurant_Name(menuItemName, restaurantName)
                 .orElseThrow(() -> new EntityNotFoundException("Menu item with name " +
-                        itemName + " not found."));
+                        menuItemName + " not found."));
+    }
+
+    public boolean checkIfMenuItemExists(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Menu item with ID " + id + " does not exist.");
+        }
+
+        return true;
+    }
+
+    public void deleteMenuItemById(UUID id) {
+        checkIfMenuItemExists(id);
+
+        repository.deleteById(id);
     }
 
 }

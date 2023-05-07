@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public interface MenuItemRepository extends JpaRepository<MenuItemEntity, UUID> {
 
-    List<MenuItemEntity> findMenuItemByRestaurant_Name(String restaurantName);
+    List<MenuItemEntity> findMenuItemsByRestaurant_Name(String restaurantName);
 
-    List<MenuItemEntity> findMenuItemsByCategory(Category category);
+    List<MenuItemEntity> findMenuItemsByCategoryAndRestaurant_Name(Category category, String restaurantName);
 
     Optional<MenuItemEntity> findMenuItemByNameAndRestaurant_Name(String name, String restaurantName);
 

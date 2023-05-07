@@ -50,12 +50,6 @@ public class RestaurantEntity {
     )
     private String phoneNumber;
 
-    @Column(
-            name = "capacity",
-            nullable = false
-    )
-    private int capacity;
-
     @Column(name = "image")
     private String image;
 
@@ -92,20 +86,14 @@ public class RestaurantEntity {
         this.phoneNumber = phoneNumber;
     }
 
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public void setLocation(LocationEntity location) {
         this.location = location;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
+    public RestaurantEntity(String name, String description, String phoneNumber, LocationEntity location) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
-        this.capacity = capacity;
         this.location = location;
     }
 

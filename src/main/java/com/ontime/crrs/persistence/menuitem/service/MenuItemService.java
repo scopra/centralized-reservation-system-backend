@@ -5,6 +5,7 @@ import com.ontime.crrs.persistence.menuitem.util.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface MenuItemService {
@@ -13,8 +14,12 @@ public interface MenuItemService {
 
     List<MenuItemEntity> getMenuItemsForRestaurant(String name);
 
-    List<MenuItemEntity> getMenuItemsByCategory(Category category);
+    List<MenuItemEntity> getMenuItemsByCategoryAndRestaurantName(Category category, String restaurantName);
 
-    MenuItemEntity getMenuItemByNameAndRestaurant(String itemName, String restaurantName);
+    MenuItemEntity getMenuItemByNameAndRestaurant(String menuItemName, String restaurantName);
+
+    boolean checkIfMenuItemExists(UUID id);
+
+    void deleteMenuItemById(UUID id);
 
 }

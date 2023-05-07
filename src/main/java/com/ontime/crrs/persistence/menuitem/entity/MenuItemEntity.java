@@ -31,6 +31,7 @@ public class MenuItemEntity {
     @Column(
             name = "name",
             nullable = false,
+            updatable = false,
             length = 50
     )
     private String name;
