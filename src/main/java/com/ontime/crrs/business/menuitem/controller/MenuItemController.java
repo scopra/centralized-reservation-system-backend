@@ -28,7 +28,6 @@ public class MenuItemController {
     private final MenuItemHelper helper;
     private final MenuItemMapper mapper;
 
-    //get all by restaurant, RADI
     @GetMapping("/all/{restaurantName}")
     public CollectionModel<EntityModel<MenuItem>> getMenuItemsForRestaurant(@PathVariable String restaurantName) {
         var restaurant = helper.confirmRestaurantExists(restaurantName);
@@ -41,7 +40,6 @@ public class MenuItemController {
                 .getMenuItemsForRestaurant(restaurantName)).withSelfRel());
     }
 
-    //see by category, request can be string restaurnat name
     @GetMapping("/category/{category}")
     public CollectionModel<EntityModel<MenuItem>> getItemsByCategoryForRestaurant(@PathVariable Category category,
                                                                                   @RequestBody String restaurantName) {
@@ -56,14 +54,11 @@ public class MenuItemController {
                 .getMenuItemsForRestaurant(restaurantName)).withSelfRel());
     }
 
-    //get one by restaurant, RADI
     @GetMapping("/{restaurantName}")
-    public EntityModel<MenuItem> getMenuItemForRestaurant(@PathVariable String restaurantName, @RequestBody MenuItem menuItem) {
-        return helper.getMenuItem(restaurantName, menuItem);
+    public EntityModel<MenuItem> getMenuItemForRestaurant(@PathVariable String restaurantName, @RequestBody String name) {
+        return helper.getMenuItem(restaurantName, name);
     }
 
-
-    //add, RADI
     @PostMapping("/{restaurantName}")
     public ResponseEntity<?> addMenuItem(@PathVariable String restaurantName, @RequestBody MenuItem menuItem) {
         var entityModel = helper.processAddRequest(restaurantName, menuItem);
@@ -73,7 +68,6 @@ public class MenuItemController {
                 .body(entityModel);
     }
 
-    //RADI
     @PutMapping("/{restaurantName}")
     public ResponseEntity<?> updateMenuItem(@PathVariable String restaurantName, @RequestBody MenuItem menuItem) {
         var entityModel = helper.updateMenuItem(restaurantName, menuItem);
@@ -83,7 +77,6 @@ public class MenuItemController {
                 .body(entityModel);
     }
 
-    //delete by id, RADI
     @DeleteMapping("/{itemId}")
     public ResponseEntity<?> deleteMenuItemById(@PathVariable UUID itemId) {
         menuItemService.deleteMenuItemById(itemId);

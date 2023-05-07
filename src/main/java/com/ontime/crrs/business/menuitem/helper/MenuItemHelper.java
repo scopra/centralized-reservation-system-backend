@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
-
 @Component
 @RequiredArgsConstructor
 public class MenuItemHelper {
@@ -35,9 +34,9 @@ public class MenuItemHelper {
         return modelAssembler.toModel(mapper.entityToModel(menuItemService.addNewMenuItem(menuItemEntity)));
     }
 
-    public EntityModel<MenuItem> getMenuItem(String restaurantName, MenuItem menuItem) {
+    public EntityModel<MenuItem> getMenuItem(String restaurantName, String name) {
         var restaurant = confirmRestaurantExists(restaurantName);
-        var menuItemEntity = menuItemService.getMenuItemByNameAndRestaurant(menuItem.getName(), restaurant.getName());
+        var menuItemEntity = menuItemService.getMenuItemByNameAndRestaurant(name, restaurant.getName());
 
         return modelAssembler.toModel(mapper.entityToModel(menuItemEntity));
     }

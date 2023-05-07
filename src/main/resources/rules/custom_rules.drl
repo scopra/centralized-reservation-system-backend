@@ -1,8 +1,24 @@
-import com.ontime.crrs.test_classes.OrderRequest;
-import com.ontime.crrs.test_classes.CustomerType;
-global com.ontime.crrs.test_classes.OrderDiscount orderDiscount;
+import com.ontime.crrs.rules.order.OrderRequest;
+import com.ontime.crrs.rules.CustomerType;
+global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
 
 dialect "mvel"
+
+rule "Quiet times discount"
+    when
+        OrderRequest(age < 20 || age > 50)
+    then
+        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
+        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
+end
+
+rule "Savory item discount"
+    when
+        OrderRequest(age < 20 || age > 50)
+    then
+        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
+        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
+end
 
 rule "Age based discount"
     when

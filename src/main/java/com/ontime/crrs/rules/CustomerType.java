@@ -1,4 +1,4 @@
-package com.ontime.crrs.test_classes;
+package com.ontime.crrs.rules;
 
 public enum CustomerType {
 
@@ -7,4 +7,5 @@ public enum CustomerType {
     public String getValue() {
         return this.toString();
     }
+
 }

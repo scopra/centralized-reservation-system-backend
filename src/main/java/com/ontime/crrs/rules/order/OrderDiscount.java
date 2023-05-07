@@ -1,4 +1,4 @@
-package com.ontime.crrs.test_classes;
+package com.ontime.crrs.rules.order;
 
 import lombok.Getter;
 import lombok.Setter;

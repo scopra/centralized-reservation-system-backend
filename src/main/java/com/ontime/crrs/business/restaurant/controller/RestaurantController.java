@@ -27,7 +27,6 @@ public class RestaurantController {
     private final RestaurantMapper mapper;
     private final RestaurantProcessor restaurantProcessor;
 
-
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
         var restaurants =

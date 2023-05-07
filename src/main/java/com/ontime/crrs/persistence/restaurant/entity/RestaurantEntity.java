@@ -53,6 +53,10 @@ public class RestaurantEntity {
     @Column(name = "image")
     private String image;
 
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "location_id")
+    private LocationEntity location;
+
     @OneToMany(
             mappedBy = "restaurant",
             cascade = ALL
@@ -65,14 +69,18 @@ public class RestaurantEntity {
     )
     private List<MenuItemEntity> menuItems;
 
+    public void setMenuItems(List<MenuItemEntity> menuItems) {
+        this.menuItems = menuItems;
+    }
+
+    public void setTables(List<TableEntity> tables) {
+        this.tables = tables;
+    }
+
     /*
         TODO:
             - add relationship to Rule
      */
-
-    @OneToOne(cascade = ALL)
-    @JoinColumn(name = "location_id")
-    private LocationEntity location;
 
     public void setName(String name) {
         this.name = name;

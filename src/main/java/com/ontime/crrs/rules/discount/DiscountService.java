@@ -1,5 +1,7 @@
-package com.ontime.crrs.test_classes;
+package com.ontime.crrs.rules.discount;
 
+import com.ontime.crrs.rules.order.OrderDiscount;
+import com.ontime.crrs.rules.order.OrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -7,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderDiscountService {
+public class DiscountService {
 
     private final KieContainer kieContainer;
 
