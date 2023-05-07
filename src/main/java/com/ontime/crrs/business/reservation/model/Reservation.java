@@ -1,6 +1,7 @@
 package com.ontime.crrs.business.reservation.model;
 
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ public class Reservation implements Serializable {
     private int numberOfGuests;
     private String description;
     private UUID userId;
+    private int lenght;
     private Restaurant restaurant;
 
 }

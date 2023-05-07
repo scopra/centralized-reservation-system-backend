@@ -73,4 +73,9 @@ public class ReservationServiceImpl implements ReservationService {
         repository.deleteAll();
     }
 
+    public List<ReservationEntity> findReservationsByRestaurantName(String restaurantName) {
+        return repository.findByRestaurant_Name(restaurantName);
+    }
+
+
 }

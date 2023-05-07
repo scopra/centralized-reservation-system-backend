@@ -1,5 +1,6 @@
 package com.ontime.crrs.persistence.table.entity;
 
+import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.tableoccupancy.entity.TableOccupancyEntity;
 import jakarta.persistence.*;

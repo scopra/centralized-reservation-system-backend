@@ -4,6 +4,7 @@ package com.ontime.crrs.business.reservation.controller;
 import com.ontime.crrs.business.mapper.reservation.ReservationMapper;
 import com.ontime.crrs.business.reservation.model.Reservation;
 import com.ontime.crrs.business.reservation.model.ReservationModelAssembler;
+import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +68,6 @@ public class ReservationController {
         return mappedModel;
     }
 
-
     //ovo se moze ostavit za admina
     @GetMapping
     public CollectionModel<EntityModel<Reservation>> getAllReservations() {
@@ -109,7 +109,6 @@ public class ReservationController {
                 .build();
     }
 
-
     @DeleteMapping
     public ResponseEntity<?> cancelAllReservations() {
         reservationService.cancelAllReservations();
@@ -119,4 +118,12 @@ public class ReservationController {
                 build();
     }
 
+    @GetMapping("/restaurant/{restaurantName}")
+    public ResponseEntity<List<Reservation>> getReservationsByRestaurantName(@PathVariable String restaurantName) {
+        var reservationEntities = reservationService.findReservationsByRestaurantName(restaurantName);
+
+        var reservations = reservationMapper.entitiesToModels(reservationEntities);
+
+        return ResponseEntity.ok(reservations);
+    }
 }

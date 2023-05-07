@@ -17,6 +17,9 @@ public interface ReservationService {
 
     ReservationEntity findReservationById(UUID reservationId);
 
+    List<ReservationEntity> findReservationsByRestaurantName(String restaurantName);
+
+
     List<ReservationEntity> findAllReservations();
 
     List<ReservationEntity> findReservationsByDate(LocalDate date);
