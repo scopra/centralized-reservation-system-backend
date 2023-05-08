@@ -1,5 +1,9 @@
 package com.ontime.crrs.helper;
 
+import com.ontime.crrs.business.location.model.Location;
+import com.ontime.crrs.business.reservation.model.Reservation;
+import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
@@ -7,6 +11,7 @@ import lombok.experimental.Helper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Component
@@ -95,10 +100,35 @@ public class RestaurantTestHelper {
                 .build();
     }
 
-    public static WorkingHoursEntity buildDefaultWorkingHours() {
-        return WorkingHoursEntity.builder()
-                .openTime(Time.valueOf(OPEN_TIME))
-                .closeTime(Time.valueOf(CLOSE_TIME))
+    public static Restaurant preBuildRestaurant(RestaurantEntity entity){
+        return Restaurant.builder()
+                .name(entity.getName())
+                .image(entity.getImage())
+                .workingHours(new WorkingHours(entity.getWorkingHours().getOpenTime(),
+                        entity.getWorkingHours().getCloseTime()))
+                .location(new Location(entity.getLocation().getAddress(), entity.getLocation().getMunicipality(),
+                        entity.getLocation().getCity()))
+                .description(entity.getDescription())
+                .phoneNumber(entity.getPhoneNumber())
                 .build();
     }
+
+    public static WorkingHoursEntity buildDefaultWorkingHours() {
+        return WorkingHoursEntity.builder()
+                .openTime(OPEN_TIME)
+                .closeTime(CLOSE_TIME)
+                .build();
+    }
+
+    public static Reservation getDefaultReservation(LocalTime start, LocalTime end){
+        return Reservation.builder()
+                .capacity(5)
+                .date(LocalDate.of(2023, 5, 6))
+                .specialComment("Random comment")
+                .startTime(start)
+                .endTime(end)
+                .restaurant(preBuildRestaurant(EXISTING_RESTAURANT))
+                .build();
+    }
+
 }

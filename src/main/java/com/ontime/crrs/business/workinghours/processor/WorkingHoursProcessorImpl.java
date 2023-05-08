@@ -11,25 +11,27 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WorkingHoursProcessorImpl implements WorkingHoursProcessor {
 
-    public boolean isDuringWorkingHours(Restaurant restaurant, Reservation reservation) {
+    public boolean isDuringWorkingHours(Reservation reservation) {
+        var restaurant = reservation.getRestaurant();
         var openTime = restaurant.getWorkingHours().getOpenTime();
         var closeTime = restaurant.getWorkingHours().getCloseTime();
 
-        if (!resolveTime(reservation, restaurant.getWorkingHours())) {
+        if (!resolveTime(reservation)) {
             throw new NonWorkingHoursException();
         }
 
         return true;
     }
 
-    private boolean resolveTime(Reservation reservation, WorkingHours workingHours) {
-        var worksFrom = workingHours.getOpenTime();
-        var worksTo = workingHours.getCloseTime();
+    private boolean resolveTime(Reservation reservation) {
+        var restaurantWorkingHours = reservation.getRestaurant().getWorkingHours();
         var reserveFrom = reservation.getStartTime();
         var reserveTo = reservation.getEndTime();
+        var worksFrom = restaurantWorkingHours.getOpenTime();
+        var worksTo = restaurantWorkingHours.getCloseTime();
 
-        return (reserveFrom.isAfter(worksFrom) || reserveFrom.equals(worksFrom))
-                && (reserveTo.isBefore(worksTo) || reserveTo.equals(worksTo));
+        return (reserveFrom.isAfter(worksFrom) || reserveFrom.equals(worksFrom)) &&
+                (reserveTo.isBefore(worksTo) || reserveTo.equals(worksTo));
     }
 
 }

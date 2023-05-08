@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,27 +29,32 @@ public class WorkingHoursEntity {
     @Column(
             name = "open_time"
     )
-    private Time openTime;
+    private LocalTime openTime;
 
     @Column(
             name = "close_time"
     )
-    private Time closeTime;
+    private LocalTime closeTime;
 
     @OneToOne(mappedBy = "workingHours")
     private RestaurantEntity restaurant;
 
-    public void setOpenTime(Time openTime) {
+    public void setOpenTime(LocalTime openTime) {
         this.openTime = openTime;
     }
 
-    public void setCloseTime(Time closeTime) {
+    public void setCloseTime(LocalTime closeTime) {
         this.closeTime = closeTime;
     }
 
-    public WorkingHoursEntity(Time openTime, Time closeTime) {
+    public void setRestaurant(RestaurantEntity restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public WorkingHoursEntity(LocalTime openTime, LocalTime closeTime, RestaurantEntity restaurant) {
         this.openTime = openTime;
         this.closeTime = closeTime;
+        this.restaurant = restaurant;
     }
 
     @Override

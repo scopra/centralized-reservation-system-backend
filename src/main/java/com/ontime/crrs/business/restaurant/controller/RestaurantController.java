@@ -144,8 +144,9 @@ public class RestaurantController {
     @GetMapping("/test/{name}")
     public boolean isDuringWorkingHours(@PathVariable String name, @RequestBody Reservation reservation) {
         var restaurant = mapper.entityToModel(restaurantService.findRestaurantByName(name));
+        reservation.setRestaurant(restaurant);
 
-        return workingHoursProcessor.isDuringWorkingHours(restaurant, reservation);
+        return workingHoursProcessor.isDuringWorkingHours(reservation);
     }
 
 }

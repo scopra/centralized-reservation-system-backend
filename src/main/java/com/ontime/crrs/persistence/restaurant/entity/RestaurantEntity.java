@@ -1,13 +1,11 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
-import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -65,12 +63,6 @@ public class RestaurantEntity {
     @JoinColumn(name = "working_hours_id")
     private WorkingHoursEntity workingHours;
 
-    @OneToMany(
-            mappedBy= "restaurant",
-            cascade = ALL
-    )
-    private List<TableEntity> tables;
-
     public void setName(String name) {
         this.name = name;
     }
@@ -92,14 +84,13 @@ public class RestaurantEntity {
     }
 
     public RestaurantEntity(String name, String description, String phoneNumber, String image,
-                            LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
+                            LocationEntity location, WorkingHoursEntity workingHours) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.image = image;
         this.location = location;
         this.workingHours = workingHours;
-        this.tables = tables;
     }
 
     @Override
