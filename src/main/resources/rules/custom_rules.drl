@@ -1,53 +1,53 @@
-import com.ontime.crrs.rules.order.OrderRequest;
-import com.ontime.crrs.rules.CustomerType;
-global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
-
-dialect "mvel"
-
-rule "Quiet times discount"
-    when
-        OrderRequest(age < 20 || age > 50)
-    then
-        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
-        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
-end
-
-rule "Savory item discount"
-    when
-        OrderRequest(age < 20 || age > 50)
-    then
-        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
-        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
-end
-
-rule "Age based discount"
-    when
-        OrderRequest(age < 20 || age > 50)
-    then
-        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
-        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
-end
-
-rule "Customer type based discount - Loyal customer"
-    when
-        OrderRequest(customerType.getValue == "LOYAL")
-    then
-        System.out.println("==========Adding 5% discount for LOYAL customer=============");
-        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
-end
-
-rule "Customer type based discount - others"
-    when
-        OrderRequest(customerType.getValue != "LOYAL")
-    then
-        System.out.println("==========Adding 3% discount for NEW or DISSATISFIED customer=============");
-        orderDiscount.setDiscount(orderDiscount.getDiscount() + 3);
-end
-
-rule "Amount based discount"
-    when
-        OrderRequest(amount > 1000)
-    then
-        System.out.println("==========Adding 5% discount for amount more than 1000$=============");
-        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
-end
+//import com.ontime.crrs.rules.order.OrderRequest;
+//import com.ontime.crrs.rules.CustomerType;
+//global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
+//
+//dialect "mvel"
+//
+//rule "Quiet times discount"
+//    when
+//        OrderRequest(age < 20 || age > 50)
+//    then
+//        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
+//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
+//end
+//
+//rule "Savory item discount"
+//    when
+//        OrderRequest(age < 20 || age > 50)
+//    then
+//        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
+//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
+//end
+//
+//rule "Age based discount"
+//    when
+//        OrderRequest(age < 20 || age > 50)
+//    then
+//        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
+//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
+//end
+//
+//rule "Customer type based discount - Loyal customer"
+//    when
+//        OrderRequest(customerType.getValue == "LOYAL")
+//    then
+//        System.out.println("==========Adding 5% discount for LOYAL customer=============");
+//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
+//end
+//
+//rule "Customer type based discount - others"
+//    when
+//        OrderRequest(customerType.getValue != "LOYAL")
+//    then
+//        System.out.println("==========Adding 3% discount for NEW or DISSATISFIED customer=============");
+//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 3);
+//end
+//
+//rule "Amount based discount"
+//    when
+//        OrderRequest(amount > 1000)
+//    then
+//        System.out.println("==========Adding 5% discount for amount more than 1000$=============");
+//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
+//end

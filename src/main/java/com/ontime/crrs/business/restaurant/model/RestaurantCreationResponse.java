@@ -1,10 +1,12 @@
-package com.ontime.crrs.business.table.model;
-import com.ontime.crrs.business.restaurant.model.Restaurant;
+package com.ontime.crrs.business.restaurant.model;
+
+import com.ontime.crrs.business.menuitem.model.MenuItem;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -12,13 +14,12 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Table implements Serializable {
+public class RestaurantCreationResponse implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private int capacity;
-
-    private boolean occupancyStatus;
-
     private Restaurant restaurant;
+    private List<MenuItem> menuItems;
+
 }

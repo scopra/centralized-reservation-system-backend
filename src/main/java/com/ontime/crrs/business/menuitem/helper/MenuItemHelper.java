@@ -3,12 +3,15 @@ package com.ontime.crrs.business.menuitem.helper;
 import com.ontime.crrs.business.mapper.menuitem.MenuItemMapper;
 import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.business.menuitem.model.MenuItemModelAssembler;
+import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.persistence.menuitem.service.MenuItemService;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -49,6 +52,18 @@ public class MenuItemHelper {
         menuItemService.addNewMenuItem(oldMenuItem);
 
         return modelAssembler.toModel(mapper.entityToModel(oldMenuItem));
+    }
+
+    public List<MenuItem> addMenuItems(RestaurantCreationRequest creationRequest) {
+        var menuItemEntities = mapper.modelsToEntities(creationRequest.getMenuItems());
+        var restaurantEntity = restaurantService.findRestaurantByName(creationRequest.getName());
+
+        var addedMenuItems = menuItemEntities.stream()
+                .peek(menuItemEntity -> menuItemEntity.setRestaurant(restaurantEntity))
+                .map(menuItemService::addNewMenuItem)
+                .toList();
+
+        return mapper.entitiesToModels(addedMenuItems);
     }
 
 }

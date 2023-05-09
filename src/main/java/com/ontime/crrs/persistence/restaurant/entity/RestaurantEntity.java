@@ -2,7 +2,6 @@ package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
-import com.ontime.crrs.persistence.table.entity.TableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -61,20 +60,10 @@ public class RestaurantEntity {
             mappedBy = "restaurant",
             cascade = ALL
     )
-    private List<TableEntity> tables;
-
-    @OneToMany(
-            mappedBy = "restaurant",
-            cascade = ALL
-    )
     private List<MenuItemEntity> menuItems;
 
     public void setMenuItems(List<MenuItemEntity> menuItems) {
         this.menuItems = menuItems;
-    }
-
-    public void setTables(List<TableEntity> tables) {
-        this.tables = tables;
     }
 
     /*
