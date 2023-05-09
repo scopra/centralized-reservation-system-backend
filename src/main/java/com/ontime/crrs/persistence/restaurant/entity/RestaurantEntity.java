@@ -91,6 +91,14 @@ public class RestaurantEntity {
         this.workingHours = workingHours;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setTables(List<TableEntity> tables) {
+        this.tables = tables;
+    }
+
     public RestaurantEntity(String name, String description, String phoneNumber, String image,
                             LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
         this.name = name;
