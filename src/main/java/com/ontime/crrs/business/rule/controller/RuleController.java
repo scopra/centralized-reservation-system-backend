@@ -2,9 +2,11 @@ package com.ontime.crrs.business.rule.controller;
 
 import com.ontime.crrs.business.mapper.rule.RuleMapper;
 import com.ontime.crrs.business.rule.model.Rule;
+import com.ontime.crrs.business.rule.model.RuleModelAssembler;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.rule.service.RuleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ public class RuleController {
     private final RuleService ruleService;
     private final RestaurantService restaurantService;
     private final RuleMapper mapper;
+    private final RuleModelAssembler modelAssembler;
 
     //RADI
     @PostMapping("/{restaurantName}")
@@ -27,9 +30,11 @@ public class RuleController {
         var ruleEntity = mapper.modelToEntity(rule);
         ruleEntity.setRestaurant(restaurant);
 
-        var savedRule = mapper.entityToModel(ruleService.updateRule(ruleEntity));
+        var entityModel = modelAssembler.toModel(mapper.entityToModel(ruleService.updateRule(ruleEntity)));
 
-        return ResponseEntity.ok(savedRule);
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     //RADI

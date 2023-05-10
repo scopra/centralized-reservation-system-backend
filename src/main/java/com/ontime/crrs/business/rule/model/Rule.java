@@ -1,5 +1,6 @@
 package com.ontime.crrs.business.rule.model;
 
+import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.rule.util.RuleType;
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -26,5 +27,6 @@ public class Rule implements Serializable {
     private LocalTime start;
     private LocalTime end;
     private int discount;
+    private Restaurant restaurant;
 
 }
