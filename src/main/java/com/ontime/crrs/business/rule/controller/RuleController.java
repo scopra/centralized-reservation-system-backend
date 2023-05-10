@@ -19,6 +19,7 @@ public class RuleController {
     private final RestaurantService restaurantService;
     private final RuleMapper mapper;
 
+    //RADI
     @PostMapping("/{restaurantName}")
     public ResponseEntity<?> addNewRule(@PathVariable String restaurantName, @RequestBody Rule rule) {
         var restaurant = restaurantService.findRestaurantByName(restaurantName);
@@ -31,13 +32,22 @@ public class RuleController {
         return ResponseEntity.ok(savedRule);
     }
 
+    //RADI
     @GetMapping("/{restaurantName}")
     public ResponseEntity<?> getRulesForRestaurant(@PathVariable String restaurantName) {
-        var restaurant = restaurantService.findRestaurantByName(restaurantName);
+        restaurantService.findRestaurantByName(restaurantName);
 
         var ruleList = mapper.entitiesToModels(ruleService.findRulesByRestaurant(restaurantName));
 
         return ResponseEntity.ok(ruleList);
+    }
+
+    //RADI
+    @GetMapping("/id/{ruleId}")
+    public ResponseEntity<?> getRuleById(@PathVariable UUID ruleId) {
+        var rule = mapper.entityToModel(ruleService.findRuleById(ruleId));
+
+        return ResponseEntity.ok(rule);
     }
 
     @PutMapping("/{restaurantName}")
@@ -45,6 +55,7 @@ public class RuleController {
         return null;
     }
 
+    //RADI
     @DeleteMapping("/owner/{ruleId}")
     public ResponseEntity<?> deleteRule(@PathVariable UUID ruleId) {
         ruleService.deleteRuleById(ruleId);

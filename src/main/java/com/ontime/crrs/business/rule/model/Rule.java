@@ -1,10 +1,7 @@
 package com.ontime.crrs.business.rule.model;
 
 import com.ontime.crrs.persistence.rule.util.RuleType;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
@@ -17,6 +14,7 @@ import java.util.UUID;
 @Component
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class Rule implements Serializable {
 
     @Serial

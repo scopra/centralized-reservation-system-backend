@@ -5,13 +5,14 @@ import com.ontime.crrs.persistence.rule.util.RuleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -37,10 +38,10 @@ public class RuleEntity {
     @Column(name = "group_size")
     private int groupSize;
 
-    @Column(name = "start")
+    @Column(name = "start_time")
     private LocalTime start;
 
-    @Column(name = "end")
+    @Column(name = "end_time")
     private LocalTime end;
 
     @Column(
@@ -75,30 +76,6 @@ public class RuleEntity {
 
     public void setRestaurant(RestaurantEntity restaurant) {
         this.restaurant = restaurant;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public RuleType getRuleType() {
-        return ruleType;
-    }
-
-    public Optional getGroupSize() {
-        return Optional.ofNullable(groupSize);
-    }
-
-    public Optional getStart() {
-        return Optional.ofNullable(start);
-    }
-
-    public Optional getEnd() {
-        return Optional.ofNullable(end);
-    }
-
-    public int getDiscount() {
-        return discount;
     }
 
     public RestaurantEntity getRestaurant() {
