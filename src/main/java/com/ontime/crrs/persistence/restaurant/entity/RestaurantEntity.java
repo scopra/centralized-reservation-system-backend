@@ -2,6 +2,7 @@ package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
+import com.ontime.crrs.persistence.rule.entity.RuleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -43,7 +44,6 @@ public class RestaurantEntity {
 
     @Column(
             name = "phone_number",
-
             nullable = false,
             length = 15
     )
@@ -61,6 +61,12 @@ public class RestaurantEntity {
             cascade = ALL
     )
     private List<MenuItemEntity> menuItems;
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL
+    )
+    private List<RuleEntity> rules;
 
     public void setMenuItems(List<MenuItemEntity> menuItems) {
         this.menuItems = menuItems;
