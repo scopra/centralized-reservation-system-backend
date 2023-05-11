@@ -5,11 +5,11 @@ import com.ontime.crrs.persistence.table.entity.TableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.Objects;
-import java.util.UUID;
+
 import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
@@ -55,7 +55,6 @@ public class RestaurantEntity {
     )
     private int capacity;
 
-
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<TableEntity> tables;
 
@@ -82,7 +81,6 @@ public class RestaurantEntity {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;

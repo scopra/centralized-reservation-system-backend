@@ -1,4 +1,5 @@
 package com.ontime.crrs.business.table.model;
+
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import lombok.*;
 import org.springframework.stereotype.Component;

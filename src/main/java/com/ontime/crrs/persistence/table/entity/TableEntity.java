@@ -1,8 +1,12 @@
 package com.ontime.crrs.persistence.table.entity;
-import com.ontime.crrs.persistence.location.entity.LocationEntity;
+
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,7 +33,7 @@ public class TableEntity {
     private int capacity;
 
     @Column(
-            name="occupancy_status",
+            name = "occupancy_status",
             nullable = false
     )
     private boolean occupancyStatus;
