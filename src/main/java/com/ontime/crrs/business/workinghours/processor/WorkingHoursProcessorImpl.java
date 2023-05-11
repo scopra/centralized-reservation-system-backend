@@ -1,9 +1,7 @@
 package com.ontime.crrs.business.workinghours.processor;
 
 import com.ontime.crrs.business.reservation.model.Reservation;
-import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.workinghours.exception.NonWorkingHoursException;
-import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +10,6 @@ import org.springframework.stereotype.Service;
 public class WorkingHoursProcessorImpl implements WorkingHoursProcessor {
 
     public boolean isDuringWorkingHours(Reservation reservation) {
-        var restaurant = reservation.getRestaurant();
-        var openTime = restaurant.getWorkingHours().getOpenTime();
-        var closeTime = restaurant.getWorkingHours().getCloseTime();
-
         if (!resolveTime(reservation)) {
             throw new NonWorkingHoursException();
         }

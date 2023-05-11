@@ -141,6 +141,7 @@ public class RestaurantController {
                 .build();
     }
 
+    //TODO: delete this
     @GetMapping("/test/{name}")
     public boolean isDuringWorkingHours(@PathVariable String name, @RequestBody Reservation reservation) {
         var restaurant = mapper.entityToModel(restaurantService.findRestaurantByName(name));
