@@ -1,13 +1,15 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
-
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
+import java.util.Objects;
+import java.util.UUID;
 import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
@@ -41,10 +43,21 @@ public class RestaurantEntity {
 
     @Column(
             name = "phone_number",
+
             nullable = false,
             length = 15
     )
     private String phoneNumber;
+
+    @Column(
+            name = "capacity",
+            nullable = false
+    )
+    private int capacity;
+
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<TableEntity> tables;
 
     @Column(name = "image")
     private String image;
@@ -70,14 +83,20 @@ public class RestaurantEntity {
         this.phoneNumber = phoneNumber;
     }
 
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public void setLocation(LocationEntity location) {
         this.location = location;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, LocationEntity location) {
+    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
+        this.capacity = capacity;
         this.location = location;
     }
 
