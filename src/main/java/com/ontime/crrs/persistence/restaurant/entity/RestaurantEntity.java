@@ -2,7 +2,6 @@ package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
-import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -61,10 +60,6 @@ public class RestaurantEntity {
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
-    @OneToOne(cascade = ALL)
-    @JoinColumn(name = "working_hours_id")
-    private WorkingHoursEntity workingHours;
-
     @OneToMany(
             mappedBy= "restaurant",
             cascade = ALL
@@ -87,10 +82,6 @@ public class RestaurantEntity {
         this.location = location;
     }
 
-    public void setWorkingHours(WorkingHoursEntity workingHours) {
-        this.workingHours = workingHours;
-    }
-
     public void setImage(String image) {
         this.image = image;
     }
@@ -100,13 +91,12 @@ public class RestaurantEntity {
     }
 
     public RestaurantEntity(String name, String description, String phoneNumber, String image,
-                            LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
+                            LocationEntity location, List<TableEntity> tables) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.image = image;
         this.location = location;
-        this.workingHours = workingHours;
         this.tables = tables;
     }
 

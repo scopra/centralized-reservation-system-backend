@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalTime;
 
 import static com.ontime.crrs.helper.RestaurantTestHelper.EXISTING_RESTAURANT;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
