@@ -1,6 +1,5 @@
 package com.ontime.crrs.persistence.user.entity;
 
-import com.ontime.crrs.persistence.token.entity.TokenEntity;
 import com.ontime.crrs.persistence.user.util.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -56,9 +56,6 @@ public class UserEntity implements UserDetails {
     @Enumerated(STRING)
     @Column(name = "role")
     private Role role;
-
-    @OneToMany(mappedBy = "user")
-    private List<TokenEntity> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -104,6 +101,23 @@ public class UserEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(password, that.password) && role == that.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, email, password, role);
     }
 
 }
