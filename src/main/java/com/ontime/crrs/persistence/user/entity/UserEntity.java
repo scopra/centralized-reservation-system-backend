@@ -1,5 +1,6 @@
 package com.ontime.crrs.persistence.user.entity;
 
+import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.user.util.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -56,6 +57,9 @@ public class UserEntity implements UserDetails {
     @Enumerated(STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToOne(mappedBy = "owner")
+    private RestaurantEntity restaurant;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

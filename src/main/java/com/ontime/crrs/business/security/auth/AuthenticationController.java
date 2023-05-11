@@ -1,5 +1,6 @@
 package com.ontime.crrs.business.security.auth;
 
+import com.ontime.crrs.business.mapper.user.UserMapper;
 import com.ontime.crrs.business.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import static com.ontime.crrs.persistence.user.util.Role.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final UserMapper userMapper;
 
     @PostMapping("/register/customer")
     public ResponseEntity<AuthenticationResponse> registerCustomer(@RequestBody RegistrationRequest user) {
@@ -42,7 +44,9 @@ public class AuthenticationController {
 
     @GetMapping
     public ResponseEntity<User> getUserByJWT(HttpServletRequest request) {
-        return ResponseEntity.ok(authenticationService.getUserByToken(request));
+        var user = userMapper.entityToModel(authenticationService.getUserByToken(request));
+
+        return ResponseEntity.ok(user);
     }
 
 }

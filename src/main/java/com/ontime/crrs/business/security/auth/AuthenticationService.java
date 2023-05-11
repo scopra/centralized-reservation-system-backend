@@ -1,9 +1,7 @@
 package com.ontime.crrs.business.security.auth;
 
-import com.ontime.crrs.business.mapper.user.UserMapper;
 import com.ontime.crrs.business.security.exception.PasswordMismatchException;
 import com.ontime.crrs.business.security.jwt.JwtService;
-import com.ontime.crrs.business.user.model.User;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import com.ontime.crrs.persistence.user.service.UserService;
 import com.ontime.crrs.persistence.user.util.Role;
@@ -22,7 +20,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
-    private final UserMapper mapper;
 
     public AuthenticationResponse register(RegistrationRequest user, Role role) {
         validatePasswordMatch(user.getPassword(), user.getConfirmPassword());
@@ -76,14 +73,12 @@ public class AuthenticationService {
         }
     }
 
-    public User getUserByToken(HttpServletRequest request) {
+    public UserEntity getUserByToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         var authHeaderParts = authHeader.split(" ");
         var token = authHeaderParts[1];
 
-        var userEntity = service.loadUserByEmail(jwtService.extractUsername(token));
-
-        return mapper.entityToModel(userEntity);
+        return service.loadUserByEmail(jwtService.extractUsername(token));
     }
 
 }

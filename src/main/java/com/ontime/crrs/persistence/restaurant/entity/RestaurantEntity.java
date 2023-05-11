@@ -2,6 +2,7 @@ package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
+import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -70,6 +71,10 @@ public class RestaurantEntity {
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "owner_id")
+    private UserEntity owner;
+
     public void setName(String name) {
         this.name = name;
     }
@@ -90,12 +95,28 @@ public class RestaurantEntity {
         this.location = location;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, LocationEntity location) {
+    public void setTables(List<TableEntity> tables) {
+        this.tables = tables;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setOwner(UserEntity owner) {
+        this.owner = owner;
+    }
+
+    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, List<TableEntity> tables,
+                            String image, LocationEntity location, UserEntity owner) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.capacity = capacity;
+        this.tables = tables;
+        this.image = image;
         this.location = location;
+        this.owner = owner;
     }
 
     @Override

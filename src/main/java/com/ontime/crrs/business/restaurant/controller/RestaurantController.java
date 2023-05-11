@@ -3,10 +3,9 @@ package com.ontime.crrs.business.restaurant.controller;
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.business.restaurant.processor.RestaurantProcessor;
+import com.ontime.crrs.business.restaurant.processor.RestaurantHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
-import com.ontime.crrs.persistence.table.entity.TableEntity;
-import com.ontime.crrs.persistence.table.service.TableService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -27,9 +26,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
-    private final RestaurantProcessor restaurantProcessor;
-    private final TableService tableService;
-
+    private final RestaurantHelper restaurantHelper;
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
@@ -98,9 +95,9 @@ public class RestaurantController {
         return ResponseEntity.ok(id);
     }
 
-    @PutMapping("/{name}")
-    public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant newRestaurant, @PathVariable String name) {
-        var updatedRestaurant = restaurantProcessor.transferProperties(newRestaurant, name);
+    @PutMapping
+    public ResponseEntity<?> updateRestaurant(HttpServletRequest request, @RequestBody Restaurant newRestaurant) {
+        var updatedRestaurant = restaurantHelper.transferProperties(request, newRestaurant);
 
         var restaurantModel = mapper.entityToModel(updatedRestaurant);
 
@@ -112,26 +109,10 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
-        var restaurantEntity = mapper.modelToEntity(restaurant);
+    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant, HttpServletRequest request) {
+        var restaurantModel = restaurantHelper.saveRestaurant(request, restaurant);
 
-
-        var restaurantSaved = restaurantService.updateRestaurant(restaurantEntity);
-
-        //Creating tables depending on restaurant capacity
-        for (int i = 0; i < restaurant.getCapacity() / 4; i++) {
-            TableEntity restaurantTable = new TableEntity();
-            restaurantTable.setCapacity(4);
-            restaurantTable.setOccupancyStatus(false);
-            restaurantTable.setRestaurant(restaurantSaved);
-            tableService.addTable(restaurantTable);
-        }
-
-
-        restaurantService.updateRestaurant(restaurantEntity);
-
-        var entityModel = modelAssembler.toModel(restaurant);
-
+        var entityModel = modelAssembler.toModel(restaurantModel);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

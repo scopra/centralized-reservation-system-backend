@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,5 +24,7 @@ public interface RestaurantRepository extends JpaRepository<RestaurantEntity, UU
     List<RestaurantEntity> findRestaurantsByLocation_Municipality(String municipality);
 
     List<RestaurantEntity> findRestaurantsByLocation_City(String city);
+
+    Optional<RestaurantEntity> findRestaurantByOwner_Email(String email);
 
 }
