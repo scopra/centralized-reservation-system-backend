@@ -1,7 +1,8 @@
 package com.ontime.crrs.persistence.rule.entity;
 
+import com.ontime.crrs.persistence.menuitem.util.Category;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-import com.ontime.crrs.persistence.rule.util.RuleType;
+import com.ontime.crrs.rules.util.RuleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,6 +46,12 @@ public class RuleEntity {
     private LocalTime end;
 
     @Column(
+            name = "discount_on",
+            nullable = false
+    )
+    private Category discountOn;
+
+    @Column(
             name = "discount",
             nullable = false
     )
@@ -78,8 +85,8 @@ public class RuleEntity {
         this.restaurant = restaurant;
     }
 
-    public RestaurantEntity getRestaurant() {
-        return restaurant;
+    public void setDiscountOn(Category discountOn) {
+        this.discountOn = discountOn;
     }
 
     @Override
@@ -90,7 +97,8 @@ public class RuleEntity {
         return groupSize == that.groupSize && discount == that.discount &&
                 Objects.equals(id, that.id) && ruleType == that.ruleType &&
                 Objects.equals(start, that.start) &&
-                Objects.equals(end, that.end);
+                Objects.equals(end, that.end) && discountOn == that.discountOn &&
+                Objects.equals(restaurant, that.restaurant);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.ontime.crrs.business.mapper.rule;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
-import com.ontime.crrs.business.rule.model.Rule;
 import com.ontime.crrs.persistence.rule.entity.RuleEntity;
+import com.ontime.crrs.rules.model.Rule;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

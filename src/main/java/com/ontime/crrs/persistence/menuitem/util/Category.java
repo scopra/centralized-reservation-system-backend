@@ -4,6 +4,11 @@ public enum Category {
 
     BEVERAGE,
     SAVORY,
-    DESSERT
+    DESSERT,
+    ALL;
+
+    public String getValue() {
+        return this.toString();
+    }
 
 }

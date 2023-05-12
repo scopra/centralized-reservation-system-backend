@@ -1,12 +1,19 @@
 package com.ontime.crrs.rules.order;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.ontime.crrs.persistence.menuitem.util.Category;
+import lombok.Data;
 
-@Getter
-@Setter
-public class OrderDiscount {
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Map;
 
-    private Integer discount = 0;
+@Data
+public class OrderDiscount implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private Integer overallDiscount = 1;
+    private Map<Category, Integer> itemDiscounts;
 
 }

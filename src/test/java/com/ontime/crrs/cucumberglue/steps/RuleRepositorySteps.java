@@ -4,7 +4,7 @@ import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
 import com.ontime.crrs.persistence.rule.entity.RuleEntity;
 import com.ontime.crrs.persistence.rule.repository.RuleRepository;
-import com.ontime.crrs.persistence.rule.util.RuleType;
+import com.ontime.crrs.rules.util.RuleType;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;

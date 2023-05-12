@@ -2,7 +2,7 @@ package com.ontime.crrs.helper;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.rule.entity.RuleEntity;
-import com.ontime.crrs.persistence.rule.util.RuleType;
+import com.ontime.crrs.rules.util.RuleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

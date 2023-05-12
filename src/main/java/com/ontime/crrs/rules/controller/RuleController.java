@@ -1,10 +1,13 @@
-package com.ontime.crrs.business.rule.controller;
+package com.ontime.crrs.rules.controller;
 
 import com.ontime.crrs.business.mapper.rule.RuleMapper;
-import com.ontime.crrs.business.rule.model.Rule;
-import com.ontime.crrs.business.rule.model.RuleModelAssembler;
+import com.ontime.crrs.business.reservation.model.Reservation;
+import com.ontime.crrs.rules.model.Rule;
+import com.ontime.crrs.rules.model.RuleModelAssembler;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.rule.service.RuleService;
+import com.ontime.crrs.rules.discount.DiscountService;
+import com.ontime.crrs.rules.order.OrderDiscount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ public class RuleController {
     private final RestaurantService restaurantService;
     private final RuleMapper mapper;
     private final RuleModelAssembler modelAssembler;
+    private final DiscountService discountService;
 
     //RADI
     @PostMapping("/{restaurantName}")
@@ -68,6 +72,12 @@ public class RuleController {
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    //TESTING
+    @GetMapping("/test/disocunt")
+    public OrderDiscount getDiscount(@RequestBody Reservation reservation) {
+        return discountService.getDiscount(reservation);
     }
 
 }

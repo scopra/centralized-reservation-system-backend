@@ -1,53 +1,52 @@
-//import com.ontime.crrs.rules.order.OrderRequest;
-//import com.ontime.crrs.rules.CustomerType;
-//global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
-//
-//dialect "mvel"
-//
-//rule "Quiet times discount"
-//    when
-//        OrderRequest(age < 20 || age > 50)
-//    then
-//        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
-//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
-//end
-//
-//rule "Savory item discount"
-//    when
-//        OrderRequest(age < 20 || age > 50)
-//    then
-//        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
-//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
-//end
-//
-//rule "Age based discount"
-//    when
-//        OrderRequest(age < 20 || age > 50)
-//    then
-//        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
-//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
-//end
-//
-//rule "Customer type based discount - Loyal customer"
-//    when
-//        OrderRequest(customerType.getValue == "LOYAL")
-//    then
-//        System.out.println("==========Adding 5% discount for LOYAL customer=============");
-//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
-//end
-//
-//rule "Customer type based discount - others"
-//    when
-//        OrderRequest(customerType.getValue != "LOYAL")
-//    then
-//        System.out.println("==========Adding 3% discount for NEW or DISSATISFIED customer=============");
-//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 3);
-//end
-//
-//rule "Amount based discount"
-//    when
-//        OrderRequest(amount > 1000)
-//    then
-//        System.out.println("==========Adding 5% discount for amount more than 1000$=============");
-//        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
-//end
+import com.ontime.crrs.rules.order.OrderRequest;
+import com.ontime.crrs.rules.model.Rule;
+import com.ontime.crrs.rules.util.RuleType;
+import com.ontime.crrs.rules.CustomerType;
+import com.ontime.crrs.rules.MonitoringSystem;
+import com.ontime.crrs.business.menuitem.model.MenuItem;
+import com.ontime.crrs.persistence.menuitem.util.Category;
+global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
+
+dialect "mvel"
+
+rule "Quiet Times Discount - All"
+    when
+        $rule : Rule(ruleType == RuleType.QUIET_TIMES, discountOn == Category.ALL)
+        MonitoringSystem(quietTimes == true)
+    then
+        System.out.println("\n========== Adding QUIET TIMES discount on ALL: " + $rule.discount + "% =============\n");
+        orderDiscount.setOverallDiscount($rule.discount);
+end
+
+rule "Quiet Times Discount - Item Type"
+    when
+        $rule : Rule(ruleType == RuleType.QUIET_TIMES)
+        MonitoringSystem(quietTimes == true)
+    then
+        System.out.println("\n========== Adding QUIET TIMES discount on " + $rule.getDiscountOn().name() + " : " + $rule.discount + "% =============\n");
+        orderDiscount.setOverallDiscount($rule.discount);
+end
+
+rule "Happy Hours Discount"
+    when
+        $rule : Rule(ruleType == RuleType.HAPPY_HOURS)
+    then
+        System.out.println("========== Adding HAPPY HOURS discount ... =============");
+        orderDiscount.setOverallDiscount($rule.discount);
+end
+
+rule "Group Specials Discount"
+    when
+        $rule : Rule(ruleType == RuleType.GROUP_SPECIALS)
+    then
+        System.out.println("========== Adding GROUP SPECIALS discount ... =============");
+        orderDiscount.setOverallDiscount($rule.discount);
+end
+
+rule "Day of Week Discount"
+    when
+        $rule : Rule(ruleType == RuleType.DAY_OF_WEEK)
+    then
+        System.out.println("========== Adding DAY OF WEEK discount ... =============");
+        orderDiscount.setOverallDiscount($rule.discount);
+end
