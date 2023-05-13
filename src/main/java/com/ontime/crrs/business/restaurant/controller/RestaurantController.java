@@ -97,7 +97,7 @@ public class RestaurantController {
 
     @PutMapping
     public ResponseEntity<?> updateRestaurant(HttpServletRequest request, @RequestBody Restaurant newRestaurant) {
-        var updatedRestaurant = restaurantHelper.transferProperties(request, newRestaurant);
+        var updatedRestaurant = restaurantHelper.updateRestaurant(request, newRestaurant);
 
         var restaurantModel = mapper.entityToModel(updatedRestaurant);
 
@@ -109,7 +109,7 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant, HttpServletRequest request) {
+    public ResponseEntity<?> addRestaurant(HttpServletRequest request, @RequestBody Restaurant restaurant) {
         var restaurantModel = restaurantHelper.saveRestaurant(request, restaurant);
 
         var entityModel = modelAssembler.toModel(restaurantModel);
@@ -119,7 +119,7 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/owner/{id}")
     public ResponseEntity<?> deleteRestaurant(@PathVariable UUID id) {
         restaurantService.deleteRestaurantById(id);
 
@@ -128,7 +128,7 @@ public class RestaurantController {
                 .build();
     }
 
-    @DeleteMapping("/admin")
+    @DeleteMapping("/owner")
     public ResponseEntity<?> deleteAllRestaurants() {
         restaurantService.deleteAllRestaurants();
 

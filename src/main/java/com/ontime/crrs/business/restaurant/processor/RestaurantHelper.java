@@ -22,7 +22,7 @@ public class RestaurantHelper {
     private final JwtService jwtService;
     private final AuthenticationService authService;
 
-    public RestaurantEntity transferProperties(HttpServletRequest request, Restaurant restaurantModel) {
+    public RestaurantEntity updateRestaurant(HttpServletRequest request, Restaurant restaurantModel) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
