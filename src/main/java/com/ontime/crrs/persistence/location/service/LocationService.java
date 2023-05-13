@@ -9,7 +9,6 @@ import java.util.UUID;
 @Service
 public interface LocationService {
 
-
     LocationEntity findLocationById(UUID id) throws NoSuchElementException;
 
     LocationEntity updateLocation(LocationEntity location);

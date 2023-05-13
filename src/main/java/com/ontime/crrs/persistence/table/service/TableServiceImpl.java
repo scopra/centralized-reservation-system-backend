@@ -12,6 +12,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class TableServiceImpl implements TableService {
+
     private final TableRepository repository;
 
     public TableEntity addTable(TableEntity table) {
@@ -45,4 +46,13 @@ public class TableServiceImpl implements TableService {
     public List<TableEntity> findAllTables() {
         return repository.findAll();
     }
+
+    public List<TableEntity> findTablesByRestaurant(String restaurantName) {
+        return repository.findTablesByRestaurant_Name(restaurantName);
+    }
+
+    public List<UUID> findTableIdsByCapacityAndRestaurant(int capacity, String name) {
+        return repository.findTableIdsByCapacityAndRestaurant(capacity, name);
+    }
+
 }

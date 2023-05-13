@@ -1,9 +1,10 @@
 package com.ontime.crrs.business.restaurant.controller;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
+import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.business.restaurant.processor.RestaurantHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -95,6 +96,7 @@ public class RestaurantController {
         return ResponseEntity.ok(id);
     }
 
+    //TODO: FIX
     @PutMapping
     public ResponseEntity<?> updateRestaurant(HttpServletRequest request, @RequestBody Restaurant newRestaurant) {
         var updatedRestaurant = restaurantHelper.updateRestaurant(request, newRestaurant);
@@ -109,10 +111,10 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addRestaurant(HttpServletRequest request, @RequestBody Restaurant restaurant) {
-        var restaurantModel = restaurantHelper.saveRestaurant(request, restaurant);
+    public ResponseEntity<?> addRestaurant(HttpServletRequest request, @RequestBody RestaurantCreationRequest creationRequest) {
+        var restaurant = restaurantHelper.saveRestaurant(creationRequest);
 
-        var entityModel = modelAssembler.toModel(restaurantModel);
+        var entityModel = modelAssembler.toModel(restaurant);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

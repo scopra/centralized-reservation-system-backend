@@ -14,7 +14,6 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository repository;
 
-
     public LocationEntity findLocationById(UUID id) throws NoSuchElementException {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Location with ID: " + id + " not found."));

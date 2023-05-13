@@ -20,4 +20,9 @@ public interface TableService {
     void deleteAllTables();
 
     List<TableEntity> findAllTables();
+
+    List<TableEntity> findTablesByRestaurant(String restaurantName);
+
+    List<UUID> findTableIdsByCapacityAndRestaurant(int capacity, String name);
+
 }

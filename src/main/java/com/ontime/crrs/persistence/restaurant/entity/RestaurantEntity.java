@@ -5,7 +5,6 @@ import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,20 +43,10 @@ public class RestaurantEntity {
 
     @Column(
             name = "phone_number",
-
             nullable = false,
             length = 15
     )
     private String phoneNumber;
-
-    @Column(
-            name = "capacity",
-            nullable = false
-    )
-    private int capacity;
-
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<TableEntity> tables;
 
     @Column(name = "image")
     private String image;
@@ -75,6 +64,12 @@ public class RestaurantEntity {
     @JoinColumn(name = "owner_id")
     private UserEntity owner;
 
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL
+    )
+    private List<TableEntity> tables;
+
     public void setName(String name) {
         this.name = name;
     }
@@ -87,44 +82,46 @@ public class RestaurantEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setLocation(LocationEntity location) {
         this.location = location;
     }
 
-    public void setTables(List<TableEntity> tables) {
-        this.tables = tables;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public void setOwner(UserEntity owner) {
         this.owner = owner;
     }
 
-    public RestaurantEntity(String name, String description, String phoneNumber, int capacity, List<TableEntity> tables,
-                            String image, LocationEntity location, UserEntity owner) {
+    public void setTables(List<TableEntity> tables) {
+        this.tables = tables;
+    }
+
+    public RestaurantEntity(String name, String description, String phoneNumber, String image, LocationEntity location,
+                            List<TableEntity> tables, UserEntity owner) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
-        this.capacity = capacity;
-        this.tables = tables;
         this.image = image;
         this.location = location;
+        this.tables = tables;
         this.owner = owner;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         RestaurantEntity that = (RestaurantEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(phoneNumber, that.phoneNumber) &&
+                Objects.equals(image, that.image) &&
+                Objects.equals(location, that.location) &&
+                Objects.equals(tables, that.tables) &&
+                Objects.equals(owner, that.owner);
     }
 
     @Override

@@ -1,9 +1,12 @@
-package com.ontime.crrs.business.restaurant.processor;
+package com.ontime.crrs.business.restaurant.helper;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
+import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
 import com.ontime.crrs.business.security.auth.AuthenticationService;
 import com.ontime.crrs.business.security.jwt.JwtService;
+import com.ontime.crrs.business.table.helper.TableHelper;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
@@ -19,6 +22,7 @@ public class RestaurantHelper {
 
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
+    private final TableHelper tableHelper;
     private final JwtService jwtService;
     private final AuthenticationService authService;
 
@@ -30,23 +34,54 @@ public class RestaurantHelper {
 
         copyProperties(restaurantModel, updatedRestaurantEntity);
         copyProperties(restaurantModel.getLocation(), updatedRestaurantEntity.getLocation());
+        //TODO: Add WorkingHours
 
         restaurantService.updateRestaurant(updatedRestaurantEntity);
 
         return updatedRestaurantEntity;
     }
 
-    public Restaurant saveRestaurant(HttpServletRequest request, Restaurant restaurant) {
+    public RestaurantCreationResponse saveRestaurant(RestaurantCreationRequest creationRequest) {
+        var restaurant = getRestaurantFromRequest(creationRequest);
+
+        var savedRestaurant = restaurantService.updateRestaurant(restaurantMapper.modelToEntity(restaurant));
+
+        var tables = tableHelper.addTables(creationRequest);
+
+        return RestaurantCreationResponse.builder()
+                .restaurant(restaurantMapper.entityToModel(savedRestaurant))
+                .tables(tables)
+                .build();
+    }
+
+    public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
-        var entity = restaurantMapper.modelToEntity(restaurant);
+        var restaurant = getRestaurantFromRequest(creationRequest);
 
+        var entity = restaurantMapper.modelToEntity(restaurant);
         entity.setOwner(owner);
 
-        restaurantService.updateRestaurant(entity);
+        var savedRestaurant = restaurantService.updateRestaurant(entity);
 
-        return restaurantMapper.entityToModel(entity);
+        var tables = tableHelper.addTables(creationRequest);
+
+        return RestaurantCreationResponse.builder()
+                .restaurant(restaurantMapper.entityToModel(savedRestaurant))
+                .tables(tables)
+                .build();
+    }
+
+    private Restaurant getRestaurantFromRequest(RestaurantCreationRequest creationRequest) {
+        return Restaurant.builder()
+                .name(creationRequest.getName())
+                .location(creationRequest.getLocation())
+                .image(creationRequest.getImage())
+                .description(creationRequest.getDescription())
+                .phoneNumber(creationRequest.getPhoneNumber())
+                //TODO: Add WorkingHours
+                .build();
     }
 
     private RestaurantEntity findRestaurantFromOwnerJWT(String ownerJWT) {
