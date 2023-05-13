@@ -31,10 +31,11 @@ public class TableOccupancyProcessorImpl implements TableOccupancyProcessor {
     private final TableOccupancyService tableOccupancyService;
     private final TableMapper tableMapper;
 
-    public Table assignTable(String restaurantName, Reservation reservation) {
-        reservation.setRestaurant(restaurantMapper.entityToModel(restaurantService.findRestaurantByName(restaurantName)));
+    public Table assignTable(Reservation reservation) {
+        var restaurant = restaurantService.findRestaurantByName(reservation.getRestaurant().getName());
+        reservation.setRestaurant(restaurantMapper.entityToModel(restaurant));
 
-        var tableOccupanciesMap = mapTablesToOccupancies(findTablesForCapacity(restaurantName,
+        var tableOccupanciesMap = mapTablesToOccupancies(findTablesForCapacity(restaurant.getName(),
                 reservation.getCapacity()), reservation.getDate());
 
         var table = retrieveTable(tableOccupanciesMap, reservation);

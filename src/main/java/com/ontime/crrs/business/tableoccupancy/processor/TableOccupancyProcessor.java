@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TableOccupancyProcessor {
 
-    Table assignTable(String restaurantName, Reservation reservation);
+    Table assignTable(Reservation reservation);
 
 }
