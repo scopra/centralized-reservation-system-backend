@@ -20,7 +20,7 @@ public class TableOccupancyServiceImpl implements TableOccupancyService {
     }
 
     public void freeUpTable(TableOccupancyEntity tableOccupancy) {
-        if (!checkIfOccupied(tableOccupancy)) {
+        if (!checkIfExists(tableOccupancy)) {
             throw new EntityNotFoundException("Occupancy does not exist for table with ID: " +
                     tableOccupancy.getTable().getId());
         }
@@ -28,7 +28,7 @@ public class TableOccupancyServiceImpl implements TableOccupancyService {
         occupancyRepository.deleteById(tableOccupancy.getId());
     }
 
-    public boolean checkIfOccupied(TableOccupancyEntity tableOccupancy) {
+    public boolean checkIfExists(TableOccupancyEntity tableOccupancy) {
         return occupancyRepository.existsById(tableOccupancy.getId());
     }
 

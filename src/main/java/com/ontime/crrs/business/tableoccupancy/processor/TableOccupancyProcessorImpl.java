@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class TableOccupancyProcessorImpl implements TableOccupancyProcessor{
+public class TableOccupancyProcessorImpl implements TableOccupancyProcessor {
 
     private final TableService tableService;
     private final RestaurantService restaurantService;
@@ -85,7 +85,7 @@ public class TableOccupancyProcessorImpl implements TableOccupancyProcessor{
         var reservedFrom = tableOccupancy.getReservedFrom();
         var reservedTo = tableOccupancy.getReservedTo();
 
-        return (start.isBefore(reservedFrom) && (end.isBefore(reservedTo) || end.equals(reservedTo)))
+        return (start.isBefore(reservedFrom) && (end.isBefore(reservedFrom) || end.equals(reservedFrom)))
                 || (start.isAfter(reservedTo) || start.equals(reservedTo));
     }
 

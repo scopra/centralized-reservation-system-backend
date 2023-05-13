@@ -61,7 +61,7 @@ public class RestaurantEntity {
     private LocationEntity location;
 
     @OneToMany(
-            mappedBy= "restaurant",
+            mappedBy = "restaurant",
             cascade = ALL
     )
     private List<TableEntity> tables;

@@ -85,7 +85,7 @@ public class TableController {
     //TESTS
     @PostMapping("/test/occupancy/{name}")
     public ResponseEntity<?> testAddingOccupancy(@PathVariable String name, @RequestBody TableOccupancy tableOccupancy) {
-        var table = tableService.findTableById(UUID.fromString("79fd0c81-a1bb-4d3e-b72a-3b7f27f3d4d3"));
+        var table = tableService.findTableById(UUID.fromString("06cbee23-fa0a-4537-b1ef-c6f573d6203a"));
         tableOccupancy.setTable(mapper.entityToModel(table));
 
         var entityToSave = tableOccupancyMapper.modelToEntity(tableOccupancy);
@@ -99,6 +99,15 @@ public class TableController {
     @GetMapping("/test/reserve/{restaurantName}")
     public ResponseEntity<Table> reserveTable(@PathVariable String restaurantName, @RequestBody Reservation reservation) {
         return ResponseEntity.ok(processor.assignTable(restaurantName, reservation));
+    }
+
+    @DeleteMapping("/to")
+    public ResponseEntity<?> deleteOccupancies() {
+        tableOccupancyService.deleteAllOccupancies();
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
 }

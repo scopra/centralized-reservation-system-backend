@@ -25,7 +25,7 @@ public class RestaurantHelper {
 
         copyProperties(restaurantModel, updatedRestaurantEntity);
         copyProperties(restaurantModel.getLocation(), updatedRestaurantEntity.getLocation());
-        copyProperties(restaurantModel.getWorkingHours(), updatedRestaurantEntity.getWorkingHours());
+        //TODO: Add WorkingHours
 
         restaurantService.updateRestaurant(updatedRestaurantEntity);
 
@@ -45,14 +45,14 @@ public class RestaurantHelper {
                 .build();
     }
 
-    private Restaurant getRestaurantFromRequest(RestaurantCreationRequest creationRequest){
+    private Restaurant getRestaurantFromRequest(RestaurantCreationRequest creationRequest) {
         return Restaurant.builder()
                 .name(creationRequest.getName())
                 .location(creationRequest.getLocation())
                 .image(creationRequest.getImage())
                 .description(creationRequest.getDescription())
                 .phoneNumber(creationRequest.getPhoneNumber())
-                .workingHours(creationRequest.getWorkingHours())
+                //TODO: Add WorkingHours
                 .build();
     }
 

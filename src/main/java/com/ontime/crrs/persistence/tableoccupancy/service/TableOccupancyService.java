@@ -13,7 +13,7 @@ public interface TableOccupancyService {
 
     public void freeUpTable(TableOccupancyEntity tableOccupancy);
 
-    public boolean checkIfOccupied(TableOccupancyEntity tableOccupancy);
+    public boolean checkIfExists(TableOccupancyEntity tableOccupancy);
 
     TableOccupancyEntity getTableOccupancyById(UUID id);
 
