@@ -13,7 +13,6 @@ public class OrderDiscount implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Integer overallDiscount = 1;
     private Map<Category, Integer> itemDiscounts;
 
 }

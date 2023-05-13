@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -40,10 +41,10 @@ public class RuleEntity {
     private int groupSize;
 
     @Column(name = "start_time")
-    private LocalTime start;
+    private LocalTime startTime;
 
     @Column(name = "end_time")
-    private LocalTime end;
+    private LocalTime endTime;
 
     @Column(
             name = "discount_on",
@@ -57,6 +58,11 @@ public class RuleEntity {
     )
     private int discount;
 
+    @Column(
+            name = "day_of_week"
+    )
+    private DayOfWeek dayOfWeek;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
@@ -69,12 +75,16 @@ public class RuleEntity {
         this.groupSize = groupSize;
     }
 
-    public void setStart(LocalTime start) {
-        this.start = start;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
-    public void setEnd(LocalTime end) {
-        this.end = end;
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     public void setDiscount(int discount) {
@@ -96,8 +106,8 @@ public class RuleEntity {
         RuleEntity that = (RuleEntity) o;
         return groupSize == that.groupSize && discount == that.discount &&
                 Objects.equals(id, that.id) && ruleType == that.ruleType &&
-                Objects.equals(start, that.start) &&
-                Objects.equals(end, that.end) && discountOn == that.discountOn &&
+                Objects.equals(startTime, that.startTime) &&
+                Objects.equals(endTime, that.endTime) && discountOn == that.discountOn && dayOfWeek == that.dayOfWeek &&
                 Objects.equals(restaurant, that.restaurant);
     }
 

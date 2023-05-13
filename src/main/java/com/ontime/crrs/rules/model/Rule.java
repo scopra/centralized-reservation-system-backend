@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -25,10 +26,11 @@ public class Rule implements Serializable {
     private UUID id;
     private RuleType ruleType;
     private int groupSize;
-    private LocalTime start;
-    private LocalTime end;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private int discount;
     private Category discountOn;
     private Restaurant restaurant;
+    private DayOfWeek dayOfWeek;
 
 }

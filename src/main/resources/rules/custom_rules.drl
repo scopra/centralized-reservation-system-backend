@@ -5,48 +5,85 @@ import com.ontime.crrs.rules.CustomerType;
 import com.ontime.crrs.rules.MonitoringSystem;
 import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.persistence.menuitem.util.Category;
+import com.ontime.crrs.business.reservation.model.Reservation;
+import java.time.LocalDate;
+import java.time.LocalTime;
 global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
 
 dialect "mvel"
+
+rule "Quiet Times Discount - Item"
+    when
+        $rule : Rule(ruleType == RuleType.QUIET_TIMES, discountOn != Category.ALL)
+        MonitoringSystem(quietTimes == true)
+        MenuItem(category == $rule.discountOn)
+    then
+        System.out.println("\n========== Adding QUIET TIMES " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.itemDiscounts.putIfAbsent($rule.discountOn, $rule.discount);
+end
 
 rule "Quiet Times Discount - All"
     when
         $rule : Rule(ruleType == RuleType.QUIET_TIMES, discountOn == Category.ALL)
         MonitoringSystem(quietTimes == true)
     then
-        System.out.println("\n========== Adding QUIET TIMES discount on ALL: " + $rule.discount + "% =============\n");
-        orderDiscount.setOverallDiscount($rule.discount);
+        System.out.println("\n========== Adding QUIET TIMES " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.itemDiscounts.putIfAbsent(Category.ALL, $rule.discount);
 end
 
-rule "Quiet Times Discount - Item Type"
+rule "Happy Hours Discount - Item"
     when
-        $rule : Rule(ruleType == RuleType.QUIET_TIMES)
-        MonitoringSystem(quietTimes == true)
+        $rule : Rule(ruleType == RuleType.HAPPY_HOURS, discountOn != Category.ALL)
+        $reservation : Reservation(startTime.isAfter($rule.startTime) || startTime.equals($rule.startTime))
+        MenuItem(category == $rule.discountOn)
     then
-        System.out.println("\n========== Adding QUIET TIMES discount on " + $rule.getDiscountOn().name() + " : " + $rule.discount + "% =============\n");
-        orderDiscount.setOverallDiscount($rule.discount);
+        System.out.println("\n========== Adding HAPPY HOURS " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.getItemDiscounts().putIfAbsent($rule.discountOn, $rule.discount);
 end
 
-rule "Happy Hours Discount"
+rule "Happy Hours Discount - All"
     when
-        $rule : Rule(ruleType == RuleType.HAPPY_HOURS)
+        $rule : Rule(ruleType == RuleType.HAPPY_HOURS, discountOn == Category.ALL)
+        $reservation : Reservation(startTime.isAfter($rule.startTime) || startTime.equals($rule.startTime))
     then
-        System.out.println("========== Adding HAPPY HOURS discount ... =============");
-        orderDiscount.setOverallDiscount($rule.discount);
+        System.out.println("\n========== Adding HAPPY HOURS " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.getItemDiscounts().putIfAbsent(Category.ALL, $rule.discount);
 end
 
-rule "Group Specials Discount"
+rule "Group Specials Discount - Item"
     when
-        $rule : Rule(ruleType == RuleType.GROUP_SPECIALS)
+        $rule : Rule(ruleType == RuleType.GROUP_SPECIALS, discountOn != Category.ALL)
+        Reservation(numberOfGuests == $rule.groupSize)
+        MenuItem(category == $rule.discountOn)
     then
-        System.out.println("========== Adding GROUP SPECIALS discount ... =============");
-        orderDiscount.setOverallDiscount($rule.discount);
+        System.out.println("\n========== Adding GROUP SPECIALS " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.getItemDiscounts().putIfAbsent($rule.discountOn, $rule.discount);
 end
 
-rule "Day of Week Discount"
+rule "Group Specials Discount - All"
     when
-        $rule : Rule(ruleType == RuleType.DAY_OF_WEEK)
+        $rule : Rule(ruleType == RuleType.GROUP_SPECIALS, discountOn == Category.ALL)
+        Reservation(numberOfGuests == $rule.groupSize)
     then
-        System.out.println("========== Adding DAY OF WEEK discount ... =============");
-        orderDiscount.setOverallDiscount($rule.discount);
+        System.out.println("\n========== Adding GROUP SPECIALS " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.getItemDiscounts().putIfAbsent(Category.ALL, $rule.discount);
+end
+
+rule "Day of Week Discount - Item"
+    when
+        $rule : Rule(ruleType == RuleType.DAY_OF_WEEK, discountOn != Category.ALL)
+        $reservation : Reservation(getReservationDay($reservation.date) == $rule.dayOfWeek)
+        MenuItem(category == $rule.discountOn)
+    then
+        System.out.println("\n========== Adding DAY OF WEEK (" + $rule.dayOfWeek + ") " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.getItemDiscounts().putIfAbsent($rule.discountOn, $rule.discount);
+end
+
+rule "Day of Week Discount - All"
+    when
+        $rule : Rule(ruleType == RuleType.DAY_OF_WEEK, discountOn == Category.ALL)
+        $reservation : Reservation(getReservationDay($reservation.date) == $rule.dayOfWeek)
+    then
+        System.out.println("\n========== Adding DAY OF WEEK (" + $rule.dayOfWeek + ") " + $rule.discount + "% discount on " + $rule.discountOn + " =============\n");
+        orderDiscount.getItemDiscounts().putIfAbsent(Category.ALL, $rule.discount);
 end

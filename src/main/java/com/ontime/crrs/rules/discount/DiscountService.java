@@ -11,6 +11,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class DiscountService {
     public OrderDiscount getDiscount(Reservation reservation) {
         KieSession kieSession = kieContainer.newKieSession();
         OrderDiscount orderDiscount = new OrderDiscount();
+        orderDiscount.setItemDiscounts(new HashMap<>());
 
         monitoringSystem.setQuietTimes(monitoringSystem.isDuringQuietTimes());
         var ruleList = getRulesByRestaurant(reservation.getRestaurant().getName());
@@ -35,6 +37,7 @@ public class DiscountService {
         ruleList.forEach(kieSession::insert);
         orderedItems.forEach(kieSession::insert);
         kieSession.insert(monitoringSystem);
+        kieSession.insert(reservation);
 
         kieSession.fireAllRules();
         kieSession.dispose();
