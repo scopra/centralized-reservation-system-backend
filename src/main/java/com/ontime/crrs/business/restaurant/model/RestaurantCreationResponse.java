@@ -1,12 +1,12 @@
-package com.ontime.crrs.business.table.model;
+package com.ontime.crrs.business.restaurant.model;
 
-import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.table.model.Table;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,13 +14,13 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Table implements Serializable {
+public class RestaurantCreationResponse implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private UUID id;
-    private int capacity;
     private Restaurant restaurant;
+    private List<Table> tables;
+    //TODO: Add menu items.
 
 }

@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.table.model;
+package com.ontime.crrs.business.reservation.model;
 
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import lombok.*;
@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -14,13 +15,16 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Table implements Serializable {
+public class Reservation implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private UUID id;
     private int capacity;
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private String specialComment;
     private Restaurant restaurant;
 
 }

@@ -4,6 +4,8 @@ import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
+
 @Component
 public class RestaurantTestHelper {
 
@@ -15,6 +17,8 @@ public class RestaurantTestHelper {
     public static final String NAME_2 = "Name 2";
     public static final String ADDRESS_1 = "Address 1";
     public static final String ADDRESS_2 = "Address 2";
+    public static final LocalTime OPEN_TIME = LocalTime.of(8, 0, 0);
+    public static final LocalTime CLOSE_TIME = LocalTime.of(16, 0, 0);
     public static final RestaurantEntity UPDATED_RESTAURANT = buildCustomRestaurantEntity(RESTAURANT_NAME, RESTAURANT_ADDRESS,
             RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
     public static final RestaurantEntity RESTAURANT_1 = buildCustomRestaurantEntity("First", "Address 1",
@@ -27,7 +31,6 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name(name)
                 .phoneNumber("033/123-456")
-                .capacity(25)
                 .description("Default entity description.")
                 .location(buildDefaultLocation())
                 .build();
@@ -37,7 +40,6 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name("McDonalds")
                 .phoneNumber("033/123-456")
-                .capacity(25)
                 .description("Default entity description.")
                 .location(buildDefaultLocation("Marsala Tita 36"))
                 .build();
@@ -72,7 +74,6 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name(name)
                 .description("Default description.")
-                .capacity(25)
                 .phoneNumber("033/123-456")
                 .location(buildDefaultLocation(address, municipality, city))
                 .build();
@@ -82,7 +83,6 @@ public class RestaurantTestHelper {
         return RestaurantEntity.builder()
                 .name("Real")
                 .phoneNumber("123-456-789")
-                .capacity(27)
                 .description("Old Description")
                 .location(buildDefaultLocation())
                 .build();

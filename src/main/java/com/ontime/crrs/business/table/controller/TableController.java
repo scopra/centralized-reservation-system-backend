@@ -2,13 +2,15 @@ package com.ontime.crrs.business.table.controller;
 
 import com.ontime.crrs.business.mapper.table.TableMapper;
 import com.ontime.crrs.business.table.model.Table;
+import com.ontime.crrs.business.table.model.TableModelAssembler;
+import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.table.service.TableService;
+import com.ontime.crrs.persistence.tableoccupancy.service.TableOccupancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
@@ -19,27 +21,39 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 @RequestMapping("/tables")
 public class TableController {
+
     private final TableService tableService;
+    private final RestaurantService restaurantService;
+    private final TableOccupancyService tableOccupancyService;
     private final TableMapper mapper;
+    private final TableModelAssembler modelAssembler;
 
-    @GetMapping
-    public CollectionModel<Table> getTables() {
-        var tables = mapper.entitiesToModels(tableService.findAllTables()).stream().toList();
+    @GetMapping("/owner/id/{id}")
+    public EntityModel<?> getTableById(@PathVariable UUID id) {
+        var table = mapper.entityToModel(tableService.findTableById(id));
 
-        return CollectionModel.of(tables, linkTo(methodOn(TableController.class).getTables()).withSelfRel());
+        return modelAssembler.toModel(table);
     }
 
-    @PostMapping
-    public ResponseEntity<?> addTable(@RequestBody Table table,  UriComponentsBuilder uriBuilder) {
+    @GetMapping("/owner/{restaurantName}")
+    public CollectionModel<Table> getAllTablesForRestaurant(@PathVariable String restaurantName) {
+        var tables = mapper.entitiesToModels(tableService.findTablesByRestaurant(restaurantName));
+
+        return CollectionModel.of(tables,
+                linkTo(methodOn(TableController.class).getAllTablesForRestaurant(restaurantName)).withSelfRel());
+    }
+
+    @PostMapping("/owner/{restaurantName}")
+    public EntityModel<Table> addTableForRestaurant(@PathVariable String restaurantName, @RequestBody Table table) {
         var tableEntity = mapper.modelToEntity(table);
+        tableEntity.setRestaurant(restaurantService.findRestaurantByName(restaurantName));
 
-        var createdTable =  tableService.addTable(tableEntity);
-        var location = uriBuilder.path("/tables/{id}").buildAndExpand(createdTable.getId()).toUri();
+        var tableModel = mapper.entityToModel(tableService.addTable(tableEntity));
 
-        return ResponseEntity.created(location).build();
+        return modelAssembler.toModel(tableModel);
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/owner/{id}")
     public ResponseEntity<?> deleteTable(@PathVariable UUID id) {
         tableService.deleteTableById(id);
 
@@ -56,4 +70,14 @@ public class TableController {
                 .noContent()
                 .build();
     }
+
+    @DeleteMapping("/admin/occupancy")
+    public ResponseEntity<?> deleteAllOccupancies() {
+        tableOccupancyService.deleteAllOccupancies();
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 }

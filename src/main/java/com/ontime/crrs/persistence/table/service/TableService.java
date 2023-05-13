@@ -1,6 +1,5 @@
 package com.ontime.crrs.persistence.table.service;
 
-import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,7 @@ import java.util.UUID;
 public interface TableService {
 
     TableEntity addTable(TableEntity table);
+
     TableEntity findTableById(UUID id);
 
     boolean checkIfTableExistsById(UUID id);
@@ -19,5 +19,10 @@ public interface TableService {
 
     void deleteAllTables();
 
-   List<TableEntity> findAllTables();
+    List<TableEntity> findAllTables();
+
+    List<TableEntity> findTablesByRestaurant(String restaurantName);
+
+    List<UUID> findTableIdsByCapacityAndRestaurant(int capacity, String name);
+
 }

@@ -9,7 +9,10 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = LocationMapper.class, componentModel = "spring")
+@Mapper(
+        uses = {LocationMapper.class},
+        componentModel = "spring"
+)
 public interface RestaurantMapper {
 
     RestaurantMapper INSTANCE = Mappers.getMapper(RestaurantMapper.class);
@@ -17,6 +20,7 @@ public interface RestaurantMapper {
     Restaurant entityToModel(RestaurantEntity entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tables", ignore = true)
     RestaurantEntity modelToEntity(Restaurant model);
 
     List<Restaurant> entitiesToModels(List<RestaurantEntity> entities);

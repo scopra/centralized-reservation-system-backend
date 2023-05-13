@@ -18,17 +18,6 @@ Feature: Restaurant Service
     Then the restaurant with correct ID is found
 
   Scenario: Find restaurant by ID when not existing in database
-<<<<<<< HEAD
-    Given the restaurant already exists in the database
-    When I search for restaurant ID by name "Fake"
-    Then the findRestaurantIdByName method should return null
-
-#   # TO BE REFACTORED
-#  Scenario: Find restaurant by name
-#    Given a restaurant with name "My Restaurant" exists
-#    When I search for restaurant with name "My Restaurant"
-#    Then the restaurant with name "My Restaurant" is found
-=======
     When the restaurant does not exist in the database
     Then an exception is thrown when I search for ID by name "Fake"
 
@@ -36,7 +25,6 @@ Feature: Restaurant Service
     Given a restaurant with name "Real" exists in the database
     When I search for restaurant by name "Real"
     Then the restaurant with name "Real" is found
->>>>>>> master
 
   Scenario: Find all restaurants when database not empty
     Given more than one restaurant exists in the database
@@ -53,42 +41,6 @@ Feature: Restaurant Service
     When I search for restaurant by ID
     Then the restaurant entity is returned
 
-<<<<<<< HEAD
-#  Scenario: Find restaurants in municipality
-#    Given a restaurant in municipality "Novo Sarajevo" exists
-#    When I search for restaurants in municipality "Novo Sarajevo"
-#    Then the list of all restaurants is returned
-#
-#  Scenario: Find restaurants in municipality
-#    Given a restaurant in municipality "Novo Sarajevo" exists
-#    When I search for restaurants in municipality "Staro Sarajevo"
-#    Then the returned list of restaurants is empty
-#
-#  Scenario: Find restaurants in city
-#    Given a restaurant in city "City1" exists
-#    When I search for restaurants in city "City1"
-#    Then the restaurants in city "City1" are found
-#
-#  Scenario: Find restaurant by address
-#    Given a restaurant with address "1234 Main Street" exists
-#    When I search for restaurant by address "1234 Main Street"
-#    Then the restaurant with address "1234 Main Street" is found
-#
-#  Scenario: Check if restaurant exists
-#    Given a restaurant with ID "4321" exists
-#    When I check if restaurant with ID "4321" exists
-#    Then the restaurant with ID "4321" exists
-#
-#  Scenario: Delete restaurant by ID
-#    Given a restaurant with ID "8765" exists
-#    When I delete restaurant with ID "8765"
-#    Then the restaurant with ID "8765" is deleted
-#
-#  Scenario: Delete all restaurants
-#    Given multiple restaurants exist
-#    When I delete all restaurants
-#    Then all restaurants are deleted
-=======
   Scenario: Find restaurants in municipality
     Given more than one restaurant in municipality "Novo Sarajevo" exists in the database
     When I search for restaurants in municipality "Novo Sarajevo"
@@ -127,4 +79,3 @@ Feature: Restaurant Service
     Given more than one restaurant exists in the database
     When I delete all restaurants
     Then all restaurants are deleted
->>>>>>> master
