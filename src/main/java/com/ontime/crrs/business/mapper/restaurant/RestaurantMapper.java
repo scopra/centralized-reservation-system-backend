@@ -11,7 +11,10 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(
-        uses = {LocationMapper.class, WorkingHoursMapper.class},
+        uses = {
+                LocationMapper.class,
+                WorkingHoursMapper.class
+        },
         componentModel = "spring"
 )
 public interface RestaurantMapper {
@@ -21,6 +24,7 @@ public interface RestaurantMapper {
     Restaurant entityToModel(RestaurantEntity entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tables", ignore = true)
     RestaurantEntity modelToEntity(Restaurant model);
 
     List<Restaurant> entitiesToModels(List<RestaurantEntity> entities);

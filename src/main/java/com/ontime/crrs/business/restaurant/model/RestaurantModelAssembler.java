@@ -30,4 +30,11 @@ public class RestaurantModelAssembler implements RepresentationModelAssembler<Re
                 linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
     }
 
+    public EntityModel<RestaurantCreationResponse> toModel(RestaurantCreationResponse restaurant) {
+
+        return EntityModel.of(restaurant,
+                linkTo(methodOn(RestaurantController.class).getRestaurantByName(restaurant.getRestaurant().getName())).withSelfRel(),
+                linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
+    }
+
 }

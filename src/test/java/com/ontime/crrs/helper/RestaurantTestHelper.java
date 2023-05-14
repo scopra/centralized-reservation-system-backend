@@ -7,10 +7,8 @@ import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
-import lombok.experimental.Helper;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
