@@ -1,5 +1,8 @@
-package com.ontime.crrs.business.security.auth;
+package com.ontime.crrs.business.security.auth.service;
 
+import com.ontime.crrs.business.security.auth.model.AuthenticationRequest;
+import com.ontime.crrs.business.security.auth.model.AuthenticationResponse;
+import com.ontime.crrs.business.security.auth.model.RegistrationRequest;
 import com.ontime.crrs.business.security.exception.PasswordMismatchException;
 import com.ontime.crrs.business.security.jwt.JwtService;
 import com.ontime.crrs.persistence.user.entity.UserEntity;

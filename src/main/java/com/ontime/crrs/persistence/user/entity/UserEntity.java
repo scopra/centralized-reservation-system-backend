@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.STRING;
 
 @Getter
@@ -58,7 +59,10 @@ public class UserEntity implements UserDetails {
     @Column(name = "role")
     private Role role;
 
-    @OneToOne(mappedBy = "owner")
+    @OneToOne(
+            mappedBy = "owner",
+            cascade = ALL
+    )
     private RestaurantEntity restaurant;
 
     @Override

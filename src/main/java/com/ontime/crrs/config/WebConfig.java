@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.security.config;
+package com.ontime.crrs.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

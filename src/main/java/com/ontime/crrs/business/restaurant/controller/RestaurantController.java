@@ -96,14 +96,11 @@ public class RestaurantController {
         return ResponseEntity.ok(id);
     }
 
-    //TODO: FIX
     @PutMapping
     public ResponseEntity<?> updateRestaurant(HttpServletRequest request, @RequestBody Restaurant newRestaurant) {
         var updatedRestaurant = restaurantHelper.updateRestaurant(request, newRestaurant);
 
-        var restaurantModel = mapper.entityToModel(updatedRestaurant);
-
-        var entityModel = modelAssembler.toModel(restaurantModel);
+        var entityModel = modelAssembler.toModel(updatedRestaurant);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -112,7 +109,7 @@ public class RestaurantController {
 
     @PostMapping
     public ResponseEntity<?> addRestaurant(HttpServletRequest request, @RequestBody RestaurantCreationRequest creationRequest) {
-        var restaurant = restaurantHelper.saveRestaurant(creationRequest);
+        var restaurant = restaurantHelper.saveRestaurant(request, creationRequest);
 
         var entityModel = modelAssembler.toModel(restaurant);
 
@@ -121,8 +118,10 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/owner/{id}")
-    public ResponseEntity<?> deleteRestaurant(@PathVariable UUID id) {
+    @DeleteMapping("/owner")
+    public ResponseEntity<?> deleteRestaurant(HttpServletRequest request) {
+        var id = restaurantHelper.processRestaurantDeletion(request);
+
         restaurantService.deleteRestaurantById(id);
 
         return ResponseEntity
@@ -130,7 +129,7 @@ public class RestaurantController {
                 .build();
     }
 
-    @DeleteMapping("/owner")
+    @DeleteMapping("/admin")
     public ResponseEntity<?> deleteAllRestaurants() {
         restaurantService.deleteAllRestaurants();
 

@@ -60,7 +60,7 @@ public class RestaurantEntity {
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
-    @OneToOne(cascade = ALL)
+    @OneToOne
     @JoinColumn(name = "owner_id")
     private UserEntity owner;
 

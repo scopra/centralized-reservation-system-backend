@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.security.auth;
+package com.ontime.crrs.business.security.auth.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +12,15 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest implements Serializable {
+public class RegistrationRequest implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private String name;
+    private String surname;
     private String email;
     private String password;
+    private String confirmPassword;
 
 }

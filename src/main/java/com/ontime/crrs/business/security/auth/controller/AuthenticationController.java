@@ -1,6 +1,10 @@
-package com.ontime.crrs.business.security.auth;
+package com.ontime.crrs.business.security.auth.controller;
 
 import com.ontime.crrs.business.mapper.user.UserMapper;
+import com.ontime.crrs.business.security.auth.model.AuthenticationRequest;
+import com.ontime.crrs.business.security.auth.model.AuthenticationResponse;
+import com.ontime.crrs.business.security.auth.model.RegistrationRequest;
+import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

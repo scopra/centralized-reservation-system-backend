@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.security.config;
+package com.ontime.crrs.config;
 
 import com.ontime.crrs.persistence.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
