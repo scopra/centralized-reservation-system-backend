@@ -4,7 +4,7 @@ import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.mapper.table.TableMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
-import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
+import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
 import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.table.helper.TableHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
@@ -53,7 +53,7 @@ public class RestaurantHelper {
         return restaurantEntity.getId();
     }
 
-    public RestaurantInformation saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
+    public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
@@ -66,7 +66,7 @@ public class RestaurantHelper {
 
         var tables = tableHelper.addTables(creationRequest);
 
-        return RestaurantInformation.builder()
+        return RestaurantCreationResponse.builder()
                 .restaurant(restaurantMapper.entityToModel(savedRestaurant))
                 .tables(tables)
                 .build();
@@ -87,17 +87,6 @@ public class RestaurantHelper {
         if (!user.getRole().name().equals("OWNER")) {
             throw new RuntimeException("User that is not OWNER cannot modify a restaurant.");
         }
-    }
-
-    public RestaurantInformation mergeRestaurantInformation(String restaurantName) {
-        var restaurantEntity = restaurantService.findRestaurantByName(restaurantName);
-        var tableEntities = tableService.findTablesByRestaurant(restaurantName);
-        //TODO: add menu items
-
-        return RestaurantInformation.builder()
-                .restaurant(restaurantMapper.entityToModel(restaurantEntity))
-                .tables(tableMapper.entitiesToModels(tableEntities))
-                .build();
     }
 
 }

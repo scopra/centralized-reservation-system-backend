@@ -4,7 +4,7 @@ import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
-import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
+import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,10 +42,11 @@ public class RestaurantController {
     }
 
     @GetMapping("/{name}")
-    public EntityModel<RestaurantInformation> getRestaurantByName(@PathVariable String name) {
-        var restaurantModel = restaurantHelper.mergeRestaurantInformation(name);
+    public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
+        var restaurantEntity = restaurantService.findRestaurantByName(name);
+        //TODO: Add merging logic for menu items.
 
-        //var restaurantModel = mapper.entityToModel(restaurantEntity);
+        var restaurantModel = mapper.entityToModel(restaurantEntity);
 
         return modelAssembler.toModel(restaurantModel);
     }

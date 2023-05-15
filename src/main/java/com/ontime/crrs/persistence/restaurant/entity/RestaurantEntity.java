@@ -51,10 +51,7 @@ public class RestaurantEntity {
     @Column(name = "image")
     private String image;
 
-    /*
-        TODO:
-            - add relationship to Rule
-     */
+    //TODO: add relationship to Rule
 
     @OneToOne(cascade = ALL)
     @JoinColumn(name = "location_id")
