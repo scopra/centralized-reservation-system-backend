@@ -25,7 +25,6 @@ public class OrderRequest implements Serializable {
     private Integer age;
     private Integer amount;
     private CustomerType customerType;
-
     private List<MenuItem> menuItems;
     private LocalTime orderTime;
 
