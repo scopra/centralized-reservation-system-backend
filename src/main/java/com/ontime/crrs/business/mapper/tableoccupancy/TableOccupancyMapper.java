@@ -15,8 +15,6 @@ import java.util.List;
 )
 public interface TableOccupancyMapper {
 
-    //TODO: FIGURE OUT IF I NEED THIS
-
     TableMapper INSTANCE = Mappers.getMapper(TableMapper.class);
 
     TableOccupancy entityToModel(TableOccupancyEntity entity);

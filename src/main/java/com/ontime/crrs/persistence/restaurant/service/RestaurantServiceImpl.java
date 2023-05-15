@@ -58,6 +58,12 @@ public class RestaurantServiceImpl implements RestaurantService {
                         address));
     }
 
+    public RestaurantEntity findRestaurantByOwner(String email) {
+        return repository.findRestaurantByOwner_Email(email)
+                .orElseThrow(() -> new RestaurantNotFoundException("Could not find restaurant with owner email " +
+                        email));
+    }
+
     public boolean checkIfRestaurantExistsById(UUID id) {
         var found = repository.existsById(id);
 
