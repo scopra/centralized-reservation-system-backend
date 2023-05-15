@@ -14,13 +14,13 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantCreationResponse implements Serializable {
+public class RestaurantInformation implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     private Restaurant restaurant;
-    private List<Table> tables;
+    private List<Table> tables; //TODO: remove
     //TODO: Add menu items.
 
 }

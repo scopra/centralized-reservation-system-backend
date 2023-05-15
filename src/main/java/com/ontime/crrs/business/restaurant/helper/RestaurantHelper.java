@@ -1,12 +1,14 @@
 package com.ontime.crrs.business.restaurant.helper;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
+import com.ontime.crrs.business.mapper.table.TableMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
-import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
+import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
 import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.table.helper.TableHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
+import com.ontime.crrs.persistence.table.service.TableService;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ public class RestaurantHelper {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
     private final TableHelper tableHelper;
+    private final TableMapper tableMapper;
+    private final TableService tableService;
     private final AuthenticationService authService;
 
     public Restaurant updateRestaurant(HttpServletRequest request, Restaurant restaurantModel) {
@@ -49,7 +53,7 @@ public class RestaurantHelper {
         return restaurantEntity.getId();
     }
 
-    public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
+    public RestaurantInformation saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
@@ -62,7 +66,7 @@ public class RestaurantHelper {
 
         var tables = tableHelper.addTables(creationRequest);
 
-        return RestaurantCreationResponse.builder()
+        return RestaurantInformation.builder()
                 .restaurant(restaurantMapper.entityToModel(savedRestaurant))
                 .tables(tables)
                 .build();
@@ -83,6 +87,17 @@ public class RestaurantHelper {
         if (!user.getRole().name().equals("OWNER")) {
             throw new RuntimeException("User that is not OWNER cannot modify a restaurant.");
         }
+    }
+
+    public RestaurantInformation mergeRestaurantInformation(String restaurantName) {
+        var restaurantEntity = restaurantService.findRestaurantByName(restaurantName);
+        var tableEntities = tableService.findTablesByRestaurant(restaurantName);
+        //TODO: add menu items
+
+        return RestaurantInformation.builder()
+                .restaurant(restaurantMapper.entityToModel(restaurantEntity))
+                .tables(tableMapper.entitiesToModels(tableEntities))
+                .build();
     }
 
 }

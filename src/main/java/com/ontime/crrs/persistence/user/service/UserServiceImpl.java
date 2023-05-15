@@ -6,6 +6,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -21,10 +23,18 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found."));
     }
 
+    public List<UserEntity> getAllUsers() {
+        return repository.findAll();
+    }
+
     public void deleteUser(String username) {
         var userId = loadUserByEmail(username).getId();
 
         repository.deleteById(userId);
+    }
+
+    public void deleteAllUsers() {
+        repository.deleteAll();
     }
 
 }
