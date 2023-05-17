@@ -1,4 +1,4 @@
-package com.ontime.crrs.rules;
+package com.ontime.crrs.business.rules;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
-package com.ontime.crrs.rules.model;
+package com.ontime.crrs.business.rules.model;
 
-import com.ontime.crrs.rules.controller.RuleController;
+import com.ontime.crrs.business.rules.controller.RuleController;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;

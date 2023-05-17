@@ -1,4 +1,4 @@
-package com.ontime.crrs.rules.util;
+package com.ontime.crrs.business.rules.util;
 
 public enum RuleType {
 

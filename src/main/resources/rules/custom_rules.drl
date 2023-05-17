@@ -1,18 +1,17 @@
-import com.ontime.crrs.rules.order.OrderRequest;
-import com.ontime.crrs.rules.model.Rule;
-import com.ontime.crrs.rules.util.RuleType;
-import com.ontime.crrs.rules.CustomerType;
-import com.ontime.crrs.rules.MonitoringSystem;
+import com.ontime.crrs.business.rules.model.Rule;
+import com.ontime.crrs.business.rules.util.RuleType;
+import com.ontime.crrs.business.rules.MonitoringSystem;
 import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.persistence.menuitem.util.Category;
 import com.ontime.crrs.business.reservation.model.Reservation;
 import java.time.LocalDate;
 import java.time.LocalTime;
-global com.ontime.crrs.rules.order.OrderDiscount orderDiscount;
+global com.ontime.crrs.business.rules.order.OrderDiscount orderDiscount;
 
 dialect "mvel"
 
 rule "Quiet Times Discount - Item"
+    salience 10
     when
         $rule : Rule(ruleType == RuleType.QUIET_TIMES, discountOn != Category.ALL)
         MonitoringSystem(quietTimes == true)
@@ -23,6 +22,7 @@ rule "Quiet Times Discount - Item"
 end
 
 rule "Quiet Times Discount - All"
+    salience 40
     when
         $rule : Rule(ruleType == RuleType.QUIET_TIMES, discountOn == Category.ALL)
         MonitoringSystem(quietTimes == true)
@@ -32,6 +32,7 @@ rule "Quiet Times Discount - All"
 end
 
 rule "Happy Hours Discount - Item"
+    salience 40
     when
         $rule : Rule(ruleType == RuleType.HAPPY_HOURS, discountOn != Category.ALL)
         $reservation : Reservation(startTime.isAfter($rule.startTime) || startTime.equals($rule.startTime))
@@ -42,6 +43,7 @@ rule "Happy Hours Discount - Item"
 end
 
 rule "Happy Hours Discount - All"
+    salience 10
     when
         $rule : Rule(ruleType == RuleType.HAPPY_HOURS, discountOn == Category.ALL)
         $reservation : Reservation(startTime.isAfter($rule.startTime) || startTime.equals($rule.startTime))
@@ -51,6 +53,7 @@ rule "Happy Hours Discount - All"
 end
 
 rule "Group Specials Discount - Item"
+    salience 30
     when
         $rule : Rule(ruleType == RuleType.GROUP_SPECIALS, discountOn != Category.ALL)
         Reservation(numberOfGuests == $rule.groupSize)
@@ -61,6 +64,7 @@ rule "Group Specials Discount - Item"
 end
 
 rule "Group Specials Discount - All"
+    salience 20
     when
         $rule : Rule(ruleType == RuleType.GROUP_SPECIALS, discountOn == Category.ALL)
         Reservation(numberOfGuests == $rule.groupSize)
@@ -70,6 +74,7 @@ rule "Group Specials Discount - All"
 end
 
 rule "Day of Week Discount - Item"
+    salience 20
     when
         $rule : Rule(ruleType == RuleType.DAY_OF_WEEK, discountOn != Category.ALL)
         $reservation : Reservation(getReservationDay($reservation.date) == $rule.dayOfWeek)
@@ -80,6 +85,7 @@ rule "Day of Week Discount - Item"
 end
 
 rule "Day of Week Discount - All"
+    salience 30
     when
         $rule : Rule(ruleType == RuleType.DAY_OF_WEEK, discountOn == Category.ALL)
         $reservation : Reservation(getReservationDay($reservation.date) == $rule.dayOfWeek)

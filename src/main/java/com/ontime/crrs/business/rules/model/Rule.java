@@ -1,8 +1,8 @@
-package com.ontime.crrs.rules.model;
+package com.ontime.crrs.business.rules.model;
 
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.rules.util.RuleType;
 import com.ontime.crrs.persistence.menuitem.util.Category;
-import com.ontime.crrs.rules.util.RuleType;
 import lombok.*;
 import org.springframework.stereotype.Component;
 

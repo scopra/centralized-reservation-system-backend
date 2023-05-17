@@ -1,4 +1,4 @@
-package com.ontime.crrs.rules.order;
+package com.ontime.crrs.business.rules.order;
 
 import com.ontime.crrs.persistence.menuitem.util.Category;
 import lombok.Data;

@@ -1,11 +1,11 @@
-package com.ontime.crrs.rules.discount;
+package com.ontime.crrs.business.rules.discount;
 
 import com.ontime.crrs.business.mapper.rule.RuleMapper;
 import com.ontime.crrs.business.reservation.model.Reservation;
+import com.ontime.crrs.business.rules.MonitoringSystem;
+import com.ontime.crrs.business.rules.model.Rule;
+import com.ontime.crrs.business.rules.order.OrderDiscount;
 import com.ontime.crrs.persistence.rule.service.RuleService;
-import com.ontime.crrs.rules.MonitoringSystem;
-import com.ontime.crrs.rules.model.Rule;
-import com.ontime.crrs.rules.order.OrderDiscount;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
