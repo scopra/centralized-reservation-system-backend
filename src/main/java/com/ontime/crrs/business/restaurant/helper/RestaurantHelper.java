@@ -1,12 +1,15 @@
 package com.ontime.crrs.business.restaurant.helper;
 
+import com.ontime.crrs.business.mapper.menuitem.MenuItemMapper;
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.menuitem.helper.MenuItemHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
+import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
 import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.table.helper.TableHelper;
+import com.ontime.crrs.persistence.menuitem.service.MenuItemService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +29,9 @@ public class RestaurantHelper {
     private final MenuItemHelper menuItemHelper;
     private final TableHelper tableHelper;
     private final AuthenticationService authService;
+    private final MenuItemService menuItemService;
+    private final MenuItemMapper menuItemMapper;
+
 
     public Restaurant updateRestaurant(HttpServletRequest request, Restaurant restaurantModel) {
         var owner = authService.getUserByToken(request);
@@ -87,6 +93,16 @@ public class RestaurantHelper {
         if (!user.getRole().name().equals("OWNER")) {
             throw new RuntimeException("User that is not OWNER cannot modify a restaurant.");
         }
+    }
+
+    public RestaurantInformation getRestaurantInformation(String restaurantName) {
+        var restaurant = restaurantMapper.entityToModel(restaurantService.findRestaurantByName(restaurantName));
+        var menuItems = menuItemMapper.entitiesToModels(menuItemService.getMenuItemsForRestaurant(restaurantName));
+
+        return RestaurantInformation.builder()
+                .restaurant(restaurant)
+                .menuItems(menuItems)
+                .build();
     }
 
 }
