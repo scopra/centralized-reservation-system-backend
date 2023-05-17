@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.table.exception;
+package com.ontime.crrs.business.restaurant.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class TableUnavailableAdvice {
+public class RuntimeExceptionAdvice {
 
     @ResponseBody
-    @ExceptionHandler(com.ontime.crrs.business.table.exception.TableUnavailableException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String tableUnavailableHandler(TableUnavailableException e) {
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    String runtimeExceptionHandler(RuntimeException e) {
         return e.getMessage();
     }
 

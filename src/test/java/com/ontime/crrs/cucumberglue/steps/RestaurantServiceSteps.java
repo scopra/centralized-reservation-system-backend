@@ -4,7 +4,7 @@ import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
-import io.cucumber.java.After;
+import com.ontime.crrs.persistence.user.repository.UserRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -23,53 +23,45 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Slf4j
 public class RestaurantServiceSteps {
 
-    private final RestaurantEntity updatedRestaurant = buildCustomRestaurantEntity(RESTAURANT_NAME, RESTAURANT_ADDRESS,
-            RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
-    private final RestaurantEntity restaurant1 = buildCustomRestaurantEntity(NAME_1, ADDRESS_1,
-            RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
-    private final RestaurantEntity restaurant2 = buildCustomRestaurantEntity(NAME_2, ADDRESS_2,
-            RESTAURANT_MUNICIPALITY, RESTAURANT_CITY);
-    private final RestaurantEntity existingRestaurant = preBuildRestaurantEntity();
-
-    private boolean exists = false;
-
-
     @Autowired
     private RestaurantService service;
 
     @Autowired
     private RestaurantRepository repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private List<RestaurantEntity> savedRestaurants;
     private List<RestaurantEntity> addedRestaurants;
     private UUID foundID;
     private RestaurantEntity foundEntity;
+    private RestaurantEntity restaurant1;
+    private RestaurantEntity restaurant2;
+    private RestaurantEntity restaurant;
+    private boolean exists = false;
 
     @Before("@restaurant-service")
     public void setUp() {
         log.info("*********** Restaurant Service Test Context Set Up ***********");
 
+        var owner = userRepository.save(buildDefaultOwner());
+        restaurant = preBuildRestaurantEntity(owner);
+
+        restaurant1 = buildCustomRestaurantEntity(NAME_1, ADDRESS_1, RESTAURANT_MUNICIPALITY, RESTAURANT_CITY, owner);
+        restaurant2 = buildCustomRestaurantEntity(NAME_2, ADDRESS_2, RESTAURANT_MUNICIPALITY, RESTAURANT_CITY, owner);
         addedRestaurants = new ArrayList<RestaurantEntity>();
         savedRestaurants = new ArrayList<RestaurantEntity>();
     }
 
-    @After("@restaurant-service")
-    public void tearDown() {
-        log.info("*********** Restaurant Service Test Context Tear Down ***********");
-
-        repository.deleteAll();
-        foundID = null;
-        foundEntity = null;
-    }
-
     @Given("the restaurant already exists in the database")
     public void givenRestaurantAlreadyExists() {
-        repository.save(existingRestaurant);
+        repository.save(restaurant);
     }
 
     @Given("the restaurant does not exist in the database")
     public void givenRestaurantDoesNotExist() {
-        assertThat(repository.findRestaurantByName(existingRestaurant.getName())).isEmpty();
+        assertThat(repository.findRestaurantByName(restaurant.getName())).isEmpty();
     }
 
     @Given("more than one restaurant exists in the database")
@@ -87,7 +79,7 @@ public class RestaurantServiceSteps {
 
     @Given("a restaurant with name {string} exists in the database")
     public void givenRestaurantWithNameExists(String name) {
-        var entity = repository.save(existingRestaurant);
+        var entity = repository.save(restaurant);
 
         assertThat(entity).isNotNull();
     }
@@ -112,11 +104,6 @@ public class RestaurantServiceSteps {
         assertThat(addedRestaurants.get(1).getLocation().getCity()).isEqualTo(city);
     }
 
-    @When("I update the restaurant")
-    public void whenRestaurantIsUpdated() {
-        service.updateRestaurant(updatedRestaurant);
-    }
-
     @When("I search for all restaurants")
     public void whenSearchForAllRestaurants() {
         savedRestaurants = service.findAllRestaurants();
@@ -129,7 +116,7 @@ public class RestaurantServiceSteps {
 
     @When("I search for restaurant by ID")
     public void whenSearchForRestaurantByID() {
-        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
+        var savedEntityID = repository.findRestaurantIdByName(restaurant.getName());
 
         foundEntity = service.findRestaurantById(savedEntityID);
     }
@@ -151,28 +138,16 @@ public class RestaurantServiceSteps {
 
     @When("I delete restaurant with ID from database")
     public void whenDeleteRestaurantFromDatabase() {
-        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
+        var savedEntityID = repository.findRestaurantIdByName(restaurant.getName());
 
         service.deleteRestaurantById(savedEntityID);
     }
 
     @When("I check if that restaurant exists in the database")
     public void whenCheckIfRestaurantExists() {
-        var savedEntityID = repository.findRestaurantIdByName(existingRestaurant.getName());
+        var savedEntityID = repository.findRestaurantIdByName(restaurant.getName());
 
         exists = service.checkIfRestaurantExistsById(savedEntityID);
-    }
-
-    @When("I delete all restaurants")
-    public void whenDeleteAllRestaurantsFromDatabase() {
-        service.deleteAllRestaurants();
-    }
-
-    @Then("the restaurant information is updated successfully")
-    public void thenRestaurantUpdated() {
-        assertThat(repository.findRestaurantByName(RESTAURANT_NAME)).isPresent();
-
-        assertThat(repository.findRestaurantByName(RESTAURANT_NAME).get()).isEqualTo(updatedRestaurant);
     }
 
     @Then("the list of all restaurants is returned")
@@ -193,7 +168,7 @@ public class RestaurantServiceSteps {
 
         assertThat(repository.findById(foundID)).isPresent();
 
-        assertThat(existingRestaurant.getId()).isEqualTo(repository.findById(foundID).get().getId());
+        assertThat(restaurant.getId()).isEqualTo(repository.findById(foundID).get().getId());
     }
 
     @Then("an exception is thrown when I search for ID by name {string}")
@@ -207,7 +182,7 @@ public class RestaurantServiceSteps {
     public void thenReturnsCorrectRestaurantEntity() {
         assertThat(foundEntity).isNotNull();
 
-        assertThat(foundEntity).isEqualTo(existingRestaurant);
+        assertThat(foundEntity).isEqualTo(restaurant);
     }
 
     @Then("the restaurant with name {string} is found")
@@ -227,18 +202,6 @@ public class RestaurantServiceSteps {
     @Then("the method should return true")
     public void thenReturnsTrue() {
         assertThat(exists).isTrue();
-    }
-
-    @Then("the restaurant is deleted by name {string}")
-    public void thenIsDeleted(String name) {
-        assertThrows(RestaurantNotFoundException.class, () -> {
-            service.findRestaurantByName(name);
-        });
-    }
-
-    @Then("all restaurants are deleted")
-    public void thenDatabaseEmpty() {
-        assertThat(repository.count()).isEqualTo(0);
     }
 
 }

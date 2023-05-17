@@ -1,6 +1,7 @@
 package com.ontime.crrs.business.mapper.restaurant;
 
 import com.ontime.crrs.business.mapper.location.LocationMapper;
+import com.ontime.crrs.business.mapper.user.UserMapper;
 import com.ontime.crrs.business.mapper.workinghours.WorkingHoursMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
@@ -13,7 +14,8 @@ import java.util.List;
 @Mapper(
         uses = {
                 LocationMapper.class,
-                WorkingHoursMapper.class
+                WorkingHoursMapper.class,
+                UserMapper.class
         },
         componentModel = "spring"
 )

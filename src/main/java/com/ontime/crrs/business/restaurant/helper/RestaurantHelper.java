@@ -4,11 +4,15 @@ import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
+import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.table.helper.TableHelper;
-import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
+import com.ontime.crrs.persistence.user.entity.UserEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -19,23 +23,42 @@ public class RestaurantHelper {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
     private final TableHelper tableHelper;
+    private final AuthenticationService authService;
 
-    public RestaurantEntity transferProperties(Restaurant restaurantModel, String name) {
-        var updatedRestaurantEntity = restaurantService.findRestaurantByName(name);
+    public Restaurant updateRestaurant(HttpServletRequest request, Restaurant restaurantModel) {
+        var owner = authService.getUserByToken(request);
+        validateUserIsOwner(owner);
 
-        copyProperties(restaurantModel, updatedRestaurantEntity);
-        copyProperties(restaurantModel.getLocation(), updatedRestaurantEntity.getLocation());
-        copyProperties(restaurantModel.getWorkingHours(), updatedRestaurantEntity.getWorkingHours());
+        var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
 
-        restaurantService.updateRestaurant(updatedRestaurantEntity);
+        copyProperties(restaurantModel, restaurantEntity);
+        copyProperties(restaurantModel.getLocation(), restaurantEntity.getLocation());
+        copyProperties(restaurantModel.getWorkingHours(), restaurantEntity.getWorkingHours());
 
-        return updatedRestaurantEntity;
+        var savedEntity = restaurantService.updateRestaurant(restaurantEntity);
+
+        return restaurantMapper.entityToModel(savedEntity);
     }
 
-    public RestaurantCreationResponse processCreationRequest(RestaurantCreationRequest creationRequest) {
+    public UUID processRestaurantDeletion(HttpServletRequest request) {
+        var owner = authService.getUserByToken(request);
+        validateUserIsOwner(owner);
+
+        var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
+
+        return restaurantEntity.getId();
+    }
+
+    public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
+        var owner = authService.getUserByToken(request);
+        validateUserIsOwner(owner);
+
         var restaurant = getRestaurantFromRequest(creationRequest);
 
-        var savedRestaurant = restaurantService.updateRestaurant(restaurantMapper.modelToEntity(restaurant));
+        var entity = restaurantMapper.modelToEntity(restaurant);
+        entity.setOwner(owner);
+
+        var savedRestaurant = restaurantService.updateRestaurant(entity);
 
         var tables = tableHelper.addTables(creationRequest);
 
@@ -54,6 +77,12 @@ public class RestaurantHelper {
                 .phoneNumber(creationRequest.getPhoneNumber())
                 .workingHours(creationRequest.getWorkingHours())
                 .build();
+    }
+
+    private void validateUserIsOwner(UserEntity user) {
+        if (!user.getRole().name().equals("OWNER")) {
+            throw new RuntimeException("User that is not OWNER cannot modify a restaurant.");
+        }
     }
 
 }

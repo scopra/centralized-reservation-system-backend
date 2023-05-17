@@ -22,5 +22,6 @@ public class RestaurantCreationResponse implements Serializable {
     private Restaurant restaurant;
     private List<Table> tables;
     //TODO: Add menu items.
+    //TODO: Add RestaurantInformation class to encapsulate menu items.
 
 }
