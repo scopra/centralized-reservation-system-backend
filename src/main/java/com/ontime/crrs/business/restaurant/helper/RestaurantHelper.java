@@ -7,7 +7,6 @@ import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
 import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.table.helper.TableHelper;
-import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
