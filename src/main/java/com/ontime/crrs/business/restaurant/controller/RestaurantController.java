@@ -1,11 +1,12 @@
 package com.ontime.crrs.business.restaurant.controller;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
+import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -42,6 +43,7 @@ public class RestaurantController {
     @GetMapping("/{name}")
     public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
         var restaurantEntity = restaurantService.findRestaurantByName(name);
+        //TODO: Add merging logic for menu items.
 
         var restaurantModel = mapper.entityToModel(restaurantEntity);
 
@@ -95,13 +97,11 @@ public class RestaurantController {
         return ResponseEntity.ok(id);
     }
 
-    @PutMapping("/{name}")
-    public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant newRestaurant, @PathVariable String name) {
-        var updatedRestaurant = restaurantHelper.transferProperties(newRestaurant, name);
+    @PutMapping
+    public ResponseEntity<?> updateRestaurant(HttpServletRequest request, @RequestBody Restaurant newRestaurant) {
+        var updatedRestaurant = restaurantHelper.updateRestaurant(request, newRestaurant);
 
-        var restaurantModel = mapper.entityToModel(updatedRestaurant);
-
-        var entityModel = modelAssembler.toModel(restaurantModel);
+        var entityModel = modelAssembler.toModel(updatedRestaurant);
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -109,8 +109,8 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addRestaurant(@RequestBody RestaurantCreationRequest creationRequest) {
-        var restaurant = restaurantHelper.processCreationRequest(creationRequest);
+    public ResponseEntity<?> addRestaurant(HttpServletRequest request, @RequestBody RestaurantCreationRequest creationRequest) {
+        var restaurant = restaurantHelper.processCreationRequest(request, creationRequest);
 
         var entityModel = modelAssembler.toModel(restaurant);
 
@@ -119,8 +119,10 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/admin/{id}")
-    public ResponseEntity<?> deleteRestaurant(@PathVariable UUID id) {
+    @DeleteMapping("/owner")
+    public ResponseEntity<?> deleteRestaurant(HttpServletRequest request) {
+        var id = restaurantHelper.processRestaurantDeletion(request);
+
         restaurantService.deleteRestaurantById(id);
 
         return ResponseEntity

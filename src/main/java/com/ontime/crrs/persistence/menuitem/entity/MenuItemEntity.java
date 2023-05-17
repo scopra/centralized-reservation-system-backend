@@ -3,15 +3,13 @@ package com.ontime.crrs.persistence.menuitem.entity;
 import com.ontime.crrs.persistence.menuitem.util.Category;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -21,6 +19,7 @@ public class MenuItemEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "menu_item_id",
             updatable = false,
@@ -58,26 +57,6 @@ public class MenuItemEntity {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
-
-    public void setRestaurant(RestaurantEntity restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     @Override
     public boolean equals(Object o) {

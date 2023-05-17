@@ -1,6 +1,5 @@
 package com.ontime.crrs.business.menuitem.model;
 
-
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.persistence.menuitem.util.Category;
 import lombok.*;

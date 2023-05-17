@@ -2,6 +2,8 @@ package com.ontime.crrs.cucumberglue.steps;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
+import com.ontime.crrs.persistence.user.entity.UserEntity;
+import com.ontime.crrs.persistence.user.repository.UserRepository;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -22,24 +24,25 @@ public class RestaurantRepositorySteps {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private RestaurantEntity foundEntity;
     private UUID foundID;
     private String foundAddress;
     private List<RestaurantEntity> foundEntities;
-
+    private UserEntity owner;
 
     @Before("@restaurant-repository")
     public void beforeCallingRRepository() {
         log.info("*********** Restaurant Repository Scenario Call ***********");
+
+        owner = userRepository.save(buildDefaultOwner());
     }
 
     @After("@restaurant-repository")
     public void tearDown() {
-
         log.info("*********** Restaurant Repository Test Context Tear Down ***********");
-
-
-        restaurantRepository.deleteAll();
 
         foundEntity = null;
         foundEntities = null;
@@ -49,7 +52,7 @@ public class RestaurantRepositorySteps {
 
     @Given("there is a restaurant with name {string} in the database")
     public void givenRestaurantExists(String name) {
-        restaurantRepository.save(buildDefaultEntityWithName(name));
+        restaurantRepository.save(buildDefaultEntityWithName(name, owner));
 
         assertThat(restaurantRepository.findRestaurantByName(name)).isPresent();
     }
@@ -61,7 +64,7 @@ public class RestaurantRepositorySteps {
 
     @Given("there is a restaurant with the address {string} in the database")
     public void givenRestaurantWithAddressExists(String address) {
-        restaurantRepository.save(buildDefaultEntityWithAddress(address));
+        restaurantRepository.save(buildDefaultEntityWithAddress(address, owner));
 
         assertThat(restaurantRepository.findRestaurantByLocation_Address(address)).isPresent();
     }
@@ -69,17 +72,17 @@ public class RestaurantRepositorySteps {
     @Given("there is more than one restaurant with the municipality {string} in the database")
     public void givenMultipleRestaurantsWithSameMunicipality(String municipality) {
         restaurantRepository.save(buildCustomRestaurantEntity("Name 1", "Vrazova 1",
-                municipality, "Sarajevo"));
+                municipality, "Sarajevo", owner));
         restaurantRepository.save(buildCustomRestaurantEntity("Name 2", "Mis Irbina 1",
-                municipality, "Sarajevo"));
+                municipality, "Sarajevo", owner));
     }
 
     @Given("there is more than one restaurant with the city {string} in the database")
     public void givenMultipleRestaurantsFromTheSameCity(String city) {
         restaurantRepository.save(buildCustomRestaurantEntity("Name 1", "Vrazova 1", "Centar",
-                city));
+                city, owner));
         restaurantRepository.save(buildCustomRestaurantEntity("Name 2", "Malta 11", "Novo Sarajevo",
-                city));
+                city, owner));
     }
 
     @When("I search for a restaurant by name using {string}")

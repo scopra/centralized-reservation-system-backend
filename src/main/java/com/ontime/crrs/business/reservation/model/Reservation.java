@@ -34,4 +34,5 @@ public class Reservation implements Serializable {
     public static DayOfWeek getReservationDay(LocalDate date) {
         return date.getDayOfWeek();
     }
+
 }

@@ -16,8 +16,8 @@ public class RuleTestHelper {
         return RuleEntity.builder()
                 .ruleType(ruleType)
                 .discount(20)
-                .end(LocalTime.MAX)
-                .start(LocalTime.MIN)
+                .endTime(LocalTime.MAX)
+                .startTime(LocalTime.MIN)
                 .groupSize(5)
                 .restaurant(restaurant)
                 .build();

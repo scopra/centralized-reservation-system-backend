@@ -25,6 +25,8 @@ public interface RestaurantService {
 
     RestaurantEntity findRestaurantByAddress(String address);
 
+    RestaurantEntity findRestaurantByOwner(String email);
+
     boolean checkIfRestaurantExistsById(UUID id);
 
     void deleteRestaurantById(UUID id);

@@ -1,6 +1,8 @@
 package com.ontime.crrs.business.restaurant.model;
 
 import com.ontime.crrs.business.location.model.Location;
+import com.ontime.crrs.business.user.model.User;
+import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -23,5 +25,7 @@ public class Restaurant implements Serializable {
     private String phoneNumber;
     private String image;
     private Location location;
+    private WorkingHours workingHours;
+    private User owner;
 
 }
