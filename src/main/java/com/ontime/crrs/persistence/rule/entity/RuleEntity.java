@@ -1,8 +1,8 @@
 package com.ontime.crrs.persistence.rule.entity;
 
+import com.ontime.crrs.business.rules.util.RuleType;
 import com.ontime.crrs.persistence.menuitem.util.Category;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-import com.ontime.crrs.business.rules.util.RuleType;
 import jakarta.persistence.*;
 import lombok.*;
 
