@@ -16,7 +16,6 @@ public interface ReservationMapper {
 
     Reservation entityToModel(ReservationEntity entity);
 
-    @Mapping(target = "reservationId", ignore = true)
     ReservationEntity modelToEntity(Reservation model);
 
     List<Reservation> entitiesToModels(List<ReservationEntity> entities);

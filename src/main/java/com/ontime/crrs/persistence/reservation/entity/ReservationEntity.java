@@ -1,6 +1,8 @@
 package com.ontime.crrs.persistence.reservation.entity;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
+import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -11,11 +13,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"restaurant"})
+@ToString(exclude = {"restaurant", "user", "table"})
 @Table(name = "reservation")
 public class ReservationEntity {
 
@@ -35,79 +38,47 @@ public class ReservationEntity {
     private LocalDate date;
 
     @Column(
-            name = "time",
+            name = "start_time",
             nullable = false
     )
-    private LocalTime time;
+    private LocalTime startTime;
+
+    @Column(
+            name = "end_time",
+            nullable = false
+    )
+    private LocalTime endTime;
 
     @Column(
             name = "number_of_guests",
             nullable = false
     )
     private int numberOfGuests;
-    @Column(
-            name = "lenght",
-            nullable = false
-    )
-    private int lenght;
-
 
     @Column(
-            name = "description",
-            nullable = false
+            name = "special_comment"
     )
-    private String description;
+    private String specialComment;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(
+            name = "restaurant_id"
+    )
     private RestaurantEntity restaurant;
 
-    @Column(
+    @ManyToOne
+    @JoinColumn(
             name = "user_id",
             nullable = false
     )
-    private UUID userId;
-    //todo add length here,tablleid user id and relations
+    private UserEntity user;
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setNumberOfGuests(int numberOfGuests) {
-        this.numberOfGuests = numberOfGuests;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public void setRestaurant(RestaurantEntity restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
-    }
-
-    public ReservationEntity(LocalDate date, LocalTime time, String description, int numberOfGuests,
-                             RestaurantEntity restaurant, int lenght, UUID userId) {
-        this.date = date;
-        this.time = time;
-        this.description = description;
-        this.numberOfGuests = numberOfGuests;
-        this.restaurant = restaurant;
-        this.lenght = lenght;
-        this.userId = userId;
-
-    }
+    @ManyToOne
+    @JoinColumn(
+            name = "table_id",
+            nullable = false
+    )
+    private TableEntity table;
 
     @Override
     public boolean equals(Object o) {

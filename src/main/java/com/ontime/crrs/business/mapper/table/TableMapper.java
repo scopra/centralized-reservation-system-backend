@@ -15,7 +15,6 @@ public interface TableMapper {
 
     Table entityToModel(TableEntity entity);
 
-    @Mapping(target = "id", ignore = true)
     TableEntity modelToEntity(Table model);
 
     List<Table> entitiesToModels(List<TableEntity> entities);
