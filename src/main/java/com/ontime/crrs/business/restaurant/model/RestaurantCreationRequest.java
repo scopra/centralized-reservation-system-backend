@@ -2,6 +2,7 @@ package com.ontime.crrs.business.restaurant.model;
 
 import com.ontime.crrs.business.location.model.Location;
 import com.ontime.crrs.business.table.model.Table;
+import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,7 @@ public class RestaurantCreationRequest implements Serializable {
     private String image;
     private Location location;
     private List<Table> tables;
-    //TODO: Add menu items, WorkingHours.
+    private WorkingHours workingHours;
+    //TODO: Add menu items.
 
 }

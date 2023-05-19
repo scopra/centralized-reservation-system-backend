@@ -12,7 +12,7 @@ public class PasswordMismatchAdvice {
     @ResponseBody
     @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String restaurantNotFoundHandler(PasswordMismatchException e) {
+    String passwordMismatchHandler(PasswordMismatchException e) {
         return e.getMessage();
     }
 

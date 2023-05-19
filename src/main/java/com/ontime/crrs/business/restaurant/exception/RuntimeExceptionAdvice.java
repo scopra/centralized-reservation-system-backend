@@ -12,7 +12,7 @@ public class RuntimeExceptionAdvice {
     @ResponseBody
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    String restaurantNotFoundHandler(RuntimeException e) {
+    String runtimeExceptionHandler(RuntimeException e) {
         return e.getMessage();
     }
 

@@ -3,8 +3,10 @@ package com.ontime.crrs.persistence.restaurant.entity;
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
+import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.util.List;
 import java.util.Objects;
@@ -67,6 +69,10 @@ public class RestaurantEntity {
     )
     private List<TableEntity> tables;
 
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "working_hours_id")
+    private WorkingHoursEntity workingHours;
+
     public void setName(String name) {
         this.name = name;
     }
@@ -95,30 +101,28 @@ public class RestaurantEntity {
         this.tables = tables;
     }
 
+    public void setWorkingHours(WorkingHoursEntity workingHours) {
+        this.workingHours = workingHours;
+    }
+
     public RestaurantEntity(String name, String description, String phoneNumber, String image, LocationEntity location,
-                            List<TableEntity> tables, UserEntity owner) {
+                            UserEntity owner, List<TableEntity> tables, WorkingHoursEntity workingHours) {
         this.name = name;
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.image = image;
         this.location = location;
-        this.tables = tables;
         this.owner = owner;
+        this.tables = tables;
+        this.workingHours = workingHours;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         RestaurantEntity that = (RestaurantEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
-                Objects.equals(image, that.image) &&
-                Objects.equals(location, that.location) &&
-                Objects.equals(tables, that.tables) &&
-                Objects.equals(owner, that.owner);
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

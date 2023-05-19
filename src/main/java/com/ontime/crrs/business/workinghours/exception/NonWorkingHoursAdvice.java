@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.table.exception;
+package com.ontime.crrs.business.workinghours.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class TableUnavailableAdvice {
+public class NonWorkingHoursAdvice {
 
     @ResponseBody
-    @ExceptionHandler(com.ontime.crrs.business.table.exception.TableUnavailableException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String tableUnavailableHandler(TableUnavailableException e) {
+    @ExceptionHandler(NonWorkingHoursException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String nonWorkingHoursHandler(NonWorkingHoursException e) {
         return e.getMessage();
     }
 

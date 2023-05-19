@@ -12,7 +12,7 @@ public class TableNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(TableNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String restaurantNotFoundHandler(TableNotFoundException e) {
+    String tableNotFoundHandler(TableNotFoundException e) {
         return e.getMessage();
     }
 

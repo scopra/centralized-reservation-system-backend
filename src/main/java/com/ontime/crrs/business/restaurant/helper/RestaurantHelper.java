@@ -1,14 +1,12 @@
 package com.ontime.crrs.business.restaurant.helper;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
-import com.ontime.crrs.business.mapper.table.TableMapper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationResponse;
 import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.business.table.helper.TableHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
-import com.ontime.crrs.persistence.table.service.TableService;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +23,6 @@ public class RestaurantHelper {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
     private final TableHelper tableHelper;
-    private final TableMapper tableMapper;
-    private final TableService tableService;
     private final AuthenticationService authService;
 
     public Restaurant updateRestaurant(HttpServletRequest request, Restaurant restaurantModel) {
@@ -37,7 +33,7 @@ public class RestaurantHelper {
 
         copyProperties(restaurantModel, restaurantEntity);
         copyProperties(restaurantModel.getLocation(), restaurantEntity.getLocation());
-        //TODO: Add WorkingHours
+        copyProperties(restaurantModel.getWorkingHours(), restaurantEntity.getWorkingHours());
 
         var savedEntity = restaurantService.updateRestaurant(restaurantEntity);
 
@@ -79,7 +75,7 @@ public class RestaurantHelper {
                 .image(creationRequest.getImage())
                 .description(creationRequest.getDescription())
                 .phoneNumber(creationRequest.getPhoneNumber())
-                //TODO: Add WorkingHours
+                .workingHours(creationRequest.getWorkingHours())
                 .build();
     }
 
