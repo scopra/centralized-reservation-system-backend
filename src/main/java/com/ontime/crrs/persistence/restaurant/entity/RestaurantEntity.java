@@ -1,9 +1,12 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
-import com.ontime.crrs.persistence.table.entity.TableEntity;
-import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
+import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
 import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
+import com.ontime.crrs.persistence.rule.entity.RuleEntity;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
+import com.ontime.crrs.persistence.user.entity.UserEntity;
+import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -15,6 +18,7 @@ import java.util.UUID;
 import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -25,6 +29,7 @@ public class RestaurantEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "restaurant_id",
             updatable = false,
@@ -62,48 +67,34 @@ public class RestaurantEntity {
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private UserEntity owner;
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL
+    )
+    private List<TableEntity> tables;
+
     @OneToOne(cascade = ALL)
     @JoinColumn(name = "working_hours_id")
     private WorkingHoursEntity workingHours;
 
     @OneToMany(
-            mappedBy= "restaurant",
+            mappedBy = "restaurant",
             cascade = ALL
     )
-    private List<TableEntity> tables;
+    private List<MenuItemEntity> menuItems;
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL
+    )
+    private List<RuleEntity> rules;
 
     @OneToMany(mappedBy = "restaurant")
     private List<ReservationEntity> reservations;
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setLocation(LocationEntity location) {
-        this.location = location;
-    }
-
-    public void setWorkingHours(WorkingHoursEntity workingHours) {
-        this.workingHours = workingHours;
-    }
-
-    public RestaurantEntity(String name, String description, String phoneNumber, String image,
-                            LocationEntity location, WorkingHoursEntity workingHours, List<TableEntity> tables) {
-        this.name = name;
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.image = image;
-        this.location = location;
-        this.workingHours = workingHours;
-        this.tables = tables;
-    }
 
     @Override
     public boolean equals(Object o) {

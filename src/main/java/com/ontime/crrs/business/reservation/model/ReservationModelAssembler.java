@@ -14,7 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 @NonNullApi
 @RequiredArgsConstructor
-public class ReservationModelAssembler implements RepresentationModelAssembler <Reservation,EntityModel<Reservation>> {
+public class ReservationModelAssembler implements RepresentationModelAssembler<Reservation, EntityModel<Reservation>> {
 
     @Override
     public EntityModel<Reservation> toModel(Reservation reservation) {

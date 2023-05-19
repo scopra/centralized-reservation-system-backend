@@ -12,7 +12,7 @@ public class NonWorkingHoursAdvice {
     @ResponseBody
     @ExceptionHandler(NonWorkingHoursException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String restaurantNotFoundHandler(NonWorkingHoursException e) {
+    String nonWorkingHoursHandler(NonWorkingHoursException e) {
         return e.getMessage();
     }
 

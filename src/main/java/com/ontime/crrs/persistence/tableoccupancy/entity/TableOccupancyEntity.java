@@ -15,11 +15,13 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "table")
 @Table(name = "table_occupancy")
 public class TableOccupancyEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "table_occupancy_id",
             updatable = false,

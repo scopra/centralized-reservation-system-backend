@@ -9,17 +9,18 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper (uses= RestaurantMapper.class, componentModel = "spring")
+@Mapper(uses = RestaurantMapper.class, componentModel = "spring")
 public interface ReservationMapper {
 
     ReservationMapper INSTANCE = Mappers.getMapper(ReservationMapper.class);
+
     Reservation entityToModel(ReservationEntity entity);
 
     @Mapping(target = "reservationId", ignore = true)
     ReservationEntity modelToEntity(Reservation model);
 
-    List <Reservation> entitiesToModels(List<ReservationEntity> entities);
+    List<Reservation> entitiesToModels(List<ReservationEntity> entities);
 
-    List <ReservationEntity> modelToEntity(List<Reservation> models);
+    List<ReservationEntity> modelToEntity(List<Reservation> models);
 
 }

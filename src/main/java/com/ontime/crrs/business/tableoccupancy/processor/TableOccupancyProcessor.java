@@ -1,16 +1,12 @@
 package com.ontime.crrs.business.tableoccupancy.processor;
 
-import com.ontime.crrs.business.tableoccupancy.model.TableOccupancy;
+import com.ontime.crrs.business.reservation.model.Reservation;
+import com.ontime.crrs.business.table.model.Table;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
-
 @Service
-public class TableOccupancyProcessor {
+public interface TableOccupancyProcessor {
 
-    public boolean tableOccupiedForTime(LocalTime time, TableOccupancy tableOccupancy) {
-
-        return time.isAfter(tableOccupancy.getReservedFrom()) && time.isBefore(tableOccupancy.getReservedTo());
-    }
+    Table assignTable(Reservation reservation);
 
 }

@@ -1,6 +1,8 @@
 package com.ontime.crrs.business.restaurant.model;
 
+import com.ontime.crrs.business.menuitem.controller.MenuItemController;
 import com.ontime.crrs.business.restaurant.controller.RestaurantController;
+import com.ontime.crrs.business.table.controller.TableController;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -19,17 +21,32 @@ public class RestaurantModelAssembler implements RepresentationModelAssembler<Re
 
     @Override
     public EntityModel<Restaurant> toModel(Restaurant restaurant) {
-
         return EntityModel.of(restaurant,
                 linkTo(methodOn(RestaurantController.class).getRestaurantByName(restaurant.getName())).withSelfRel(),
                 linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
     }
 
     public EntityModel<Restaurant> toAdminModel(Restaurant restaurant, UUID id) {
-
         return EntityModel.of(restaurant,
                 linkTo(methodOn(RestaurantController.class).getRestaurantById(id)).withSelfRel(),
                 linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
+    }
+
+    public EntityModel<RestaurantCreationResponse> toModel(RestaurantCreationResponse restaurant) {
+        var name = restaurant.getRestaurant().getName();
+        return EntityModel.of(restaurant,
+                linkTo(methodOn(RestaurantController.class).getRestaurantByName(name)).withSelfRel(),
+                linkTo(methodOn(TableController.class).getAllTablesForRestaurant(name)).withRel("tables"),
+                linkTo(methodOn((MenuItemController.class)).getMenuItemsForRestaurant(name)).withRel("menuItems"),
+                linkTo(methodOn(RestaurantController.class).getRestaurants()).withRel("restaurants"));
+    }
+
+    public EntityModel<RestaurantInformation> toInformationModel(RestaurantInformation restaurant) {
+        var name = restaurant.getRestaurant().getName();
+
+        return EntityModel.of(restaurant,
+                linkTo(methodOn(RestaurantController.class).getRestaurantByName(name)).withSelfRel(),
+                linkTo(methodOn((MenuItemController.class)).getMenuItemsForRestaurant(name)).withRel("menuItems"));
     }
 
 }

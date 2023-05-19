@@ -9,11 +9,11 @@ import java.util.UUID;
 @Service
 public interface TableOccupancyService {
 
-    void occupyTable(TableOccupancyEntity tableOccupancy);
+    TableOccupancyEntity occupyTable(TableOccupancyEntity tableOccupancy);
 
     public void freeUpTable(TableOccupancyEntity tableOccupancy);
 
-    public boolean checkIfOccupied(TableOccupancyEntity tableOccupancy);
+    public boolean checkIfExists(TableOccupancyEntity tableOccupancy);
 
     TableOccupancyEntity getTableOccupancyById(UUID id);
 

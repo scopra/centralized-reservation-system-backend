@@ -4,7 +4,6 @@ package com.ontime.crrs.business.reservation.controller;
 import com.ontime.crrs.business.mapper.reservation.ReservationMapper;
 import com.ontime.crrs.business.reservation.model.Reservation;
 import com.ontime.crrs.business.reservation.model.ReservationModelAssembler;
-import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;

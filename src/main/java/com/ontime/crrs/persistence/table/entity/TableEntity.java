@@ -1,6 +1,5 @@
 package com.ontime.crrs.persistence.table.entity;
 
-import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.tableoccupancy.entity.TableOccupancyEntity;
 import jakarta.persistence.*;
@@ -23,6 +22,7 @@ public class TableEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "table_id",
             updatable = false,
@@ -51,8 +51,10 @@ public class TableEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TableEntity that = (TableEntity) o;
-        return capacity == that.capacity && Objects.equals(id, that.id) && Objects.equals(occupancies, that.occupancies)
-                && Objects.equals(restaurant, that.restaurant);
+        return capacity == that.capacity &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(occupancies, that.occupancies) &&
+                Objects.equals(restaurant, that.restaurant);
     }
 
     @Override

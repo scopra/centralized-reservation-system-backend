@@ -2,7 +2,7 @@ package com.ontime.crrs.business.table.exception;
 
 import java.util.UUID;
 
-public class TableNotFoundException  extends RuntimeException{
+public class TableNotFoundException extends RuntimeException {
 
     public TableNotFoundException(String message) {
         super(message);

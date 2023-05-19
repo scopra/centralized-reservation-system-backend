@@ -1,7 +1,6 @@
 package com.ontime.crrs.persistence.reservation.entity;
 
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
-import com.ontime.crrs.persistence.table.entity.TableEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -10,8 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
-
-import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
 @Entity
@@ -83,6 +80,7 @@ public class ReservationEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setNumberOfGuests(int numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
     }
@@ -95,7 +93,9 @@ public class ReservationEntity {
         this.restaurant = restaurant;
     }
 
-    public void setLenght(int lenght) { this.lenght = lenght; }
+    public void setLenght(int lenght) {
+        this.lenght = lenght;
+    }
 
     public ReservationEntity(LocalDate date, LocalTime time, String description, int numberOfGuests,
                              RestaurantEntity restaurant, int lenght, UUID userId) {
