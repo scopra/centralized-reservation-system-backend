@@ -1,11 +1,11 @@
 package com.ontime.crrs.business.restaurant.controller;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
-import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
+import com.ontime.crrs.business.restaurant.processor.RestaurantProcessor;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
-    private final RestaurantHelper restaurantHelper;
+    private final RestaurantProcessor restaurantProcessor;
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
@@ -43,7 +43,7 @@ public class RestaurantController {
 
     @GetMapping("/{name}")
     public EntityModel<RestaurantInformation> getRestaurantByName(@PathVariable String name) {
-        var restaurantInfo = restaurantHelper.getRestaurantInformation(name);
+        var restaurantInfo = restaurantProcessor.getRestaurantInformation(name);
 
         return modelAssembler.toInformationModel(restaurantInfo);
     }
@@ -97,7 +97,7 @@ public class RestaurantController {
 
     @PutMapping
     public ResponseEntity<?> updateRestaurant(HttpServletRequest request, @RequestBody Restaurant newRestaurant) {
-        var updatedRestaurant = restaurantHelper.updateRestaurant(request, newRestaurant);
+        var updatedRestaurant = restaurantProcessor.updateRestaurant(request, newRestaurant);
 
         var entityModel = modelAssembler.toModel(updatedRestaurant);
 
@@ -108,7 +108,7 @@ public class RestaurantController {
 
     @PostMapping
     public ResponseEntity<?> addRestaurant(HttpServletRequest request, @RequestBody RestaurantCreationRequest creationRequest) {
-        var restaurant = restaurantHelper.processCreationRequest(request, creationRequest);
+        var restaurant = restaurantProcessor.saveRestaurant(request, creationRequest);
 
         var entityModel = modelAssembler.toModel(restaurant);
 
@@ -119,7 +119,7 @@ public class RestaurantController {
 
     @DeleteMapping("/owner")
     public ResponseEntity<?> deleteRestaurant(HttpServletRequest request) {
-        var id = restaurantHelper.processRestaurantDeletion(request);
+        var id = restaurantProcessor.processRestaurantDeletion(request);
 
         restaurantService.deleteRestaurantById(id);
 

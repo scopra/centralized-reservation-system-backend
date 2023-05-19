@@ -92,7 +92,14 @@ public class RestaurantEntity {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         RestaurantEntity that = (RestaurantEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(phoneNumber, that.phoneNumber) &&
+                Objects.equals(image, that.image) &&
+                Objects.equals(location, that.location) &&
+                Objects.equals(tables, that.tables) &&
+                Objects.equals(owner, that.owner);
     }
 
     @Override

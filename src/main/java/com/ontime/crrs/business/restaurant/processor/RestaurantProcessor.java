@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.restaurant.helper;
+package com.ontime.crrs.business.restaurant.processor;
 
 import com.ontime.crrs.business.mapper.menuitem.MenuItemMapper;
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
@@ -22,7 +22,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Service
 @RequiredArgsConstructor
-public class RestaurantHelper {
+public class RestaurantProcessor {
 
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
@@ -31,7 +31,6 @@ public class RestaurantHelper {
     private final AuthenticationService authService;
     private final MenuItemService menuItemService;
     private final MenuItemMapper menuItemMapper;
-
 
     public Restaurant updateRestaurant(HttpServletRequest request, Restaurant restaurantModel) {
         var owner = authService.getUserByToken(request);
@@ -57,7 +56,7 @@ public class RestaurantHelper {
         return restaurantEntity.getId();
     }
 
-    public RestaurantCreationResponse processCreationRequest(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
+    public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
