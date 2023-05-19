@@ -3,7 +3,9 @@ package com.ontime.crrs.business.reservation.controller;
 
 import com.ontime.crrs.business.mapper.reservation.ReservationMapper;
 import com.ontime.crrs.business.reservation.model.Reservation;
+import com.ontime.crrs.business.reservation.model.ReservationCreationResponse;
 import com.ontime.crrs.business.reservation.model.ReservationModelAssembler;
+import com.ontime.crrs.business.reservation.processor.ReservationProcessor;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class ReservationController {
     private final ReservationMapper reservationMapper;
     private final ReservationModelAssembler modelAssembler;
     private final RestaurantService restaurantService;
+    private final ReservationProcessor reservationProcessor;
 
     //add restaurant name to path da ne moramo slat sa modelom restoran objekat nek se sam nadje u bazi
     @PostMapping("/{restaurantName}")
@@ -125,4 +128,11 @@ public class ReservationController {
 
         return ResponseEntity.ok(reservations);
     }
+
+    //TESTING
+    @GetMapping("/test1")
+    public ResponseEntity<ReservationCreationResponse> makeAReservationTest(@RequestBody Reservation reservation) {
+        return ResponseEntity.ok(reservationProcessor.processReservation(reservation));
+    }
+
 }

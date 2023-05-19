@@ -2,7 +2,7 @@ package com.ontime.crrs.business.rules.controller;
 
 import com.ontime.crrs.business.mapper.rule.RuleMapper;
 import com.ontime.crrs.business.reservation.model.Reservation;
-import com.ontime.crrs.business.rules.discount.DiscountService;
+import com.ontime.crrs.business.rules.discount.DiscountServiceImpl;
 import com.ontime.crrs.business.rules.model.Rule;
 import com.ontime.crrs.business.rules.model.RuleModelAssembler;
 import com.ontime.crrs.business.rules.order.OrderDiscount;
@@ -24,7 +24,7 @@ public class RuleController {
     private final RestaurantService restaurantService;
     private final RuleMapper mapper;
     private final RuleModelAssembler modelAssembler;
-    private final DiscountService discountService;
+    private final DiscountServiceImpl discountService;
 
     @PostMapping("/{restaurantName}")
     public ResponseEntity<?> addNewRule(@PathVariable String restaurantName, @RequestBody Rule rule) {

@@ -3,6 +3,7 @@ package com.ontime.crrs.business.reservation.model;
 import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.table.model.Table;
+import com.ontime.crrs.business.user.model.User;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ public class Reservation implements Serializable {
     private LocalTime endTime;
     private String specialComment;
     private Table table;
-    private UUID userId;//todo:connect to user
+    private User user;
     private Restaurant restaurant;
     private List<MenuItem> menuItems;
 

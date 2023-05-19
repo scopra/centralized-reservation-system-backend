@@ -1,7 +1,7 @@
 package com.ontime.crrs.business.price;
 
 import com.ontime.crrs.business.reservation.model.Reservation;
-import com.ontime.crrs.business.rules.discount.DiscountService;
+import com.ontime.crrs.business.rules.discount.DiscountServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class Price {
 
-    private final DiscountService discountService;
+    private final DiscountServiceImpl discountService;
     private final PricingService pricingService;
 
     @GetMapping
