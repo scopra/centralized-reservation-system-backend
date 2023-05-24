@@ -1,6 +1,6 @@
 package com.ontime.crrs.business.subscription.controller;
 
-import com.ontime.crrs.business.subscription.SubscriptionService;
+import com.ontime.crrs.business.subscription.service.SubscriptionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

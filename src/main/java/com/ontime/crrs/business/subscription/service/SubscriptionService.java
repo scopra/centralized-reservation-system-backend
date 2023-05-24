@@ -1,4 +1,4 @@
-package com.ontime.crrs.business.subscription;
+package com.ontime.crrs.business.subscription.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;

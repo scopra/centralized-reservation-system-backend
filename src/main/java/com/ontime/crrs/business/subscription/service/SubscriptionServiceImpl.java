@@ -1,6 +1,7 @@
-package com.ontime.crrs.business.subscription;
+package com.ontime.crrs.business.subscription.service;
 
 import com.ontime.crrs.business.security.auth.service.AuthenticationService;
+import com.ontime.crrs.business.subscription.service.SubscriptionService;
 import com.ontime.crrs.persistence.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

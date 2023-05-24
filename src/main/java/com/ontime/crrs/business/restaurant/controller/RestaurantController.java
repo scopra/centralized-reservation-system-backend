@@ -40,6 +40,13 @@ public class RestaurantController {
                 .getRestaurants()).withSelfRel());
     }
 
+    @GetMapping("/owner")
+    public EntityModel<Restaurant> getRestaurantByOwnerEmail(HttpServletRequest request) {
+        var restaurant = restaurantHelper.getRestaurantByOwner(request);
+
+        return modelAssembler.toModel(restaurant);
+    }
+
     @GetMapping("/{name}")
     public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
         var restaurantEntity = restaurantService.findRestaurantByName(name);

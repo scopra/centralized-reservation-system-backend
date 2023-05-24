@@ -85,4 +85,13 @@ public class RestaurantHelper {
         }
     }
 
+    public Restaurant getRestaurantByOwner(HttpServletRequest request) {
+        var owner = authService.getUserByToken(request);
+        validateUserIsOwner(owner);
+
+        var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
+
+        return restaurantMapper.entityToModel(restaurantEntity);
+    }
+
 }
