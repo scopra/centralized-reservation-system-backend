@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class ReservationController {
     private final ReservationProcessor reservationProcessor;
 
     //add restaurant name to path da ne moramo slat sa modelom restoran objekat nek se sam nadje u bazi
-    @PostMapping("/{restaurantName}")
+  /*  @PostMapping("/{restaurantName}")
     public ResponseEntity<?> createReservation(@PathVariable String restaurantName,
                                                @RequestBody Reservation reservation) {
         var restaurantEntity = restaurantService.findRestaurantByName(restaurantName);
@@ -50,8 +51,13 @@ public class ReservationController {
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
+    }*/
+    @PostMapping("/post1")
+    public ResponseEntity<ReservationCreationResponse> createReservation(@RequestBody Reservation reservation) {
+        ReservationCreationResponse response = reservationProcessor.processReservation(reservation);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
+  //RADI OVAJ
     @GetMapping("{reservationId}")
     public EntityModel<Reservation> getReservationById(@PathVariable UUID reservationId) {
         var reservationEntity = reservationService.findReservationById(reservationId);
@@ -61,16 +67,8 @@ public class ReservationController {
         return modelAssembler.toModel(reservation);
     }
 
-    @GetMapping("/test")
-    public Reservation getRestaurantModel(@RequestBody Reservation reservation) {
-        var mappedEntity = reservationMapper.modelToEntity(reservation);
 
-        var mappedModel = reservationMapper.entityToModel(mappedEntity);
-
-        return mappedModel;
-    }
-
-    //ovo se moze ostavit za admina
+    //ovo se moze ostavit za admina,RADI
     @GetMapping
     public CollectionModel<EntityModel<Reservation>> getAllReservations() {
         var reservations =
@@ -82,7 +80,7 @@ public class ReservationController {
                 .getAllReservations()).withSelfRel());
     }
 
-    //treba se povezati sa restoranom ,rezervacije za restoran po datumu .
+    //RADI .
     @GetMapping("/date/{date}")
     public ResponseEntity<List<Reservation>> getReservationsByDate(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         var reservationEntities = reservationService.findReservationsByDate(date);
@@ -91,7 +89,7 @@ public class ReservationController {
 
         return ResponseEntity.ok(reservations);
     }
-
+    //RADI
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Reservation>> getReservationsByUserId(@PathVariable UUID userId) {
         var reservationEntities = reservationService.findReservationsByUserId(userId);
@@ -101,7 +99,7 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
 
-
+    //RADI
     @DeleteMapping("/{reservationId}")
     public ResponseEntity<?> cancelReservationById(@PathVariable UUID reservationId) {
         reservationService.cancelReservationById(reservationId);
@@ -119,7 +117,7 @@ public class ReservationController {
                 .noContent().
                 build();
     }
-
+    //RADI
     @GetMapping("/restaurant/{restaurantName}")
     public ResponseEntity<List<Reservation>> getReservationsByRestaurantName(@PathVariable String restaurantName) {
         var reservationEntities = reservationService.findReservationsByRestaurantName(restaurantName);
@@ -128,6 +126,7 @@ public class ReservationController {
 
         return ResponseEntity.ok(reservations);
     }
+
 
     //TESTING
     @GetMapping("/test1")

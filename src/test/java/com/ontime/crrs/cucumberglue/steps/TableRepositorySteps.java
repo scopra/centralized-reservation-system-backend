@@ -42,7 +42,7 @@ public class TableRepositorySteps {
     public void beforeCallingRRepository() {
         log.info("*********** Table Repository Scenario Call ***********");
 
-        foundTables = new ArrayList<>();
+            foundTables = new ArrayList<>();
         foundEntities = new ArrayList<>();
 
         owner = userRepository.save(buildDefaultOwner());
