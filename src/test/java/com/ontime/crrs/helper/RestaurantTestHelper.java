@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 
 import static com.ontime.crrs.persistence.user.util.Role.OWNER;
 
@@ -34,6 +35,9 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation())
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
@@ -46,6 +50,9 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation("Marsala Tita 36"))
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
@@ -83,6 +90,9 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation(address, municipality, city))
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
@@ -95,6 +105,9 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation())
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
