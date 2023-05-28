@@ -8,6 +8,7 @@ import com.ontime.crrs.business.reservation.model.ReservationModelAssembler;
 import com.ontime.crrs.business.reservation.processor.ReservationProcessor;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
+import com.ontime.crrs.persistence.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
@@ -35,7 +36,7 @@ public class ReservationController {
     private final ReservationModelAssembler modelAssembler;
     private final RestaurantService restaurantService;
     private final ReservationProcessor reservationProcessor;
-
+     private final UserService userService;
     //add restaurant name to path da ne moramo slat sa modelom restoran objekat nek se sam nadje u bazi
   /*  @PostMapping("/{restaurantName}")
     public ResponseEntity<?> createReservation(@PathVariable String restaurantName,
@@ -133,5 +134,14 @@ public class ReservationController {
     public ResponseEntity<ReservationCreationResponse> makeAReservationTest(@RequestBody Reservation reservation) {
         return ResponseEntity.ok(reservationProcessor.processReservation(reservation));
     }
+
+    @GetMapping("/users/email/{email}")
+    public ResponseEntity<List<Reservation>> getReservationsByUserEmail(@PathVariable String email) {
+        var userEntity = userService.loadUserByEmail(email);
+        var reservationEntities = reservationService.findReservationsByUserId(userEntity.getId());
+        var reservations = reservationMapper.entitiesToModels(reservationEntities);
+        return ResponseEntity.ok(reservations);
+    }
+
 
 }
