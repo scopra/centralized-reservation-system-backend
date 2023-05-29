@@ -36,7 +36,7 @@ public class TableOccupancyProcessorImpl implements TableOccupancyProcessor {
         reservation.setRestaurant(restaurantMapper.entityToModel(restaurant));
 
         var tableOccupanciesMap = mapTablesToOccupancies(findTablesForCapacity(restaurant.getName(),
-                reservation.getCapacity()), reservation.getDate());
+                reservation.getNumberOfGuests()), reservation.getDate());
 
         var table = retrieveTable(tableOccupanciesMap, reservation);
 

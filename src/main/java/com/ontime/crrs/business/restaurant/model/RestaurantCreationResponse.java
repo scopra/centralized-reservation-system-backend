@@ -1,5 +1,6 @@
 package com.ontime.crrs.business.restaurant.model;
 
+import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.business.table.model.Table;
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,7 @@ public class RestaurantCreationResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Restaurant restaurant;
+    private List<MenuItem> menuItems;
     private List<Table> tables;
-    //TODO: Add menu items.
-    //TODO: Add RestaurantInformation class to encapsulate menu items.
 
 }

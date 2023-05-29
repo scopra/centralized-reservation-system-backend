@@ -22,9 +22,9 @@ public class TableEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "table_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id;
@@ -37,7 +37,8 @@ public class TableEntity {
 
     @OneToMany(
             mappedBy = "table",
-            cascade = ALL
+            cascade = ALL,
+            orphanRemoval = true
     )
     private List<TableOccupancyEntity> occupancies;
 

@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class WorkingHoursEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "working_hours_id",
             columnDefinition = "uuid"
@@ -38,24 +40,6 @@ public class WorkingHoursEntity {
 
     @OneToOne(mappedBy = "workingHours")
     private RestaurantEntity restaurant;
-
-    public void setOpenTime(LocalTime openTime) {
-        this.openTime = openTime;
-    }
-
-    public void setCloseTime(LocalTime closeTime) {
-        this.closeTime = closeTime;
-    }
-
-    public void setRestaurant(RestaurantEntity restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public WorkingHoursEntity(LocalTime openTime, LocalTime closeTime, RestaurantEntity restaurant) {
-        this.openTime = openTime;
-        this.closeTime = closeTime;
-        this.restaurant = restaurant;
-    }
 
     @Override
     public boolean equals(Object o) {

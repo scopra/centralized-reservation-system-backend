@@ -4,7 +4,9 @@ import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
 import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
+import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
+import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class RestaurantController {
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
     private final RestaurantHelper restaurantHelper;
+    private final AuthenticationService authService;
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
@@ -48,13 +51,10 @@ public class RestaurantController {
     }
 
     @GetMapping("/{name}")
-    public EntityModel<Restaurant> getRestaurantByName(@PathVariable String name) {
-        var restaurantEntity = restaurantService.findRestaurantByName(name);
-        //TODO: Add merging logic for menu items.
+    public EntityModel<RestaurantInformation> getRestaurantByName(@PathVariable String name) {
+        var restaurantInfo = restaurantHelper.getRestaurantInformation(name);
 
-        var restaurantModel = mapper.entityToModel(restaurantEntity);
-
-        return modelAssembler.toModel(restaurantModel);
+        return modelAssembler.toInformationModel(restaurantInfo);
     }
 
     @GetMapping("/address/{address}")
@@ -128,9 +128,7 @@ public class RestaurantController {
 
     @DeleteMapping("/owner")
     public ResponseEntity<?> deleteRestaurant(HttpServletRequest request) {
-        var id = restaurantHelper.processRestaurantDeletion(request);
-
-        restaurantService.deleteRestaurantById(id);
+        restaurantHelper.processRestaurantDeletion(request);
 
         return ResponseEntity
                 .noContent()

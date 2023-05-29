@@ -1,6 +1,7 @@
 package com.ontime.crrs.business.restaurant.model;
 
 import com.ontime.crrs.business.location.model.Location;
+import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.business.workinghours.model.WorkingHours;
 import lombok.*;
@@ -28,6 +29,6 @@ public class RestaurantCreationRequest implements Serializable {
     private Location location;
     private List<Table> tables;
     private WorkingHours workingHours;
-    //TODO: Add menu items.
+    private List<MenuItem> menuItems;
 
 }

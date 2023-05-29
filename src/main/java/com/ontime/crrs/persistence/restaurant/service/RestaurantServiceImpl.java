@@ -1,8 +1,10 @@
 package com.ontime.crrs.persistence.restaurant.service;
 
 import com.ontime.crrs.business.restaurant.exception.RestaurantNotFoundException;
+import com.ontime.crrs.persistence.menuitem.repository.MenuItemRepository;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
+import com.ontime.crrs.persistence.table.repository.TableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.UUID;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository repository;
+    private final MenuItemRepository menuItemRepository;
+    private final TableRepository tableRepository;
 
     public RestaurantEntity updateRestaurant(RestaurantEntity restaurant) {
         return repository.save(restaurant);
@@ -75,9 +79,19 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void deleteRestaurantById(UUID id) {
+        System.out.println("called in restauratn ser");
         checkIfRestaurantExistsById(id);
+        var restaurant = findRestaurantById(id);
+
+        var menuItemsList = menuItemRepository.findMenuItemsByRestaurant_Name(restaurant.getName());
+        menuItemsList.forEach(menuitem -> menuItemRepository.deleteById(menuitem.getId()));
+
+        var tableList = tableRepository.findTablesByRestaurant_Name(restaurant.getName());
+        tableList.forEach(table -> tableRepository.deleteById(table.getId()));
 
         repository.deleteById(id);
+
+        System.out.println("called delete by id");
     }
 
     public void deleteAllRestaurants() {

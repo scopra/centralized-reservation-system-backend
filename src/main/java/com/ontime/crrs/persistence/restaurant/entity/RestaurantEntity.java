@@ -1,20 +1,23 @@
 package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
+import com.ontime.crrs.persistence.rule.entity.RuleEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.EAGER;
 
 @Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -25,6 +28,7 @@ public class RestaurantEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "restaurant_id",
             updatable = false,
@@ -53,8 +57,6 @@ public class RestaurantEntity {
     @Column(name = "image")
     private String image;
 
-    //TODO: add relationship to Rule
-
     @OneToOne(cascade = ALL)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
@@ -65,7 +67,8 @@ public class RestaurantEntity {
 
     @OneToMany(
             mappedBy = "restaurant",
-            cascade = ALL
+            cascade = ALL,
+            fetch = EAGER
     )
     private List<TableEntity> tables;
 
@@ -73,56 +76,27 @@ public class RestaurantEntity {
     @JoinColumn(name = "working_hours_id")
     private WorkingHoursEntity workingHours;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL,
+            fetch = EAGER
+    )
+    private List<MenuItemEntity> menuItems;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL,
+            fetch = EAGER
+    )
+    private List<RuleEntity> rules;
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void setLocation(LocationEntity location) {
-        this.location = location;
-    }
-
-    public void setOwner(UserEntity owner) {
-        this.owner = owner;
-    }
-
-    public void setTables(List<TableEntity> tables) {
-        this.tables = tables;
-    }
-
-    public void setWorkingHours(WorkingHoursEntity workingHours) {
-        this.workingHours = workingHours;
-    }
-
-    public RestaurantEntity(String name, String description, String phoneNumber, String image, LocationEntity location,
-                            UserEntity owner, List<TableEntity> tables, WorkingHoursEntity workingHours) {
-        this.name = name;
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.image = image;
-        this.location = location;
-        this.owner = owner;
-        this.tables = tables;
-        this.workingHours = workingHours;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         RestaurantEntity that = (RestaurantEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        return Objects.equals(id, that.id);
     }
 
     @Override
