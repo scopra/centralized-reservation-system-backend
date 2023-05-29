@@ -22,7 +22,6 @@ public class MenuItemEntity {
     @Setter(AccessLevel.NONE)
     @Column(
             name = "menu_item_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id;

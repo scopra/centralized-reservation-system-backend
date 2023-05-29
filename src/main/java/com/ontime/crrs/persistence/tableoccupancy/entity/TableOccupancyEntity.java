@@ -24,7 +24,6 @@ public class TableOccupancyEntity {
     @Setter(AccessLevel.NONE)
     @Column(
             name = "table_occupancy_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id;
