@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 
 import static com.ontime.crrs.persistence.user.util.Role.OWNER;
 
@@ -30,9 +31,13 @@ public class RestaurantTestHelper {
                 .name(name)
                 .phoneNumber("033/123-456")
                 .description("Default entity description.")
+                .image("https://ibb.co/MsyQCtK")
                 .location(buildDefaultLocation())
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
@@ -41,9 +46,13 @@ public class RestaurantTestHelper {
                 .name("McDonalds")
                 .phoneNumber("033/123-456")
                 .description("Default entity description.")
+                .image("https://ibb.co/MsyQCtK")
                 .location(buildDefaultLocation("Marsala Tita 36"))
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
@@ -77,9 +86,13 @@ public class RestaurantTestHelper {
                 .name(name)
                 .description("Default description.")
                 .phoneNumber("033/123-456")
+                .image("https://ibb.co/MsyQCtK")
                 .location(buildDefaultLocation(address, municipality, city))
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 
@@ -88,9 +101,13 @@ public class RestaurantTestHelper {
                 .name("KFC")
                 .phoneNumber("123-456-789")
                 .description("Old Description")
+                .image("https://ibb.co/MsyQCtK")
                 .location(buildDefaultLocation())
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
                 .build();
     }
 

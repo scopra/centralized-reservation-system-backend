@@ -62,7 +62,7 @@ public class TableController {
                 .build();
     }
 
-    @DeleteMapping("/admin")
+    @DeleteMapping("/owner")
     public ResponseEntity<?> deleteAllTables() {
         tableService.deleteAllTables();
 

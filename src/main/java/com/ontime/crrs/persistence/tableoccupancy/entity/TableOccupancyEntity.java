@@ -21,6 +21,7 @@ public class TableOccupancyEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "table_occupancy_id",
             updatable = false,

@@ -22,6 +22,7 @@ public class TableEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "table_id",
             updatable = false,

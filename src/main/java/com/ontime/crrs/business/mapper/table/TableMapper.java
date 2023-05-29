@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-
 @Mapper(componentModel = "spring")
 public interface TableMapper {
 
@@ -22,4 +21,5 @@ public interface TableMapper {
     List<Table> entitiesToModels(List<TableEntity> entities);
 
     List<TableEntity> modelsToEntities(List<Table> models);
+
 }

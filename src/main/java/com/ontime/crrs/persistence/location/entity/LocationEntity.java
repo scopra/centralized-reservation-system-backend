@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -19,6 +20,7 @@ public class LocationEntity {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     @Column(
             name = "location_id",
             columnDefinition = "uuid"
@@ -46,24 +48,6 @@ public class LocationEntity {
 
     @OneToOne(mappedBy = "location")
     private RestaurantEntity restaurant;
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setMunicipality(String municipality) {
-        this.municipality = municipality;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public LocationEntity(String address, String municipality, String city) {
-        this.address = address;
-        this.municipality = municipality;
-        this.city = city;
-    }
 
     @Override
     public boolean equals(Object o) {

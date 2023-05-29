@@ -1,6 +1,5 @@
 package com.ontime.crrs.helper;
 
-
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import org.springframework.stereotype.Component;
