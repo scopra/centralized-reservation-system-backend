@@ -16,5 +16,4 @@ public class ReservationNotFoundAdvice {
         return e.getMessage();
     }
 
-
 }

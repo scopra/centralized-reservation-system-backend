@@ -38,6 +38,7 @@ public class ReservationController {
     @PostMapping
     public ResponseEntity<ReservationCreationResponse> createReservation(@RequestBody Reservation reservation) {
         ReservationCreationResponse response = reservationProcessor.processReservation(reservation);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -109,8 +110,11 @@ public class ReservationController {
     @GetMapping("/users/email/{email}")
     public ResponseEntity<List<Reservation>> getReservationsByUserEmail(@PathVariable String email) {
         var userEntity = userService.loadUserByEmail(email);
+
         var reservationEntities = reservationService.findReservationsByUserId(userEntity.getId());
+
         var reservations = reservationMapper.entitiesToModels(reservationEntities);
+
         return ResponseEntity.ok(reservations);
     }
 
