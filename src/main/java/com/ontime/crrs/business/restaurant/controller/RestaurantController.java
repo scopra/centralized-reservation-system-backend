@@ -6,7 +6,6 @@ import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.business.security.auth.service.AuthenticationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +29,12 @@ public class RestaurantController {
     private final RestaurantModelAssembler modelAssembler;
     private final RestaurantMapper mapper;
     private final RestaurantHelper restaurantHelper;
-    private final AuthenticationService authService;
 
     @GetMapping
     public CollectionModel<EntityModel<Restaurant>> getRestaurants() {
         var restaurants =
                 mapper.entitiesToModels(restaurantService.findAllRestaurants()).stream()
-                        .map(modelAssembler::toModel)
+                        .map(modelAssembler :: toModel)
                         .toList();
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class)
@@ -70,7 +68,7 @@ public class RestaurantController {
     public CollectionModel<EntityModel<Restaurant>> getRestaurantsByMunicipality(@PathVariable String municipality) {
         var restaurants =
                 mapper.entitiesToModels(restaurantService.findAllRestaurantsInMunicipality(municipality)).stream()
-                        .map(modelAssembler::toModel)
+                        .map(modelAssembler :: toModel)
                         .toList();
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class)
@@ -81,7 +79,7 @@ public class RestaurantController {
     public CollectionModel<EntityModel<Restaurant>> getRestaurantsByCity(@PathVariable String city) {
         var restaurants =
                 mapper.entitiesToModels(restaurantService.findAllRestaurantsInCity(city)).stream()
-                        .map(modelAssembler::toModel)
+                        .map(modelAssembler :: toModel)
                         .toList();
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class)

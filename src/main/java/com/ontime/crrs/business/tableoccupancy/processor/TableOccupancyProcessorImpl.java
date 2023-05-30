@@ -57,9 +57,9 @@ public class TableOccupancyProcessorImpl implements TableOccupancyProcessor {
 
     private Map<UUID, List<TableOccupancyEntity>> mapTablesToOccupancies(List<UUID> tableIds, LocalDate reservationDate) {
         return tableIds.stream()
-                .collect(Collectors.toMap(Function.identity(), tableOccupancyService::getOccupanciesForTable))
+                .collect(Collectors.toMap(Function.identity(), tableOccupancyService :: getOccupanciesForTable))
                 .entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
+                .collect(Collectors.toMap(Map.Entry :: getKey,
                         entry -> entry.getValue().stream()
                                 .filter(occupancy -> occupancy.getReservationDate().isEqual(reservationDate))
                                 .collect(Collectors.toList())));
@@ -69,14 +69,14 @@ public class TableOccupancyProcessorImpl implements TableOccupancyProcessor {
         return map.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().isEmpty())
-                .map(Map.Entry::getKey)
+                .map(Map.Entry :: getKey)
                 .collect(Collectors.toList());
     }
 
     private UUID findFreeTable(Map<UUID, List<TableOccupancyEntity>> tableOccupancies, LocalTime start, LocalTime end) {
         return tableOccupancies.entrySet().stream()
                 .filter(table -> table.getValue().stream().allMatch(occupancy -> confirmNotOverlapping(occupancy, start, end)))
-                .map(Map.Entry::getKey)
+                .map(Map.Entry :: getKey)
                 .findFirst()
                 .orElseThrow(() -> new TableUnavailableException("No available time was found for table."));
 

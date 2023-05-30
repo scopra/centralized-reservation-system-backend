@@ -35,7 +35,7 @@ public class UserController {
     public CollectionModel<?> getAllUsers() {
         var users =
                 userMapper.entitiesToModels(userService.getAllUsers()).stream()
-                        .map(modelAssembler::toModel)
+                        .map(modelAssembler :: toModel)
                         .toList();
 
         return CollectionModel.of(users, linkTo(methodOn(UserController.class)

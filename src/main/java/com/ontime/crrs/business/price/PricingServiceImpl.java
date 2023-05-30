@@ -37,7 +37,7 @@ public class PricingServiceImpl implements PricingService {
         var menuItemList = reservation.getMenuItems();
 
         return menuItemList.stream()
-                .mapToDouble(MenuItem::getPrice)
+                .mapToDouble(MenuItem :: getPrice)
                 .sum();
     }
 

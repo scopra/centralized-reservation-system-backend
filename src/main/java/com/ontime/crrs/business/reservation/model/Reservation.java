@@ -2,6 +2,8 @@ package com.ontime.crrs.business.reservation.model;
 
 import com.ontime.crrs.business.menuitem.model.MenuItem;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.table.model.Table;
+import com.ontime.crrs.business.user.model.User;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -23,11 +26,14 @@ public class Reservation implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private int numberOfGuests;
+    private UUID reservationId;
     private LocalDate date;
+    private int numberOfGuests;
     private LocalTime startTime;
     private LocalTime endTime;
     private String specialComment;
+    private Table table;
+    private User user;
     private Restaurant restaurant;
     private List<MenuItem> menuItems;
 

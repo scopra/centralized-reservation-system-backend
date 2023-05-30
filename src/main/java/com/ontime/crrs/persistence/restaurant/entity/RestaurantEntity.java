@@ -2,6 +2,7 @@ package com.ontime.crrs.persistence.restaurant.entity;
 
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
 import com.ontime.crrs.persistence.menuitem.entity.MenuItemEntity;
+import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.rule.entity.RuleEntity;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
@@ -90,6 +91,12 @@ public class RestaurantEntity {
     )
     private List<RuleEntity> rules;
 
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = ALL,
+            fetch = EAGER
+    )
+    private List<ReservationEntity> reservations;
 
     @Override
     public boolean equals(Object o) {

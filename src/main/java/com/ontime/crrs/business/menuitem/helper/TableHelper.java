@@ -24,7 +24,7 @@ public class TableHelper {
 
         var addedTables = tableEntities.stream()
                 .peek(tableEntity -> tableEntity.setRestaurant(restaurantEntity))
-                .map(tableService::addTable)
+                .map(tableService :: addTable)
                 .toList();
 
         return tableMapper.entitiesToModels(addedTables);

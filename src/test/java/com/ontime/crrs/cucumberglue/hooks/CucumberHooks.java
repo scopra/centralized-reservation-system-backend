@@ -1,6 +1,8 @@
 package com.ontime.crrs.cucumberglue.hooks;
 
+import com.ontime.crrs.cucumberglue.steps.RuleRepositorySteps;
 import com.ontime.crrs.persistence.location.repository.LocationRepository;
+import com.ontime.crrs.persistence.reservation.repository.ReservationRepository;
 import com.ontime.crrs.persistence.restaurant.repository.RestaurantRepository;
 import com.ontime.crrs.persistence.rule.repository.RuleRepository;
 import com.ontime.crrs.persistence.table.repository.TableRepository;

@@ -60,7 +60,7 @@ public class MenuItemHelper {
 
         var addedMenuItems = menuItemEntities.stream()
                 .peek(menuItemEntity -> menuItemEntity.setRestaurant(restaurantEntity))
-                .map(menuItemService::addNewMenuItem)
+                .map(menuItemService :: addNewMenuItem)
                 .toList();
 
         return mapper.entitiesToModels(addedMenuItems);

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface WorkingHoursProcessor {
 
-    boolean isDuringWorkingHours(Reservation reservation);
+    void isDuringWorkingHours(Reservation reservation);
 
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface DiscountService {
 
-    OrderDiscount getDiscount(Reservation reservation);
+     OrderDiscount getDiscount(Reservation reservation);
 
 }

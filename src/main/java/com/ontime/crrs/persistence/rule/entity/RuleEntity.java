@@ -71,11 +71,7 @@ public class RuleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RuleEntity that = (RuleEntity) o;
-        return groupSize == that.groupSize && discount == that.discount &&
-                Objects.equals(id, that.id) && ruleType == that.ruleType &&
-                Objects.equals(startTime, that.startTime) &&
-                Objects.equals(endTime, that.endTime) && discountOn == that.discountOn && dayOfWeek == that.dayOfWeek &&
-                Objects.equals(restaurant, that.restaurant);
+        return Objects.equals(id, that.id);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class RuleTestHelper {
                 .startTime(LocalTime.MIN)
                 .groupSize(5)
                 .restaurant(restaurant)
-                .discountOn(Category.SAVORY)
+                .discountOn(Category.BEVERAGE)
                 .build();
     }
 

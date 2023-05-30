@@ -33,7 +33,7 @@ public class MenuItemController {
         var restaurant = helper.confirmRestaurantExists(restaurantName);
         var menuItems =
                 mapper.entitiesToModels((menuItemService.getMenuItemsForRestaurant(restaurant.getName()))).stream()
-                        .map(modelAssembler::toModel)
+                        .map(modelAssembler :: toModel)
                         .toList();
 
         return CollectionModel.of(menuItems, linkTo(methodOn(MenuItemController.class)
@@ -47,7 +47,7 @@ public class MenuItemController {
         var items =
                 mapper.entitiesToModels(menuItemService.getMenuItemsByCategoryAndRestaurantName(category, restaurant.getName()))
                         .stream()
-                        .map(modelAssembler::toModel)
+                        .map(modelAssembler :: toModel)
                         .toList();
 
         return CollectionModel.of(items, linkTo(methodOn(MenuItemController.class)

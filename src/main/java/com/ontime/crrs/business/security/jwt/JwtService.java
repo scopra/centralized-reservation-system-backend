@@ -28,7 +28,7 @@ public class JwtService {
     private long refreshExpiration;
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, Claims :: getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
@@ -80,7 +80,7 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        return extractClaim(token, Claims :: getExpiration);
     }
 
     private Claims extractAllClaims(String token) {
