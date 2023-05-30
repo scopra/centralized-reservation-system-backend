@@ -3,7 +3,6 @@ package com.ontime.crrs.business.mapper.table;
 import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.persistence.table.entity.TableEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

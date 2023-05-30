@@ -34,8 +34,8 @@ public class DiscountServiceImpl implements DiscountService {
 
         kieSession.setGlobal("orderDiscount", orderDiscount);
 
-        ruleList.forEach(kieSession::insert);
-        orderedItems.forEach(kieSession::insert);
+        ruleList.forEach(kieSession :: insert);
+        orderedItems.forEach(kieSession :: insert);
         kieSession.insert(monitoringSystem);
         kieSession.insert(reservation);
 

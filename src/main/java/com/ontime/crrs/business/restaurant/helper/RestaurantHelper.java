@@ -16,8 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Service
@@ -38,7 +36,7 @@ public class RestaurantHelper {
 
         var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
 
-        copyProperties(restaurantModel, restaurantEntity);
+        copyProperties(restaurantModel, restaurantEntity, "owner");
         copyProperties(restaurantModel.getLocation(), restaurantEntity.getLocation());
         copyProperties(restaurantModel.getWorkingHours(), restaurantEntity.getWorkingHours());
 
@@ -47,25 +45,14 @@ public class RestaurantHelper {
         return restaurantMapper.entityToModel(savedEntity);
     }
 
-   /* public UUID processRestaurantDeletion(HttpServletRequest request) {
-        var owner = authService.getUserByToken(request);
-        validateUserIsOwner(owner);
-
-        var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
-
-        return restaurantEntity.getId();
-    }*/
-    public UUID processRestaurantDeletion(HttpServletRequest request) {
+    public void processRestaurantDeletion(HttpServletRequest request) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
         var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
 
         restaurantService.deleteRestaurantById(restaurantEntity.getId());
-
-        return restaurantEntity.getId();
     }
-
 
     public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
         var owner = authService.getUserByToken(request);
@@ -113,6 +100,15 @@ public class RestaurantHelper {
                 .restaurant(restaurant)
                 .menuItems(menuItems)
                 .build();
+    }
+
+    public Restaurant getRestaurantByOwner(HttpServletRequest request) {
+        var owner = authService.getUserByToken(request);
+        validateUserIsOwner(owner);
+
+        var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
+
+        return restaurantMapper.entityToModel(restaurantEntity);
     }
 
 }

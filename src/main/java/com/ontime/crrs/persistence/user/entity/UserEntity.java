@@ -31,7 +31,6 @@ public class UserEntity implements UserDetails {
     @Setter(AccessLevel.NONE)
     @Column(
             name = "user_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id;

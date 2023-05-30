@@ -1,11 +1,11 @@
 package com.ontime.crrs.business.restaurant.controller;
 
 import com.ontime.crrs.business.mapper.restaurant.RestaurantMapper;
+import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
 import com.ontime.crrs.business.restaurant.model.RestaurantCreationRequest;
 import com.ontime.crrs.business.restaurant.model.RestaurantInformation;
 import com.ontime.crrs.business.restaurant.model.RestaurantModelAssembler;
-import com.ontime.crrs.business.restaurant.helper.RestaurantHelper;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +39,13 @@ public class RestaurantController {
 
         return CollectionModel.of(restaurants, linkTo(methodOn(RestaurantController.class)
                 .getRestaurants()).withSelfRel());
+    }
+
+    @GetMapping("/owner")
+    public EntityModel<Restaurant> getRestaurantByOwnerEmail(HttpServletRequest request) {
+        var restaurant = restaurantHelper.getRestaurantByOwner(request);
+
+        return modelAssembler.toModel(restaurant);
     }
 
     @GetMapping("/{name}")
@@ -117,21 +124,14 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/ownertest")
-    public ResponseEntity<String> deleteRestaurantByOwner(HttpServletRequest request) {
-        var deletedRestaurantId = restaurantHelper.processRestaurantDeletion(request);
-
-        return ResponseEntity.ok("Restaurant with ID: " + deletedRestaurantId + " has been deleted.");
-    }
-/*   @DeleteMapping("/ownernovi")
+    @DeleteMapping("/owner")
     public ResponseEntity<?> deleteRestaurant(HttpServletRequest request) {
-        var id = restaurantProcessor.processRestaurantDeletion(request);
-        restaurantService.deleteRestaurantById(id);
+        restaurantHelper.processRestaurantDeletion(request);
+
         return ResponseEntity
                 .noContent()
                 .build();
-    }*/
-
+    }
 
     @DeleteMapping("/admin")
     public ResponseEntity<?> deleteAllRestaurants() {

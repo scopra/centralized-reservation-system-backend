@@ -26,7 +26,6 @@ public class TableEntity {
     @Setter(AccessLevel.NONE)
     @Column(
             name = "table_id",
-            updatable = false,
             columnDefinition = "uuid"
     )
     private UUID id;

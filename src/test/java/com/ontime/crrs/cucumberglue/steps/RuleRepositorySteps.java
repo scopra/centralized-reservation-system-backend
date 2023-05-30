@@ -7,7 +7,6 @@ import com.ontime.crrs.persistence.rule.entity.RuleEntity;
 import com.ontime.crrs.persistence.rule.repository.RuleRepository;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import com.ontime.crrs.persistence.user.repository.UserRepository;
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -23,7 +22,6 @@ import static com.ontime.crrs.helper.RestaurantTestHelper.buildDefaultOwner;
 import static com.ontime.crrs.helper.RuleTestHelper.prebuildRule;
 import static org.assertj.core.api.Assertions.assertThat;
 
-//TODO: FIX
 @Slf4j
 public class RuleRepositorySteps {
 
