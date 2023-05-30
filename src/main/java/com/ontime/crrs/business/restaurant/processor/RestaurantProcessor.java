@@ -47,14 +47,25 @@ public class RestaurantProcessor {
         return restaurantMapper.entityToModel(savedEntity);
     }
 
-    public UUID processRestaurantDeletion(HttpServletRequest request) {
+   /* public UUID processRestaurantDeletion(HttpServletRequest request) {
         var owner = authService.getUserByToken(request);
         validateUserIsOwner(owner);
 
         var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
 
         return restaurantEntity.getId();
+    }*/
+    public UUID processRestaurantDeletion(HttpServletRequest request) {
+        var owner = authService.getUserByToken(request);
+        validateUserIsOwner(owner);
+
+        var restaurantEntity = restaurantService.findRestaurantByOwner(owner.getEmail());
+
+        restaurantService.deleteRestaurantById(restaurantEntity.getId());
+
+        return restaurantEntity.getId();
     }
+
 
     public RestaurantCreationResponse saveRestaurant(HttpServletRequest request, RestaurantCreationRequest creationRequest) {
         var owner = authService.getUserByToken(request);

@@ -117,16 +117,21 @@ public class RestaurantController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/owner")
+    @DeleteMapping("/ownertest")
+    public ResponseEntity<String> deleteRestaurantByOwner(HttpServletRequest request) {
+        var deletedRestaurantId = restaurantProcessor.processRestaurantDeletion(request);
+
+        return ResponseEntity.ok("Restaurant with ID: " + deletedRestaurantId + " has been deleted.");
+    }
+/*   @DeleteMapping("/ownernovi")
     public ResponseEntity<?> deleteRestaurant(HttpServletRequest request) {
         var id = restaurantProcessor.processRestaurantDeletion(request);
-
         restaurantService.deleteRestaurantById(id);
-
         return ResponseEntity
                 .noContent()
                 .build();
-    }
+    }*/
+
 
     @DeleteMapping("/admin")
     public ResponseEntity<?> deleteAllRestaurants() {

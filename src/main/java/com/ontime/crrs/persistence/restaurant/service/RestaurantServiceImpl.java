@@ -76,7 +76,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public void deleteRestaurantById(UUID id) {
         checkIfRestaurantExistsById(id);
-
         repository.deleteById(id);
     }
 

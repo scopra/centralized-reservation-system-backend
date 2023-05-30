@@ -118,6 +118,7 @@ public class ReservationController {
                 .noContent().
                 build();
     }
+
     //RADI
     @GetMapping("/restaurant/{restaurantName}")
     public ResponseEntity<List<Reservation>> getReservationsByRestaurantName(@PathVariable String restaurantName) {

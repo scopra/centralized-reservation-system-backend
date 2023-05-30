@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -17,6 +18,7 @@ public class ReservationCreationResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private UUID reservationId;
     private User customer;
     private Table table;
     private OrderDiscount discount;
