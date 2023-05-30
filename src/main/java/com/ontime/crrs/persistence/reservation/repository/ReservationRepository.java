@@ -14,11 +14,9 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     List<ReservationEntity> findByReservationId(UUID reservationId);
 
     List<ReservationEntity> findByDate(LocalDate date);
-    //todo add it to service, pitaj nedima i tarika hocel trebati da se nadje rezervacija po datumu i imenu restorana
-
 
     List<ReservationEntity> findByUserId(UUID userId);
 
-
     List<ReservationEntity> findByRestaurant_Name(String restaurantName);
+
 }

@@ -1,6 +1,5 @@
 package com.ontime.crrs.persistence.reservation.service;
 
-
 import com.ontime.crrs.business.reservation.exeption.ReservationNotFoundException;
 import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.repository.ReservationRepository;
@@ -76,6 +75,5 @@ public class ReservationServiceImpl implements ReservationService {
     public List<ReservationEntity> findReservationsByRestaurantName(String restaurantName) {
         return repository.findByRestaurant_Name(restaurantName);
     }
-
 
 }

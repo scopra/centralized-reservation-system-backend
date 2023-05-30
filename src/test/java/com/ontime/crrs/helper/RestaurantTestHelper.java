@@ -146,7 +146,6 @@ public class RestaurantTestHelper {
                 .build();
     }
 
-    //TODO: Fix after Reservation is merged
     public static ReservationEntity getDefaultReservation(LocalTime start, LocalTime end, RestaurantEntity restaurant, TableEntity table) {
         return ReservationEntity.builder()
                 .numberOfGuests(5)

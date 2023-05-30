@@ -1,6 +1,5 @@
 package com.ontime.crrs.business.reservation.model;
 
-
 import com.ontime.crrs.business.reservation.controller.ReservationController;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.RequiredArgsConstructor;

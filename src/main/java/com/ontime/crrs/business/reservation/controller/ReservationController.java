@@ -31,13 +31,12 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final ReservationMapper reservationMapper;
     private final ReservationModelAssembler modelAssembler;
-    private final RestaurantService restaurantService;
     private final ReservationProcessor reservationProcessor;
     private final UserService userService;
 
     @PostMapping
     public ResponseEntity<ReservationCreationResponse> createReservation(@RequestBody Reservation reservation) {
-        ReservationCreationResponse response = reservationProcessor.processReservation(reservation);
+        var response = reservationProcessor.processReservation(reservation);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

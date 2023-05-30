@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Service
 public interface ReservationService {
+
     ReservationEntity createReservation(ReservationEntity reservation);
 
     ReservationEntity updateReservation(ReservationEntity reservation);
@@ -16,7 +17,6 @@ public interface ReservationService {
     ReservationEntity findReservationById(UUID reservationId);
 
     List<ReservationEntity> findReservationsByRestaurantName(String restaurantName);
-
 
     List<ReservationEntity> findAllReservations();
 
