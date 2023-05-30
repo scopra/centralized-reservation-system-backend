@@ -1,14 +1,19 @@
 package com.ontime.crrs.helper;
 
+import com.ontime.crrs.business.reservation.model.Reservation;
 import com.ontime.crrs.business.restaurant.model.Restaurant;
+import com.ontime.crrs.business.table.model.Table;
 import com.ontime.crrs.persistence.location.entity.LocationEntity;
+import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.restaurant.entity.RestaurantEntity;
+import com.ontime.crrs.persistence.table.entity.TableEntity;
 import com.ontime.crrs.persistence.user.entity.UserEntity;
 import com.ontime.crrs.persistence.workinghours.entity.WorkingHoursEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
 
 import static com.ontime.crrs.persistence.user.util.Role.OWNER;
 
@@ -34,6 +39,10 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation())
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
+                .reservations(Collections.emptyList())
                 .build();
     }
 
@@ -46,6 +55,10 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation("Marsala Tita 36"))
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
+                .reservations(Collections.emptyList())
                 .build();
     }
 
@@ -83,6 +96,10 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation(address, municipality, city))
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
+                .reservations(Collections.emptyList())
                 .build();
     }
 
@@ -95,6 +112,10 @@ public class RestaurantTestHelper {
                 .location(buildDefaultLocation())
                 .workingHours(buildDefaultWorkingHours())
                 .owner(owner)
+                .menuItems(Collections.emptyList())
+                .rules(Collections.emptyList())
+                .tables(Collections.emptyList())
+                .reservations(Collections.emptyList())
                 .build();
     }
 
@@ -105,17 +126,38 @@ public class RestaurantTestHelper {
                 .build();
     }
 
-//TODO: Fix after Reservation is merged
-//    public static Reservation getDefaultReservation(LocalTime start, LocalTime end, Restaurant restaurant) {
-//        return Reservation.builder()
-//                .capacity(5)
-//                .date(LocalDate.of(2023, 5, 6))
-//                .specialComment("Random comment")
-//                .startTime(start)
-//                .endTime(end)
-//                .restaurant(restaurant)
-//                .build();
-//    }
+    public static TableEntity getDefaultTable(RestaurantEntity restaurant) {
+        return TableEntity.builder()
+                .capacity(5)
+                .restaurant(restaurant)
+                .occupancies(Collections.emptyList())
+                .reservations(Collections.emptyList())
+                .build();
+    }
+
+    public static Reservation getReservationModel(ReservationEntity reservation) {
+        return Reservation.builder()
+                .reservationId(reservation.getReservationId())
+                .table(Table.builder().capacity(reservation.getTable().getCapacity()).build())
+                .restaurant(Restaurant.builder().name(reservation.getRestaurant().getName()).build())
+                .startTime(reservation.getStartTime())
+                .endTime(reservation.getEndTime())
+                .date(reservation.getDate())
+                .build();
+    }
+
+    //TODO: Fix after Reservation is merged
+    public static ReservationEntity getDefaultReservation(LocalTime start, LocalTime end, RestaurantEntity restaurant, TableEntity table) {
+        return ReservationEntity.builder()
+                .numberOfGuests(5)
+                .date(LocalDate.of(2023, 5, 6))
+                .specialComment("Random comment")
+                .startTime(start)
+                .endTime(end)
+                .restaurant(restaurant)
+                .table(table)
+                .build();
+    }
 
     public static UserEntity buildDefaultOwner() {
         return UserEntity.builder()

@@ -47,7 +47,7 @@ public class TableEntity {
             mappedBy = "table",
             cascade = ALL
     )
-    private List<ReservationEntity> tables;
+    private List<ReservationEntity> reservations;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")

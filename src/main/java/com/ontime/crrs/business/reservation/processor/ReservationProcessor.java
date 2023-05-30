@@ -8,7 +8,6 @@ import com.ontime.crrs.business.reservation.model.ReservationCreationResponse;
 import com.ontime.crrs.business.rules.discount.DiscountService;
 import com.ontime.crrs.business.tableoccupancy.processor.TableOccupancyProcessor;
 import com.ontime.crrs.business.workinghours.processor.WorkingHoursProcessor;
-import com.ontime.crrs.persistence.menuitem.service.MenuItemService;
 import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
@@ -31,7 +30,6 @@ public class ReservationProcessor {
     private final RestaurantMapper restaurantMapper;
     private final TableService tableService;
     private final ReservationService reservationService;
-    private final MenuItemService menuItemService;
 
     public ReservationCreationResponse processReservation(Reservation reservation) {
         var restaurant = restaurantMapper
