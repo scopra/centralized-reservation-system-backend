@@ -80,6 +80,9 @@ public class ReservationEntity {
     )
     private TableEntity table;
 
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -76,4 +76,12 @@ public class ReservationServiceImpl implements ReservationService {
         return repository.findByRestaurant_Name(restaurantName);
     }
 
+
+    @Override
+    public ReservationEntity deleteReservationById(UUID reservationId) {
+        ReservationEntity reservation = findReservationById(reservationId);
+        reservation.setDeleted(true);
+        return repository.save(reservation);
+    }
+
 }

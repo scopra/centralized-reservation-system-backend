@@ -4,6 +4,7 @@ import com.ontime.crrs.business.reservation.controller.ReservationController;
 import io.micrometer.common.lang.NonNullApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +22,4 @@ public class ReservationModelAssembler implements RepresentationModelAssembler<R
                 linkTo(methodOn(ReservationController.class).getReservationById(reservation.getReservationId())).withSelfRel(),
                 linkTo(methodOn(ReservationController.class).getAllReservations()).withRel("reservations"));
     }
-
 }

@@ -5,6 +5,7 @@ import com.ontime.crrs.business.reservation.model.Reservation;
 import com.ontime.crrs.business.reservation.model.ReservationCreationResponse;
 import com.ontime.crrs.business.reservation.model.ReservationModelAssembler;
 import com.ontime.crrs.business.reservation.processor.ReservationProcessor;
+import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
 import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.user.service.UserService;
@@ -79,14 +80,14 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
 
-    @DeleteMapping("/{reservationId}")
+   /* @DeleteMapping("/{reservationId}")
     public ResponseEntity<?> cancelReservationById(@PathVariable UUID reservationId) {
         reservationService.cancelReservationById(reservationId);
 
         return ResponseEntity
                 .noContent()
                 .build();
-    }
+    }*/
 
     @DeleteMapping
     public ResponseEntity<?> cancelAllReservations() {
@@ -115,6 +116,12 @@ public class ReservationController {
         var reservations = reservationMapper.entitiesToModels(reservationEntities);
 
         return ResponseEntity.ok(reservations);
+    }
+
+    @DeleteMapping("/{reservationId}")
+    public ResponseEntity<ReservationEntity> deleteReservation(@PathVariable UUID reservationId) {
+        reservationService.deleteReservationById(reservationId);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -25,5 +25,6 @@ public class ReservationCreationResponse implements Serializable {
     private Restaurant restaurant;
     private double priceBeforeDiscount;
     private double priceAfterDiscount;
+    private boolean deleted = false;
 
 }

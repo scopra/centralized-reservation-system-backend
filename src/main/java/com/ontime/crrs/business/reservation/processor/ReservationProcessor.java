@@ -16,6 +16,8 @@ import com.ontime.crrs.persistence.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ReservationProcessor {
@@ -49,6 +51,9 @@ public class ReservationProcessor {
 
         var savedReservation = saveReservation(reservation);
 
+        savedReservation.setDeleted(false);
+        reservationService.updateReservation(savedReservation);
+
         return ReservationCreationResponse.builder()
                 .reservationId(savedReservation.getReservationId())
                 .customer(customer)
@@ -57,6 +62,7 @@ public class ReservationProcessor {
                 .restaurant(restaurant)
                 .priceBeforeDiscount(priceBeforeDiscount)
                 .priceAfterDiscount(priceAfterDiscount)
+                .deleted(savedReservation.isDeleted())
                 .build();
     }
 
@@ -74,6 +80,7 @@ public class ReservationProcessor {
                 .user(userEntity)
                 .table(tableEntity)
                 .restaurant(restaurantEntity)
+                .deleted(false)
                 .build();
 
         return reservationService.createReservation(reservationEntity);

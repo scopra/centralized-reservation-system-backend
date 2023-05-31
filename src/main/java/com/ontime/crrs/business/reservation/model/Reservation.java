@@ -36,6 +36,8 @@ public class Reservation implements Serializable {
     private User user;
     private Restaurant restaurant;
     private List<MenuItem> menuItems;
+    private boolean deleted;
+
 
     public static DayOfWeek getReservationDay(LocalDate date) {
         return date.getDayOfWeek();

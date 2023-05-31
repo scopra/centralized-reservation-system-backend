@@ -30,4 +30,6 @@ public interface ReservationService {
 
     void cancelAllReservations();
 
+    ReservationEntity deleteReservationById(UUID reservationId);
+
 }
