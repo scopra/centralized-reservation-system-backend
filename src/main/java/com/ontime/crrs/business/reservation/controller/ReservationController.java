@@ -7,7 +7,6 @@ import com.ontime.crrs.business.reservation.model.ReservationModelAssembler;
 import com.ontime.crrs.business.reservation.processor.ReservationProcessor;
 import com.ontime.crrs.persistence.reservation.entity.ReservationEntity;
 import com.ontime.crrs.persistence.reservation.service.ReservationService;
-import com.ontime.crrs.persistence.restaurant.service.RestaurantService;
 import com.ontime.crrs.persistence.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -79,15 +78,6 @@ public class ReservationController {
 
         return ResponseEntity.ok(reservations);
     }
-
-   /* @DeleteMapping("/{reservationId}")
-    public ResponseEntity<?> cancelReservationById(@PathVariable UUID reservationId) {
-        reservationService.cancelReservationById(reservationId);
-
-        return ResponseEntity
-                .noContent()
-                .build();
-    }*/
 
     @DeleteMapping
     public ResponseEntity<?> cancelAllReservations() {

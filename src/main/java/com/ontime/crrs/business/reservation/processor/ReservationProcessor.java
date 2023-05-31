@@ -16,8 +16,6 @@ import com.ontime.crrs.persistence.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class ReservationProcessor {
